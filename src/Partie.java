@@ -1,3 +1,4 @@
+import java.util.Map;
 import java.util.Scanner;
 
 public class Partie {
@@ -31,19 +32,23 @@ public class Partie {
 		throw new UnsupportedOperationException();
 	}
 
-	private void afficherTroupes(Joueur joueur) {
+	private void repartirTroupes(Joueur joueur) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void afficherReservistes(Joueur joueur) {
+	private void affecterReservistes(Joueur joueur) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void affecterReservistes(Joueur joueur) {
+	private void redeployerTroupes(Joueur joueur) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void redeployerCombattants(Joueur joueur) {
+	private void afficherTroupes(Map<Integer, Etudiant> troupes) {
+		throw new UnsupportedOperationException();
+	}
+
+	private void afficherReservistes(Map<Integer, Etudiant> reservistes) {
 		throw new UnsupportedOperationException();
 	}
 }

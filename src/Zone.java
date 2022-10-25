@@ -1,4 +1,5 @@
 public class Zone {
+
 	private static Etudiant[] troupesJoueur1;
 	private static Etudiant[] troupesJoueur2;
 
@@ -29,4 +30,5 @@ public class Zone {
 	public static double getCreditsTroupesJoueur2() {
 		throw new UnsupportedOperationException();
 	}
+
 }

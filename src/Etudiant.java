@@ -7,13 +7,13 @@ public class Etudiant {
 	private int constitution;
 	private int initiative;
 	private StrategieEtudiant strategie;
-	private boolean estElimine;
+	private boolean elimine;
 
 	public Etudiant(int dexterite, int force, int resistance, int constitution, int initiative) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void agir(StrategieEtudiant strategie, Etudiant origine, Etudiant cible) {
+	public void agir(Etudiant cible) {
 		throw new UnsupportedOperationException();
 	}
 
