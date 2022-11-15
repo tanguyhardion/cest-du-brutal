@@ -29,28 +29,32 @@ public class Etudiant {
 	 * <p>
 	 * Initialise les caracteristiques de cet etudiant avec les valeurs passees en
 	 * parametres.
-	 * <p>
-	 * Sachant que les classes filles EtudiantElite et MaitreGobi ont des
-	 * caracteristiques initiales augmentees, la valeur de chaque parametre est
-	 * ajoute a la valeur de l'attribut correspondant.
 	 * 
-	 * @param dexterite    la dexterite a ajouter
-	 * @param force        la force a ajouter
-	 * @param resistance   la resistance a ajouter
-	 * @param constitution la constitution a ajouter
-	 * @param initiative   l'initiative a ajouter
+	 * @param dexterite    la dexterite a attribuer
+	 * @param force        la force a attribuer
+	 * @param resistance   la resistance a attribuer
+	 * @param constitution la constitution a attribuer
+	 * @param initiative   l'initiative a attribuer
 	 */
 	public Etudiant(int dexterite, int force, int resistance, int constitution, int initiative) {
 		this.credits = 30;
-		this.dexterite += dexterite;
-		this.force += force;
-		this.resistance += resistance;
-		this.constitution += constitution;
-		this.initiative += initiative;
+		this.dexterite = dexterite;
+		this.force = force;
+		this.resistance = resistance;
+		this.constitution = constitution;
+		this.initiative = initiative;
 	}
 
+	/**
+	 * Fait agir cet étudiant sur l'etudiant passe en parametre.
+	 * <p>
+	 * Selon la strategie de cet etudiant, il va attaquer un adversaire ou soigner
+	 * un allie.
+	 * 
+	 * @param cible l'etudiant sur lequel l'action est effectuee
+	 */
 	public void agir(Etudiant cible) {
-		throw new UnsupportedOperationException();
+		this.strategie.agir(this, cible);
 	}
 
 	/**

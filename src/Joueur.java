@@ -1,11 +1,13 @@
 import java.util.Map;
+import java.util.List;
 import java.util.ArrayList;
 
 public class Joueur {
+
 	private String nom;
 	private Map<Integer, Etudiant> troupes;
 	private Map<Integer, Etudiant> reservistes;
-	public ArrayList<Zone> zoneControlees = new ArrayList<Zone>();
+	public List<Zone> zoneControlees = new ArrayList<Zone>();
 
 	public Joueur(String nom) {
 		this.nom = nom;
@@ -39,15 +41,12 @@ public class Joueur {
 		this.reservistes.remove(key);
 	}
 
-	public ArrayList<Zone> getZoneControlees() {
+	public List<Zone> getZoneControlees() {
 		return this.zoneControlees;
 	}
 
-	public void ajouterZoneControlee(Zone zone) {
-		throw new UnsupportedOperationException();
+	public void addZoneControlee(Zone zone) {
+		this.zoneControlees.add(zone);
 	}
-
-	public void enleverZoneControlee(Zone zone) {
-		throw new UnsupportedOperationException();
-	}
+	
 }

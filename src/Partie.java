@@ -2,6 +2,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Partie {
+
 	private static Partie instance;
 	private Joueur joueur1;
 	private Joueur joueur2;
@@ -19,10 +20,21 @@ public class Partie {
 		return instance;
 	}
 
+	/**
+	 * Commence la partie.
+	 */
 	public void commencer() {
 		this.initialiserTroupes(15, 4, 1);
 	}
 
+	/**
+	 * Initialise les troupes des joueurs en creeant le nombre souhaite de chaque
+	 * type d'etudiant.
+	 * 
+	 * @param etudiants      le nombre d'etudiants a creer
+	 * @param etudiantsElite le nombre d'Etudiants d'elite a creer
+	 * @param maitresGobi    le nombre de Maitres du gobi a creer
+	 */
 	private void initialiserTroupes(int etudiants, int etudiantsElite, int maitresGobi) {
 		for (int i = 0; i < etudiants + etudiantsElite + maitresGobi; i++) {
 			if (i < etudiants) {
