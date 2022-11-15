@@ -9,10 +9,13 @@ public class Partie {
 	private Scanner scanner;
 
 	private Partie() {
-		throw new UnsupportedOperationException();
+		this.scanner = new Scanner(System.in);
 	}
 
 	public static synchronized Partie getInstance() {
+		if (instance == null) {
+			instance = new Partie();
+		}
 		return instance;
 	}
 

@@ -109,8 +109,7 @@ public class Etudiant {
 	 * 
 	 * @param dexterite la dextérité à ajouter à cet étudiant.
 	 * @throws IllegalArgumentException si la dextérité spécifiée est inférieure à 0
-	 *                                  ou
-	 *                                  supérieure à 10.
+	 *                                  ou supérieure à 10.
 	 */
 	public void addDexterite(int dexterite) {
 		if (dexterite < 0 || dexterite > 10) {
