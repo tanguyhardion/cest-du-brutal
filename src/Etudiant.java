@@ -1,12 +1,12 @@
 /**
- * Représente un étudiant qui sera déployé sur une zone de combat.
+ * Represente un etudiant qui sera deploye sur une zone de combat.
  * 
  * @author Tanguy HARDION
  * @version 1.0
  */
 public class Etudiant {
 
-	private double credits;
+	private int credits;
 	private int dexterite;
 	private int force;
 	private int resistance;
@@ -18,7 +18,7 @@ public class Etudiant {
 	/**
 	 * Constructeur de la classe Etudiant.
 	 * <p>
-	 * Initialise les crédits de cet étudiant à 30.
+	 * Initialise les credits de cet etudiant a 30.
 	 */
 	public Etudiant() {
 		this.credits = 30;
@@ -27,18 +27,18 @@ public class Etudiant {
 	/**
 	 * Autre constructeur de la classe Etudiant.
 	 * <p>
-	 * Initialise les caractéristiques de cet étudiant avec les valeurs passées en
-	 * paramètres.
+	 * Initialise les caracteristiques de cet etudiant avec les valeurs passees en
+	 * parametres.
 	 * <p>
 	 * Sachant que les classes filles EtudiantElite et MaitreGobi ont des
-	 * caractéristiques initiales augmentées, la valeur de chaque paramètre est
-	 * ajouté à la valeur de l'attribut correspondant.
+	 * caracteristiques initiales augmentees, la valeur de chaque parametre est
+	 * ajoute a la valeur de l'attribut correspondant.
 	 * 
-	 * @param dexterite    la dextérité à ajouter.
-	 * @param force        la force à ajouter.
-	 * @param resistance   la résistance à ajouter.
-	 * @param constitution la constitution à ajouter.
-	 * @param initiative   l'initiative à ajouter.
+	 * @param dexterite    la dexterite a ajouter
+	 * @param force        la force a ajouter
+	 * @param resistance   la resistance a ajouter
+	 * @param constitution la constitution a ajouter
+	 * @param initiative   l'initiative a ajouter
 	 */
 	public Etudiant(int dexterite, int force, int resistance, int constitution, int initiative) {
 		this.credits = 30;
@@ -54,42 +54,42 @@ public class Etudiant {
 	}
 
 	/**
-	 * @return les crédits de cet étudiant.
+	 * @return les credits de cet etudiant
 	 */
-	public double getCredits() {
+	public int getCredits() {
 		return this.credits;
 	}
 
 	/**
-	 * Retourne les crédits de cet étudiant ajoutés à sa constitution.
+	 * Retourne les credits de cet etudiant ajoutes a sa constitution.
 	 * 
-	 * @return les crédits totaux de cet étudiant.
+	 * @return les credits totaux de cet etudiant
 	 */
-	public double getCreditsTotal() {
+	public int getCreditsTotal() {
 		return this.credits + this.constitution;
 	}
 
 	/**
-	 * Ajoute des crédits à cet étudiant.
+	 * Ajoute des credits a cet etudiant.
 	 * <p>
-	 * Un étudiant ne peut gagner des crédits qu'en se faisant soigner par un autre
-	 * étudiant.
+	 * Un etudiant ne peut gagner des credits qu'en se faisant soigner par un autre
+	 * etudiant.
 	 * 
-	 * @param credits le nombre de crédits à ajouter.
+	 * @param credits le nombre de credits a ajouter
 	 */
-	public void addCredits(double credits) {
+	public void addCredits(int credits) {
 		this.credits += credits;
 	}
 
 	/**
-	 * Enlève le nombre de crédits spécifié à cet étudiant.
+	 * Enleve le nombre de credits specifie a cet etudiant.
 	 * <p>
-	 * Un étudiant devient éliminé si ses crédits ajoutés à sa constitution sont
-	 * inférieurs ou égaux à 0.
+	 * Un etudiant devient elimine si ses credits ajoutes a sa constitution sont
+	 * inferieurs ou egaux a 0.
 	 * 
-	 * @param credits le nombre de crédits à enlever.
+	 * @param credits le nombre de credits a enlever
 	 */
-	public void removeCredits(double credits) {
+	public void removeCredits(int credits) {
 		this.credits -= credits;
 		if (this.getCreditsTotal() <= 0) {
 			this.elimine = true;
@@ -97,40 +97,40 @@ public class Etudiant {
 	}
 
 	/**
-	 * @return la dextérité de cet étudiant.
+	 * @return la dexterite de cet etudiant
 	 */
 	public int getDexterite() {
 		return this.dexterite;
 	}
 
 	/**
-	 * Ajoute la dextérité spécifiée à la valeur initiale de la dextérité de cet
-	 * étudiant.
+	 * Ajoute la dexterite specifiee a la valeur initiale de la dexterite de cet
+	 * etudiant.
 	 * 
-	 * @param dexterite la dextérité à ajouter à cet étudiant.
-	 * @throws IllegalArgumentException si la dextérité spécifiée est inférieure à 0
-	 *                                  ou supérieure à 10.
+	 * @param dexterite la dexterite a ajouter a cet etudiant
+	 * @throws IllegalArgumentException si la dexterite specifiee est inferieure a 0
+	 *                                  ou superieure a 10
 	 */
 	public void addDexterite(int dexterite) {
 		if (dexterite < 0 || dexterite > 10) {
-			throw new IllegalArgumentException("La dextérité doit être comprise entre 0 et 10.");
+			throw new IllegalArgumentException("La dexterite doit être comprise entre 0 et 10.");
 		}
 		this.dexterite += dexterite;
 	}
 
 	/**
-	 * @return la force de cet étudiant.
+	 * @return la force de cet etudiant
 	 */
 	public int getForce() {
 		return this.force;
 	}
 
 	/**
-	 * Ajoute la force spécifiée à la valeur initiale de la force de cet étudiant.
+	 * Ajoute la force specifiee a la valeur initiale de la force de cet etudiant.
 	 * 
-	 * @param force la force à ajouter à cet étudiant.
-	 * @throws IllegalArgumentException si la force spécifiée est inférieure à 0 ou
-	 *                                  supérieure à 10.
+	 * @param force la force a ajouter a cet etudiant
+	 * @throws IllegalArgumentException si la force specifiee est inferieure a 0 ou
+	 *                                  superieure a 10
 	 */
 	public void addForce(int force) {
 		if (force < 0 || force > 10) {
@@ -140,63 +140,63 @@ public class Etudiant {
 	}
 
 	/**
-	 * @return la résistance de cet étudiant.
+	 * @return la resistance de cet etudiant
 	 */
 	public int getResistance() {
 		return this.resistance;
 	}
 
 	/**
-	 * Ajoute la résistance spécifiée à la valeur initiale de la résistance de cet
-	 * étudiant.
+	 * Ajoute la resistance specifiee a la valeur initiale de la resistance de cet
+	 * etudiant.
 	 * 
-	 * @param resistance la résistance à ajouter à cet étudiant.
-	 * @throws IllegalArgumentException si la résistance spécifiée est inférieure à
-	 *                                  0 ou supérieure à 10.
+	 * @param resistance la resistance a ajouter a cet etudiant
+	 * @throws IllegalArgumentException si la resistance specifiee est inferieure a
+	 *                                  0 ou superieure a 10
 	 */
 	public void addResistance(int resistance) {
 		if (resistance < 0 || resistance > 10) {
-			throw new IllegalArgumentException("La résistance doit être comprise entre 0 et 10.");
+			throw new IllegalArgumentException("La resistance doit être comprise entre 0 et 10.");
 		}
 		this.resistance += resistance;
 	}
 
 	/**
-	 * @return la constitution de cet étudiant.
+	 * @return la constitution de cet etudiant
 	 */
 	public int getConstitution() {
 		return this.constitution;
 	}
 
 	/**
-	 * Ajoute la constitution spécifiée à la valeur initiale de la constitution de
-	 * cet étudiant.
+	 * Ajoute la constitution specifiee a la valeur initiale de la constitution de
+	 * cet etudiant.
 	 * 
-	 * @param constitution la constitution à ajouter à cet étudiant.
-	 * @throws IllegalArgumentException si la constitution spécifiée est inférieure
-	 *                                  à 0 ou supérieure à 10.
+	 * @param constitution la constitution a ajouter a cet etudiant
+	 * @throws IllegalArgumentException si la constitution specifiee est inferieure
+	 *                                  a 0 ou superieure a 30
 	 */
 	public void addConstitution(int constitution) {
-		if (constitution < 0 || constitution > 10) {
-			throw new IllegalArgumentException("La constitution doit être comprise entre 0 et 10.");
+		if (constitution < 0 || constitution > 30) {
+			throw new IllegalArgumentException("La constitution doit être comprise entre 0 et 30.");
 		}
 		this.constitution += constitution;
 	}
 
 	/**
-	 * @return l'initiative de cet étudiant.
+	 * @return l'initiative de cet etudiant
 	 */
 	public int getInitiative() {
 		return this.initiative;
 	}
 
 	/**
-	 * Ajoute l'initiative spécifiée à la valeur initiale de l'initiative de cet
-	 * étudiant.
+	 * Ajoute l'initiative specifiee a la valeur initiale de l'initiative de cet
+	 * etudiant.
 	 * 
-	 * @param initiative l'initiative à ajouter à cet étudiant.
-	 * @throws IllegalArgumentException si l'initiative spécifiée est inférieure à 0
-	 *                                  ou supérieure à 10.
+	 * @param initiative l'initiative a ajouter a cet etudiant
+	 * @throws IllegalArgumentException si l'initiative specifiee est inferieure a 0
+	 *                                  ou superieure a 10
 	 */
 	public void addInitiative(int initiative) {
 		if (initiative < 0 || initiative > 10) {
@@ -206,41 +206,41 @@ public class Etudiant {
 	}
 
 	/**
-	 * @return la stratégie de cet étudiant.
+	 * @return la strategie de cet etudiant
 	 */
 	public StrategieEtudiant getStrategie() {
 		return this.strategie;
 	}
 
 	/**
-	 * Définit la stratégie de cet étudiant.
+	 * Definit la strategie de cet etudiant.
 	 * <p>
-	 * La stratégie peut être offensive, défensive ou aléatoire.
+	 * La strategie peut être offensive, defensive ou aleatoire.
 	 * 
-	 * @param strategie la nouvelle stratégie de l'étudiant.
-	 * @throws IllegalArgumentException si la stratégie est nulle.
+	 * @param strategie la nouvelle strategie de l'etudiant
+	 * @throws IllegalArgumentException si la strategie est nulle
 	 */
 	public void setStrategie(StrategieEtudiant strategie) {
 		if (strategie == null) {
-			throw new IllegalArgumentException("Stratégie non reconnue.");
+			throw new IllegalArgumentException("Strategie non reconnue.");
 		}
 		this.strategie = strategie;
 	}
 
 	/**
-	 * Indique si cet étudiant est éliminé.
+	 * Indique si cet etudiant est elimine.
 	 * 
-	 * @return {@code true} si l'étudiant est éliminé, {@code false} sinon.
+	 * @return {@code true} si l'etudiant est elimine, {@code false} sinon
 	 */
 	public boolean isElimine() {
 		return this.elimine;
 	}
 
 	/**
-	 * Renvoie une représentation textuelle de cet étudiant composée de son type et
-	 * de ses caractéristiques.
+	 * Renvoie une representation textuelle de cet etudiant composee de son type et
+	 * de ses caracteristiques.
 	 * 
-	 * @return une représentation textuelle de cet étudiant.
+	 * @return une representation textuelle de cet etudiant
 	 */
 	public String toString() {
 		String type = this instanceof MaitreGobi ? "(Maître du gobi)"

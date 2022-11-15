@@ -20,11 +20,22 @@ public class Partie {
 	}
 
 	public void commencer() {
-		throw new UnsupportedOperationException();
+		this.initialiserTroupes(15, 4, 1);
 	}
 
 	private void initialiserTroupes(int etudiants, int etudiantsElite, int maitresGobi) {
-		throw new UnsupportedOperationException();
+		for (int i = 0; i < etudiants + etudiantsElite + maitresGobi; i++) {
+			if (i < etudiants) {
+				this.joueur1.addEtudiant(i, new Etudiant());
+				this.joueur2.addEtudiant(i, new Etudiant());
+			} else if (i < etudiants + etudiantsElite) {
+				this.joueur1.addEtudiant(i, new EtudiantElite());
+				this.joueur2.addEtudiant(i, new EtudiantElite());
+			} else {
+				this.joueur1.addEtudiant(i, new MaitreGobi());
+				this.joueur2.addEtudiant(i, new MaitreGobi());
+			}
+		}
 	}
 
 	private void parametrerTroupes(Joueur joueur) {

@@ -8,39 +8,39 @@ public class Joueur {
 	public ArrayList<Zone> zoneControlees = new ArrayList<Zone>();
 
 	public Joueur(String nom) {
-		throw new UnsupportedOperationException();
+		this.nom = nom;
 	}
 
 	public String getNom() {
-		throw new UnsupportedOperationException();
+		return this.nom;
 	}
 
 	public Map<Integer, Etudiant> getTroupes() {
-		throw new UnsupportedOperationException();
+		return this.troupes;
 	}
 
 	public void addEtudiant(int key, Etudiant etudiant) {
-		throw new UnsupportedOperationException();
+		this.troupes.put(key, etudiant);
 	}
 
 	public void removeEtudiant(int key) {
-		throw new UnsupportedOperationException();
+		this.troupes.remove(key);
 	}
 
 	public Map<Integer, Etudiant> getReservistes() {
-		throw new UnsupportedOperationException();
+		return this.reservistes;
 	}
 
 	public void addReserviste(int key, Etudiant etudiant) {
-		throw new UnsupportedOperationException();
+		this.reservistes.put(key, etudiant);
 	}
 
 	public void removeReserviste(int key) {
-		throw new UnsupportedOperationException();
+		this.reservistes.remove(key);
 	}
 
 	public ArrayList<Zone> getZoneControlees() {
-		throw new UnsupportedOperationException();
+		return this.zoneControlees;
 	}
 
 	public void ajouterZoneControlee(Zone zone) {
