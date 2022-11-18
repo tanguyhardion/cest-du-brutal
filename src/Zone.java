@@ -1,34 +1,53 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 public class Zone {
 
-	private static Etudiant[] troupesJoueur1;
-	private static Etudiant[] troupesJoueur2;
+	private boolean controlee;
+	private NomZone nomZone;
+	private Map<Integer, Etudiant> troupesJoueur1;
+	private Map<Integer, Etudiant> troupesJoueur2;
 
-	public static void ajouterTroupesJoueur1(Etudiant[] troupes) {
-		throw new UnsupportedOperationException();
+	public Zone(NomZone nomZone) {
+		this.nomZone = nomZone;
 	}
 
-	public static void ajouterTroupesJoueur2(Etudiant[] troupes) {
-		throw new UnsupportedOperationException();
+	public void addCombattantJoueur1(int key, Etudiant etudiant) {
+		this.troupesJoueur1.put(key, etudiant);
 	}
 
-	public static void enleverTroupesJoueur1(Etudiant[] troupes) {
-		throw new UnsupportedOperationException();
+	public void addCombattantJoueur2(int key, Etudiant etudiant) {
+		this.troupesJoueur2.put(key, etudiant);
 	}
 
-	public static void enleverTroupesJoueur2(Etudiant[] troupes) {
-		throw new UnsupportedOperationException();
+	public Map<Integer, Etudiant> getTroupesJoueur1() {
+		return troupesJoueur1;
 	}
 
-	public static Etudiant[] getTroupesParInitiative() {
-		throw new UnsupportedOperationException();
+	public Map<Integer, Etudiant> getTroupesJoueur2() {
+		return troupesJoueur2;
 	}
 
-	public static double getCreditsTroupesJoueur1() {
-		throw new UnsupportedOperationException();
+	public List<Etudiant> getTroupesParInitiative() {
+		List<Etudiant> troupes = new ArrayList<Etudiant>();
+		troupes.addAll(this.troupesJoueur1.values());
+		troupes.addAll(this.troupesJoueur2.values());
+		troupes.sort(Comparator.comparingInt(Etudiant::getInitiative).reversed());
+		return troupes;
 	}
 
-	public static double getCreditsTroupesJoueur2() {
-		throw new UnsupportedOperationException();
+	public List<Etudiant> getTroupesJoueur1ParCredits() {
+		List<Etudiant> troupes = new ArrayList<Etudiant>(this.troupesJoueur2.values());
+		troupes.sort(Comparator.comparingDouble(Etudiant::getCreditsTotal));
+		return troupes;
+	}
+
+	public List<Etudiant> getTroupesJoueur2ParCredits() {
+		List<Etudiant> troupes = new ArrayList<Etudiant>(this.troupesJoueur2.values());
+		troupes.sort(Comparator.comparingDouble(Etudiant::getCreditsTotal));
+		return troupes;
 	}
 
 }
