@@ -4,6 +4,7 @@
  */
 public class Couleurs {
     public static final String RESET = "\033[0m";
+    public static final String CLEAR = "\033[H\033[2J";
 
     public static final String NOIR = "\033[0;30m";
     public static final String ROUGE = "\033[0;31m";
