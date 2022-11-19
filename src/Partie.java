@@ -1,18 +1,43 @@
-import java.util.Map;
-import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * Classe principale du jeu, implémentant un Singleton.
+ * 
+ * @author Tristan JAUSSAUD
+ * @author Tanguy HARDION
+ * @version 1.0
+ */
 public class Partie {
 
-	private static Partie instance;
 	private Joueur joueur1;
 	private Joueur joueur2;
-	private int points;
-	private Scanner scanner;
+	private List<Zone> zones;
+	private static Partie instance;
 
+	/**
+	 * Constructeur privé de la classe Partie.
+	 * <p>
+	 * Initialise les joueurs et les zones de la partie.
+	 */
 	private Partie() {
-		this.scanner = new Scanner(System.in);
+		this.joueur1 = new Joueur("Joueur 1");
+		this.joueur2 = new Joueur("Joueur 2");
+		this.zones = new ArrayList<Zone>();
+
+		// on récupère le nom de chaque zone
+		NomZone[] zones = NomZone.values();
+		// on crée une zone pour chaque nom de zone
+		for (NomZone nom : zones) {
+			this.zones.add(new Zone(nom));
+		}
 	}
 
+	/**
+	 * Crée l'instance de la Partie, si elle n'existe pas encore, et la renvoie.
+	 * 
+	 * @return l'instance de la Partie
+	 */
 	public static synchronized Partie getInstance() {
 		if (instance == null) {
 			instance = new Partie();
@@ -21,60 +46,10 @@ public class Partie {
 	}
 
 	/**
-	 * Commence la partie.
+	 * Commence et gère la partie.
 	 */
 	public void commencer() {
-		this.initialiserTroupes(15, 4, 1);
-	}
-
-	/**
-	 * Initialise les troupes des joueurs en creeant le nombre souhaite de chaque
-	 * type d'etudiant.
-	 * 
-	 * @param etudiants      le nombre d'etudiants a creer
-	 * @param etudiantsElite le nombre d'Etudiants d'elite a creer
-	 * @param maitresGobi    le nombre de Maitres du gobi a creer
-	 */
-	private void initialiserTroupes(int etudiants, int etudiantsElite, int maitresGobi) {
-		for (int i = 0; i < etudiants + etudiantsElite + maitresGobi; i++) {
-			if (i < etudiants) {
-				this.joueur1.addEtudiant(i, new Etudiant());
-				this.joueur2.addEtudiant(i, new Etudiant());
-			} else if (i < etudiants + etudiantsElite) {
-				this.joueur1.addEtudiant(i, new EtudiantElite());
-				this.joueur2.addEtudiant(i, new EtudiantElite());
-			} else {
-				this.joueur1.addEtudiant(i, new MaitreGobi());
-				this.joueur2.addEtudiant(i, new MaitreGobi());
-			}
-		}
-	}
-
-	private void parametrerTroupes(Joueur joueur) {
-		throw new UnsupportedOperationException();
-	}
-
-	private void choisirReservistes(Joueur joueur) {
-		throw new UnsupportedOperationException();
-	}
-
-	private void repartirTroupes(Joueur joueur) {
-		throw new UnsupportedOperationException();
-	}
-
-	private void affecterReservistes(Joueur joueur) {
-		throw new UnsupportedOperationException();
-	}
-
-	private void redeployerTroupes(Joueur joueur) {
-		throw new UnsupportedOperationException();
-	}
-
-	private void afficherTroupes(Map<Integer, Etudiant> troupes) {
-		throw new UnsupportedOperationException();
-	}
-
-	private void afficherReservistes(Map<Integer, Etudiant> reservistes) {
-		throw new UnsupportedOperationException();
+		joueur1.initialiserTroupes(15, 4, 1);
+		joueur2.initialiserTroupes(15, 4, 1);
 	}
 }
