@@ -1,7 +1,7 @@
 import java.util.Random;
 
 /**
- * Represente l'action à realiser d'un etudiant dont la strategie est defensive.
+ * Represente l'action à réaliser d'un étudiant dont la stratégie est défensive.
  * 
  * @author Tanguy HARDION
  * @version 1.0
@@ -9,8 +9,8 @@ import java.util.Random;
 public class StrategieDefensive implements StrategieEtudiant {
 
 	/**
-	 * Soigne un autre etudiant (en lui ajoutant des credits) en fonction de la
-	 * dexterite du soignant et de la constitution du soigne.
+	 * Soigne un autre étudiant (en lui ajoutant des crédits) en fonction de la
+	 * dexterité du soignant et de la constitution du soigné.
 	 * 
 	 * @param origine l'etudiant qui soigne
 	 * @param cible   l'etudiant qui est soigne

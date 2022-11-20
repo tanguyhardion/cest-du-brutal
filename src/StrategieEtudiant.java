@@ -1,6 +1,6 @@
 /**
- * Interface StrategieEtudiant, representant une strategie qui peut etre
- * offensive ou defensive.
+ * Interface StrategieEtudiant, représentant une stratégie qui peut être
+ * offensive ou défensive.
  * 
  */
 public interface StrategieEtudiant {

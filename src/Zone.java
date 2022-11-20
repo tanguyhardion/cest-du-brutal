@@ -1,7 +1,8 @@
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Comparator;
 
 public class Zone {
 
@@ -12,6 +13,8 @@ public class Zone {
 
 	public Zone(NomZone nomZone) {
 		this.nomZone = nomZone;
+		this.troupesJoueur1 = new HashMap<Integer, Etudiant>();
+		this.troupesJoueur2 = new HashMap<Integer, Etudiant>();
 	}
 
 	public void addCombattantJoueur1(int key, Etudiant etudiant) {

@@ -1,5 +1,5 @@
 /**
- * Represente l'action realisee par un Etudiant dont la strategie est offensive.
+ * Représente l'action réalisée par un étudiant dont la stratégie est offensive.
  * 
  * @author Tristan JAUSSAUD
  * @version 1.0
@@ -7,10 +7,10 @@
 public class StrategieOffensive implements StrategieEtudiant {
 
 	/**
-	 * Attaque un autre etudiant en lui enelevant des credits.
+	 * Attaque un autre étudiant en lui enlevant des crédits.
 	 * 
 	 * @param origine l'etudiant qui attaque
-	 * @param cible   l'etudiant qui est attaque
+	 * @param cible   l'etudiant qui est attaqué
 	 */
 	public void agir(Etudiant origine, Etudiant cible) {
 
