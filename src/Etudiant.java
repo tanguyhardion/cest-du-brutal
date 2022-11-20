@@ -108,10 +108,9 @@ public class Etudiant {
 	}
 
 	/**
-	 * Ajoute la dexterité specifiée à la valeur initiale de la dexterité de cet
-	 * étudiant.
+	 * Définit la dextérité de cet étudiant.
 	 * 
-	 * @param dexterite la dexterité a ajouter à cet étudiant
+	 * @param dexterite la dexterité à affecter à cet étudiant
 	 * @throws IllegalArgumentException si la dexterite specifiée est inférieure à 0
 	 *                                  ou supérieure à 10
 	 */
@@ -130,9 +129,9 @@ public class Etudiant {
 	}
 
 	/**
-	 * Ajoute la force specifiée a la valeur initiale de la force de cet étudiant.
+	 * Définit la force de cet étudiant.
 	 * 
-	 * @param force la force a ajouter a cet étudiant
+	 * @param force la force à affecter à cet étudiant
 	 * @throws IllegalArgumentException si la force specifiée est inférieure à 0 ou
 	 *                                  supérieure à 10
 	 */
@@ -151,10 +150,9 @@ public class Etudiant {
 	}
 
 	/**
-	 * Ajoute la résistance specifiée a la valeur initiale de la résistance de cet
-	 * étudiant.
+	 * Définit la résistance de cet étudiant.
 	 * 
-	 * @param resistance la résistance a ajouter a cet étudiant
+	 * @param resistance la résistance à affecter à cet étudiant
 	 * @throws IllegalArgumentException si la résistance specifiée est inférieure à
 	 *                                  0 ou supérieure à 10
 	 */
@@ -173,10 +171,9 @@ public class Etudiant {
 	}
 
 	/**
-	 * Ajoute la constitution specifiée a la valeur initiale de la constitution de
-	 * cet étudiant.
+	 * Définit la constitution de cet étudiant.
 	 * 
-	 * @param constitution la constitution a ajouter a cet étudiant
+	 * @param constitution la constitution à affecter à cet étudiant
 	 * @throws IllegalArgumentException si la constitution specifiée est inférieure
 	 *                                  à 0 ou supérieure à 30
 	 */
@@ -195,10 +192,9 @@ public class Etudiant {
 	}
 
 	/**
-	 * Ajoute l'initiative specifiée à la valeur initiale de l'initiative de cet
-	 * étudiant.
+	 * Définit l'initiative de cet étudiant.
 	 * 
-	 * @param initiative l'initiative à ajouter à cet étudiant
+	 * @param initiative l'initiative à affecter à cet étudiant
 	 * @throws IllegalArgumentException si l'initiative specifiée est inférieure à 0
 	 *                                  ou supérieure à 10
 	 */
@@ -221,7 +217,7 @@ public class Etudiant {
 	 * <p>
 	 * La stratégie peut être offensive, défensive ou aléatoire.
 	 * 
-	 * @param strategie la nouvelle strategie de l'étudiant
+	 * @param strategie la stratégie à affecter à cet étudiant
 	 * @throws IllegalArgumentException si la strategie est nulle
 	 */
 	public void setStrategie(StrategieEtudiant strategie) {
@@ -241,7 +237,7 @@ public class Etudiant {
 	}
 
 	/**
-	 * Renvoie une representation textuelle de cet étudiant composée de son type et
+	 * Renvoie une représentation textuelle de cet étudiant composée de son type et
 	 * de ses caractéristiques.
 	 * 
 	 * @return une représentation textuelle de cet étudiant
