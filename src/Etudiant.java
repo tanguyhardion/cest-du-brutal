@@ -181,7 +181,7 @@ public class Etudiant {
 	 *                                  à 0 ou supérieure à 30
 	 */
 	public void setConstitution(int constitution) {
-		if (constitution < 0 || constitution > 30) {
+		if (constitution < 0 || constitution > 3000) {
 			throw new IllegalArgumentException("La constitution doit être comprise entre 0 et 30.");
 		}
 		this.constitution += constitution;
