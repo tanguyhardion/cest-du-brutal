@@ -20,7 +20,7 @@ public class MaitreGobi extends Etudiant {
 	/**
 	 * Autre constructeur de la classe MaitreGobi.
 	 * <p>
-	 * Initialise les caractéristiques de ce Maitre du gobi avec les valeurs passées
+	 * Initialise les caractéristiques de ce Maître du gobi avec les valeurs passées
 	 * en paramètres, augmentées de 10 pour la constitution et de 2 pour le reste.
 	 * 
 	 * @param dexterite    la dexterité à attribuer

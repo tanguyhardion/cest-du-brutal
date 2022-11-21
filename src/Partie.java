@@ -51,5 +51,8 @@ public class Partie {
 	public void commencer() {
 		joueur1.initialiserTroupes(15, 4, 1);
 		joueur2.initialiserTroupes(15, 4, 1);
+
+		joueur1.parametrerTroupes();
+		joueur2.parametrerTroupes();
 	}
 }
