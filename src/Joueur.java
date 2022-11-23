@@ -237,11 +237,21 @@ public class Joueur {
 	}
 
 	public void afficherTroupes(Map<Integer, Etudiant> troupes) {
-		throw new UnsupportedOperationException();
+		for (Map.Entry<Integer, Etudiant> entry : troupes.entrySet()) {
+			Etudiant etudiant = entry.getValue();
+			System.out.println("Combattant " + entry.getKey() + " " + etudiant.toString());
+		}
 	}
 
 	public void afficherReservistes(Map<Integer, Etudiant> reservistes) {
-		throw new UnsupportedOperationException();
+		if (!reservistes.isEmpty()) {
+			for (Map.Entry<Integer, Etudiant> entry : reservistes.entrySet()) {
+				Etudiant reserviste = entry.getValue();
+				System.out.println("Réserviste " + entry.getKey() + " " + reserviste.toString());
+			}
+		} else {
+			throw new IllegalArgumentException(Couleurs.ROUGE + "Vous n'avez pas de réservistes." + Couleurs.RESET);
+		}
 	}
 
 	public String getNom() {
