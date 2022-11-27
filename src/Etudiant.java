@@ -249,7 +249,7 @@ public class Etudiant {
 				: "aucune";
 
 		StringBuffer sb = new StringBuffer();
-		sb.append(type);
+		sb.append(Couleurs.BLANC).append(type).append(Couleurs.RESET);
 		sb.append(" | Dextérité : ").append(this.dexterite);
 		sb.append(" | Force : ").append(this.force);
 		sb.append(" | Résistance : ").append(this.resistance);

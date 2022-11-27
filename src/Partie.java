@@ -54,5 +54,10 @@ public class Partie {
 
 		joueur1.parametrerTroupes();
 		joueur2.parametrerTroupes();
+
+		joueur1.choisirReservistes();
+		joueur2.choisirReservistes();
+
+		Joueur.closeScanner();
 	}
 }

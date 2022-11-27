@@ -14,7 +14,7 @@ import java.util.Comparator;
 public class Zone {
 
 	private boolean controlee;
-	private NomZone nomZone;
+	private NomZone nom;
 	private Map<Integer, Etudiant> troupesJoueur1;
 	private Map<Integer, Etudiant> troupesJoueur2;
 
@@ -24,10 +24,10 @@ public class Zone {
 	 * Initialise les attributs de cette zone, notamment son nom avec la valeur
 	 * passée en paramètre.
 	 * 
-	 * @param nomZone le nom de la zone, de type NomZone
+	 * @param nom le nom de la zone, de type NomZone
 	 */
-	public Zone(NomZone nomZone) {
-		this.setNomZone(nomZone);
+	public Zone(NomZone nom) {
+		this.nom = nom;
 		this.troupesJoueur1 = new HashMap<Integer, Etudiant>();
 		this.troupesJoueur2 = new HashMap<Integer, Etudiant>();
 	}
@@ -127,41 +127,24 @@ public class Zone {
 	}
 
 	/**
-	 * Définit le nom de la zone
-	 * 
-	 * @param nomZone
+	 * @return le nom de cette zone
 	 */
-	public void setNomZone(NomZone nomZone) {
-		if (nomZone == null) {
-			throw new IllegalArgumentException("Nom de zone incorrect.");
-		}
-		this.nomZone = nomZone;
+	public NomZone getNom() {
+		return this.nom;
 	}
 
+	/**
+	 * @return les troupes du Joueur 1 présentes sur cette zone
+	 */
 	public Map<Integer, Etudiant> getTroupesJoueur1() {
 		return troupesJoueur1;
 	}
 
+	/**
+	 * @return les troupes du Joueur 2 présentes sur cette zone
+	 */
 	public Map<Integer, Etudiant> getTroupesJoueur2() {
 		return troupesJoueur2;
-	}
-
-	@Override
-	public String toString() {
-		switch (this.nomZone) {
-			case BDE:
-				return "BDE";
-			case BIBLIOTHEQUE:
-				return "Bibliothèque";
-			case HALLESINDUSTRIELLES:
-				return "Halles industrielles";
-			case HALLESPORTIVE:
-				return "Halle sportive";
-			case QUARTIERADMINISTRATIF:
-				return "Quartier administratif";
-			default:
-				return "Zone inconnue";
-		}
 	}
 
 }
