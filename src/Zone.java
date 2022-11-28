@@ -33,23 +33,21 @@ public class Zone {
 	}
 
 	/**
-	 * Ajoute un étudiant du Joueur 1 à cette zone.
+	 * Ajoute un étudiant d'un joueur aux combattants du joueur correspondant
+	 * sur cette zone.
 	 * 
-	 * @param key      le numéro de l'étudiant
+	 * @param joueur   le joueur qui ajoute l'étudiant
 	 * @param etudiant l'étudiant à ajouter
 	 */
-	public void addEtudiantJoueur1(int key, Etudiant etudiant) {
-		this.troupesJoueur1.put(key, etudiant);
-	}
-
-	/**
-	 * Ajoute un étudiant du Joueur 2 à cette zone.
-	 * 
-	 * @param key      le numéro de l'étudiant
-	 * @param etudiant l'étudiant à ajouter
-	 */
-	public void addEtudiantJoueur2(int key, Etudiant etudiant) {
-		this.troupesJoueur2.put(key, etudiant);
+	public void addCombattantJoueur(Joueur joueur, Etudiant etudiant) {
+		if (joueur == null || etudiant == null) {
+			throw new IllegalArgumentException("Joueur ou étudiant incorrect.");
+		}
+		if (joueur.equals(Partie.getInstance().getJoueur1())) {
+			this.troupesJoueur1.put(this.troupesJoueur1.size() + 1, etudiant);
+		} else {
+			this.troupesJoueur2.put(this.troupesJoueur2.size() + 1, etudiant);
+		}
 	}
 
 	/**
