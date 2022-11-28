@@ -1,7 +1,7 @@
 import java.util.Map;
-import java.util.Set;
+import java.util.List;
 import java.util.Hashtable;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -16,7 +16,7 @@ public class Joueur {
 	private int points;
 	private Map<Integer, Etudiant> troupes;
 	private Map<Integer, Etudiant> reservistes;
-	private Set<Zone> zoneControlees;
+	private ArrayList<Zone> zoneControlees;
 	private static Scanner scanner;
 
 	/**
@@ -24,14 +24,14 @@ public class Joueur {
 	 * <p>
 	 * Initialise les différents attributs de ce joueur.
 	 * 
-	 * @param nom
+	 * @param nom le nom du joueur
 	 */
 	public Joueur(String nom) {
 		this.nom = nom;
 		this.points = 400;
 		this.troupes = new Hashtable<Integer, Etudiant>();
 		this.reservistes = new Hashtable<Integer, Etudiant>();
-		this.zoneControlees = new HashSet<Zone>();
+		this.zoneControlees = new ArrayList<Zone>();
 		if (scanner == null) {
 			scanner = new Scanner(System.in);
 		}
@@ -59,8 +59,7 @@ public class Joueur {
 
 	/**
 	 * Permet à ce joueur de paramétrer ses troupes, en leur distrubuant ses points
-	 * et
-	 * en leur attribuant une stratégie.
+	 * et en leur attribuant une stratégie.
 	 */
 	public void parametrerTroupes() {
 		System.out.println();
@@ -238,8 +237,7 @@ public class Joueur {
 		// Compteur pour les réservistes
 		int n = 1;
 
-		System.out.println("\n" + Couleurs.JAUNE + this.getNom() + ", choisissez vos réservistes."
-				+ Couleurs.RESET);
+		System.out.println("\n" + Couleurs.JAUNE + this.getNom() + ", choisissez vos réservistes.\n" + Couleurs.RESET);
 		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
 		System.out.println("Pour afficher vos réservistes, entrez " + Couleurs.BLEU + "r" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un réserviste, entrez son numéro.");
@@ -247,12 +245,12 @@ public class Joueur {
 		// Tant que le joueur n'a pas choisi 5 réservistes
 		while (n <= 5) {
 			try {
-				String s = scanner.next();
+				String s = scanner.next().toLowerCase();
 
-				if (s.equalsIgnoreCase("t")) {
+				if (s.equals("t")) {
 					// Affichage des troupes
 					this.afficherTroupes();
-				} else if (s.equalsIgnoreCase("r")) {
+				} else if (s.equals("r")) {
 					// Affichage des réservistes
 					this.afficherReservistes();
 				} else if (Integer.valueOf(s) > 0 && Integer.valueOf(s) <= nombreCombattants) {
@@ -281,8 +279,60 @@ public class Joueur {
 		}
 	}
 
-	public void repartirTroupes() {
-		throw new UnsupportedOperationException();
+	/**
+	 * Permet à ce joueur de répartir ses troupes sur les différentes zones du jeu.
+	 * <p>
+	 * Au moins un combattant doit être déployé sur chaque zone.
+	 */
+	public void repartirTroupes(List<Zone> zones) {
+		int nombreCombattants = this.getTroupes().size();
+		int zonesRestantes = zones.size();
+
+		System.out.println();
+		System.out.println(Couleurs.JAUNE + this.getNom() + ", répartissez vos troupes.\n" + Couleurs.RESET);
+		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
+		System.out.println("Pour choisir un combattant, entrez son numéro.");
+		System.out.println("Vous devez déployer au moins 1 combattant par zone.");
+		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "suivant"
+				+ Couleurs.RESET + ".");
+
+		for (Zone zone : zones) {
+			System.out.println("\n" + Couleurs.BLEU + zone.getNom() + " :" + Couleurs.RESET);
+
+			while (this.getTroupes().size() >= zonesRestantes && this.getTroupes().size() != 0) {
+				try {
+					String s = scanner.next().toLowerCase();
+
+					if (s.equals("t")) {
+						this.afficherTroupes();
+					} else if (s.equals("suivant")) {
+						if (zone.getTroupesJoueur1().size() == 0 && this.getNom().equals("Joueur 1")
+								|| zone.getTroupesJoueur2().size() == 0 && this.getNom().equals("Joueur 2")) {
+							System.out.println(Couleurs.ROUGE + "Vous devez déployer au moins 1 combattant par zone."
+									+ Couleurs.RESET);
+						} else {
+							zonesRestantes--;
+							break;
+						}
+					} else if (Integer.valueOf(s) <= nombreCombattants && Integer.valueOf(s) > 0) {
+						int key = Integer.valueOf(s);
+						Etudiant etudiant = this.getTroupes().get(key);
+						zone.addCombattantJoueur(this, etudiant);
+						this.removeEtudiant(key);
+						System.out.println(Couleurs.VERT + "Combattant ajouté." + Couleurs.RESET);
+					} else {
+						System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier entre 1 et "
+								+ nombreCombattants + "." + Couleurs.RESET);
+					}
+				} catch (NumberFormatException e) {
+					System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide." + Couleurs.RESET);
+				} catch (IllegalArgumentException e) {
+					System.err.println(Couleurs.ROUGE + "Ce combattant a déjà été déployé." + Couleurs.RESET);
+				}
+			}
+
+			zonesRestantes--;
+		}
 	}
 
 	public void affecterReservistes() {
@@ -320,6 +370,9 @@ public class Joueur {
 		return this.nom;
 	}
 
+	/**
+	 * Ferme le scanner de la classe Joueur.
+	 */
 	public static void closeScanner() {
 		scanner.close();
 	}
@@ -379,7 +432,7 @@ public class Joueur {
 	/**
 	 * @return les zones contrôlées par ce joueur
 	 */
-	public Set<Zone> getZoneControlees() {
+	public List<Zone> getZoneControlees() {
 		return this.zoneControlees;
 	}
 
