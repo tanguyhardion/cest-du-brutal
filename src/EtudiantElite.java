@@ -12,9 +12,11 @@ public class EtudiantElite extends Etudiant {
 	 * <p>
 	 * Initialise les crédits de cet étudiant d'élite à 30 et ses caractéristiques à
 	 * leurs valeurs augmentées.
+	 * 
+	 * @param equipe l'équipe à laquelle appartient cet étudiant d'élite
 	 */
-	public EtudiantElite() {
-		super(1, 1, 1, 5, 1);
+	public EtudiantElite(Equipe equipe) {
+		super(1, 1, 1, 5, 1, equipe);
 	}
 
 	/**
@@ -29,9 +31,10 @@ public class EtudiantElite extends Etudiant {
 	 * @param resistance   la résistance à attribuer
 	 * @param constitution la constitution à attribuer
 	 * @param initiative   l'initiative à attribuer
+	 * @param equipe       l'équipe à laquelle appartient cet étudiant d'élite
 	 */
-	public EtudiantElite(int dexterite, int force, int resistance, int constitution, int initiative) {
-		super(dexterite + 1, force + 1, resistance + 1, constitution + 5, initiative + 1);
+	public EtudiantElite(int dexterite, int force, int resistance, int constitution, int initiative, Equipe equipe) {
+		super(dexterite + 1, force + 1, resistance + 1, constitution + 5, initiative + 1, equipe);
 	}
 
 }

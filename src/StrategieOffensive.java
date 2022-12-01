@@ -12,7 +12,7 @@ public class StrategieOffensive implements StrategieEtudiant {
 	 * @param origine l'etudiant qui attaque
 	 * @param cible   l'etudiant qui est attaqué
 	 */
-	public void agir(Etudiant origine, Etudiant cible) {
+	public void attaquer(Etudiant origine, Etudiant cible) {
 
 		double x = Math.random() * 100;
 
@@ -20,6 +20,15 @@ public class StrategieOffensive implements StrategieEtudiant {
 			double y = Math.random();
 			double coeffDegat = Math.max(0, Math.min(100, 10 * origine.getForce() - 5 * cible.getResistance()));
 			cible.removeCredits((int) Math.floor(y * (1 + coeffDegat) * 10));
+		}
+	}
+
+	@Override
+	public void agir(Etudiant origine, Etudiant cibleEquipeUne, Etudiant cibleEquipeDeux) {
+		if (origine.getEquipe() == Equipe.UNE) {
+			this.attaquer(origine, cibleEquipeDeux);
+		} else {
+			this.attaquer(origine, cibleEquipeUne);
 		}
 	}
 

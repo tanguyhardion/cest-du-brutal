@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Comparator;
 
 /**
@@ -28,22 +28,21 @@ public class Zone {
 	 */
 	public Zone(NomZone nom) {
 		this.nom = nom;
-		this.troupesJoueur1 = new HashMap<Integer, Etudiant>();
-		this.troupesJoueur2 = new HashMap<Integer, Etudiant>();
+		this.troupesJoueur1 = new Hashtable<Integer, Etudiant>();
+		this.troupesJoueur2 = new Hashtable<Integer, Etudiant>();
 	}
 
 	/**
 	 * Ajoute un étudiant d'un joueur aux combattants du joueur correspondant
 	 * sur cette zone.
 	 * 
-	 * @param joueur   le joueur qui ajoute l'étudiant
 	 * @param etudiant l'étudiant à ajouter
 	 */
-	public void addCombattantJoueur(Joueur joueur, Etudiant etudiant) {
-		if (joueur == null || etudiant == null) {
+	public void addCombattant(Etudiant etudiant) {
+		if (etudiant == null) {
 			throw new IllegalArgumentException("Joueur ou étudiant incorrect.");
 		}
-		if (joueur.equals(Partie.getInstance().getJoueur1())) {
+		if (etudiant.getEquipe() == Equipe.UNE) {
 			this.troupesJoueur1.put(this.troupesJoueur1.size() + 1, etudiant);
 		} else {
 			this.troupesJoueur2.put(this.troupesJoueur2.size() + 1, etudiant);

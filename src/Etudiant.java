@@ -12,16 +12,18 @@ public class Etudiant {
 	private int resistance;
 	private int constitution;
 	private int initiative;
-	private StrategieEtudiant strategie;
 	private boolean elimine;
+	private Equipe equipe;
+	private StrategieEtudiant strategie;
 
 	/**
 	 * Constructeur de la classe Etudiant.
 	 * <p>
-	 * Initialise les crédits de cet étudiant a 30.
+	 * Initialise les crédits de cet étudiant à 30.
 	 */
-	public Etudiant() {
+	public Etudiant(Equipe equipe) {
 		this.credits = 30;
+		this.equipe = equipe;
 	}
 
 	/**
@@ -36,13 +38,14 @@ public class Etudiant {
 	 * @param constitution la constitution à attribuer
 	 * @param initiative   l'initiative à attribuer
 	 */
-	public Etudiant(int dexterite, int force, int resistance, int constitution, int initiative) {
+	public Etudiant(int dexterite, int force, int resistance, int constitution, int initiative, Equipe equipe) {
 		this.credits = 30;
 		this.setDexterite(dexterite);
 		this.setForce(force);
 		this.setResistance(resistance);
 		this.setConstitution(constitution);
 		this.setInitiative(initiative);
+		this.equipe = equipe;
 	}
 
 	/**
@@ -53,8 +56,8 @@ public class Etudiant {
 	 * 
 	 * @param cible l'étudiant sur lequel l'action est effectuée
 	 */
-	public void agir(Etudiant cible) {
-		this.strategie.agir(this, cible);
+	public void agir(Etudiant cibleEquipeUne, Etudiant cibleEquipeDeux) {
+		this.strategie.agir(this, cibleEquipeUne, cibleEquipeDeux);
 	}
 
 	/**
@@ -206,6 +209,22 @@ public class Etudiant {
 	}
 
 	/**
+	 * Indique si cet étudiant est éliminé.
+	 * 
+	 * @return {@code true} si l'étudiant est éliminé, {@code false} sinon
+	 */
+	public boolean isElimine() {
+		return this.elimine;
+	}
+
+	/**
+	 * @return l'équipe de cet étudiant
+	 */
+	public Equipe getEquipe() {
+		return this.equipe;
+	}
+
+	/**
 	 * @return la stratégie de cet étudiant
 	 */
 	public StrategieEtudiant getStrategie() {
@@ -225,15 +244,6 @@ public class Etudiant {
 			throw new IllegalArgumentException("Strategie non reconnue.");
 		}
 		this.strategie = strategie;
-	}
-
-	/**
-	 * Indique si cet étudiant est éliminé.
-	 * 
-	 * @return {@code true} si l'étudiant est éliminé, {@code false} sinon
-	 */
-	public boolean isElimine() {
-		return this.elimine;
 	}
 
 	/**

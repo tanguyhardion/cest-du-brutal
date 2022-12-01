@@ -44,15 +44,16 @@ public class Joueur {
 	 * @param etudiants      le nombre d'étudiants à créer
 	 * @param etudiantsElite le nombre d'étudiants d'élite à créer
 	 * @param maitresGobi    le nombre de Maîtres du gobi à créer
+	 * @param equipe         l'équipe à laquelle appartiennent les troupes créées
 	 */
-	public void initialiserTroupes(int etudiants, int etudiantsElite, int maitresGobi) {
+	public void initialiserTroupes(int etudiants, int etudiantsElite, int maitresGobi, Equipe equipe) {
 		for (int i = 1; i <= etudiants + etudiantsElite + maitresGobi; i++) {
 			if (i <= etudiants) {
-				this.addEtudiant(i, new Etudiant());
+				this.addEtudiant(i, new Etudiant(equipe));
 			} else if (i <= etudiants + etudiantsElite) {
-				this.addEtudiant(i, new EtudiantElite());
+				this.addEtudiant(i, new EtudiantElite(equipe));
 			} else {
-				this.addEtudiant(i, new MaitreGobi());
+				this.addEtudiant(i, new MaitreGobi(equipe));
 			}
 		}
 	}
@@ -317,7 +318,7 @@ public class Joueur {
 					} else if (Integer.valueOf(s) <= nombreCombattants && Integer.valueOf(s) > 0) {
 						int key = Integer.valueOf(s);
 						Etudiant etudiant = this.getTroupes().get(key);
-						zone.addCombattantJoueur(this, etudiant);
+						zone.addCombattant(etudiant);
 						this.removeEtudiant(key);
 						System.out.println(Couleurs.VERT + "Combattant ajouté." + Couleurs.RESET);
 					} else {
@@ -343,6 +344,9 @@ public class Joueur {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Affiche les troupes de ce joueur dans la console.
+	 */
 	public void afficherTroupes() {
 		for (Map.Entry<Integer, Etudiant> entry : this.troupes.entrySet()) {
 			Etudiant etudiant = entry.getValue();
@@ -351,6 +355,9 @@ public class Joueur {
 		}
 	}
 
+	/**
+	 * Affiche les réservistes de ce joueur dans la console.
+	 */
 	public void afficherReservistes() {
 		if (!reservistes.isEmpty()) {
 			for (Map.Entry<Integer, Etudiant> entry : this.reservistes.entrySet()) {

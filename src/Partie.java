@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 /**
  * Classe principale du jeu, implémentant un Singleton.
@@ -25,8 +26,8 @@ public class Partie {
 		this.joueur2 = new Joueur("Joueur 2");
 		this.zones = new ArrayList<Zone>();
 
-		// on récupère le nom de chaque zone
-		NomZone[] zones = NomZone.values();
+		// on récupère tous les noms de zones
+		EnumSet<NomZone> zones = EnumSet.allOf(NomZone.class);
 		// on crée une zone pour chaque nom de zone
 		for (NomZone nom : zones) {
 			this.zones.add(new Zone(nom));
@@ -55,24 +56,16 @@ public class Partie {
 			this.joueur2.addEtudiant(i, new Etudiant(2, 2, 2, 2, 2));
 		} */
 
-		joueur1.initialiserTroupes(15, 4, 1);
+		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 		joueur1.parametrerTroupes();
 		joueur1.choisirReservistes();
 		joueur1.repartirTroupes(this.zones);
 		
-		joueur2.initialiserTroupes(15, 4, 1);
+		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 		joueur2.parametrerTroupes();
 		joueur2.choisirReservistes();
 		joueur2.repartirTroupes(this.zones);
 
 		Joueur.closeScanner();
-	}
-
-	public Joueur getJoueur1() {
-		return joueur1;
-	}
-
-	public Joueur getJoueur2() {
-		return joueur2;
 	}
 }

@@ -12,9 +12,11 @@ public class MaitreGobi extends Etudiant {
 	 * <p>
 	 * Initialise les crédits de ce Maître du gobi à 30 et ses caractéristiques à
 	 * leurs valeurs augmentées.
+	 * 
+	 * @param equipe l'équipe à laquelle appartient ce Maître du gobi
 	 */
-	public MaitreGobi() {
-		super(2, 2, 2, 10, 2);
+	public MaitreGobi(Equipe equipe) {
+		super(2, 2, 2, 10, 2, equipe);
 	}
 
 	/**
@@ -28,9 +30,10 @@ public class MaitreGobi extends Etudiant {
 	 * @param resistance   la résistance à attribuer
 	 * @param constitution la constitution à attribuer
 	 * @param initiative   l'initiative à attribuer
+	 * @param equipe       l'équipe à laquelle appartient ce Maître du gobi
 	 */
-	public MaitreGobi(int dexterite, int force, int resistance, int constitution, int initiative) {
-		super(dexterite + 2, force + 2, resistance + 2, constitution + 10, initiative + 2);
+	public MaitreGobi(int dexterite, int force, int resistance, int constitution, int initiative, Equipe equipe) {
+		super(dexterite + 2, force + 2, resistance + 2, constitution + 10, initiative + 2, equipe);
 	}
 
 }

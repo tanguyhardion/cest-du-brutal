@@ -3,8 +3,8 @@
  * offensive ou défensive.
  * 
  */
-public interface StrategieEtudiant {
+public interface StrategieEtudiant  {
 
-	public void agir(Etudiant origine, Etudiant cible);
+	public void agir(Etudiant origine, Etudiant cibleEquipeUne, Etudiant cibleEquipeDeux);
 
 }
