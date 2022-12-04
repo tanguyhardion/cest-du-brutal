@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -13,8 +12,8 @@ public class StrategieDefensive implements StrategieEtudiant {
 	 * Soigne un autre étudiant (en lui ajoutant des crédits) en fonction de la
 	 * dexterité du soignant et de la constitution du soigné.
 	 * 
-	 * @param origine l'etudiant qui soigne
-	 * @param cible   l'etudiant qui est soigne
+	 * @param origine l'étudiant qui soigne
+	 * @param cible   l'étudiant qui est soigné
 	 */
 	public void soigner(Etudiant origine, Etudiant cible) {
 		int x = new Random().nextInt(101);
@@ -28,11 +27,7 @@ public class StrategieDefensive implements StrategieEtudiant {
 
 	@Override
 	public void agir(Etudiant origine, Etudiant cibleEquipeUne, Etudiant cibleEquipeDeux) {
-		if (origine.getEquipe() == Equipe.UNE) {
-			this.soigner(origine, cibleEquipeUne);
-		} else {
-			this.soigner(origine, cibleEquipeDeux);
-		}
+		this.soigner(origine, origine.getEquipe() == Equipe.UNE ? cibleEquipeUne : cibleEquipeDeux);
 	}
 
 }

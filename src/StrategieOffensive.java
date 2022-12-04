@@ -9,8 +9,8 @@ public class StrategieOffensive implements StrategieEtudiant {
 	/**
 	 * Attaque un autre étudiant en lui enlevant des crédits.
 	 * 
-	 * @param origine l'etudiant qui attaque
-	 * @param cible   l'etudiant qui est attaqué
+	 * @param origine l'étudiant qui attaque
+	 * @param cible   l'étudiant qui est attaqué
 	 */
 	public void attaquer(Etudiant origine, Etudiant cible) {
 
@@ -25,11 +25,7 @@ public class StrategieOffensive implements StrategieEtudiant {
 
 	@Override
 	public void agir(Etudiant origine, Etudiant cibleEquipeUne, Etudiant cibleEquipeDeux) {
-		if (origine.getEquipe() == Equipe.UNE) {
-			this.attaquer(origine, cibleEquipeDeux);
-		} else {
-			this.attaquer(origine, cibleEquipeUne);
-		}
+		this.attaquer(origine, origine.getEquipe() == Equipe.UNE ? cibleEquipeDeux : cibleEquipeUne);
 	}
 
 }

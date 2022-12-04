@@ -5,11 +5,9 @@ public class StrategieAleatoire implements StrategieEtudiant {
 	@Override
 	public void agir(Etudiant origine, Etudiant cibleEquipeUne, Etudiant cibleEquipeDeux) {
 		if (new Random().nextBoolean()) {
-			StrategieOffensive offensive = new StrategieOffensive();
-			offensive.attaquer(origine, origine.getEquipe() == Equipe.UNE ? cibleEquipeDeux : cibleEquipeUne);
+			new StrategieOffensive().agir(origine, cibleEquipeUne, cibleEquipeDeux);
 		} else {
-			StrategieDefensive defensive = new StrategieDefensive();
-			defensive.soigner(origine, origine.getEquipe() == Equipe.UNE ? cibleEquipeUne : cibleEquipeDeux);
+			new StrategieDefensive().agir(origine, cibleEquipeUne, cibleEquipeDeux);
 		}
 	}
 
