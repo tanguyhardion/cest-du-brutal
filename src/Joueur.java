@@ -310,15 +310,15 @@ public class Joueur {
 					if (s.equals("t")) {
 						this.afficherTroupes();
 					} else if (s.equals("suivant")) {
-						// Si le joueur entre "suivant" et qu'il a déployé au moins un combattant sur la
-						// zone en cours, on passe à la zone suivante
-						if (zone.getTroupesJoueur1().size() > 0 && this.equipe == Equipe.UNE
-								|| zone.getTroupesJoueur2().size() > 0 && this.equipe == Equipe.DEUX) {
-							zonesRestantes--;
-							break;
-						} else {
+						// Si le joueur entre "suivant" mais qu'il n'a déployé aucun combattant
+						if (zone.getTroupesEquipe1().isEmpty() && this.equipe == Equipe.UNE
+								|| zone.getTroupesEquipe2().isEmpty() && this.equipe == Equipe.DEUX) {
 							System.out.println(Couleurs.ROUGE + "Vous devez déployer au moins 1 combattant par zone."
 									+ Couleurs.RESET);
+						} else {
+							// Si le joueur a déployé au moins un combattant, on passe à la zone suivante
+							zonesRestantes--;
+							break;
 						}
 					} else if (Integer.valueOf(s) <= nombreCombattants && Integer.valueOf(s) > 0) {
 						int key = Integer.valueOf(s);

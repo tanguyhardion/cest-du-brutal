@@ -1,9 +1,21 @@
 /**
  * Donne accès aux couleurs en ligne de commandes grâce aux escapes codes ANSI,
  * si le terminal est compatible.
+ * <p>
+ * Pour utiliser ces couleurs, il suffit d'ajouter la constante correspondante
+ * au début de la chaîne de caractères à afficher. Ne pas oublier de
+ * réinitialiser les couleurs à la fin de l'affichage.
+ * <p>
+ * Exemple :
+ * <p>
+ * {@code System.out.println(Couleurs.ROUGE + "texte" + Couleurs.RESET);}
+ * <p>
+ * Source : https://stackoverflow.com/a/45444716
  */
 public class Couleurs {
+    // Code pour réinitialiser les couleurs, à utiliser à la fin de chaque affichage
     public static final String RESET = "\033[0m";
+    // Code pour effacer la console
     public static final String CLEAR = "\033[H\033[2J";
 
     public static final String NOIR = "\033[0;30m";

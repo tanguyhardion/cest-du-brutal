@@ -1,8 +1,12 @@
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Comparator;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * Représente une zone d'influence sur laquelle des combattants seront déployés.
@@ -11,12 +15,15 @@ import java.util.Comparator;
  * @author Tristan JAUSSAUD
  * @version 1.0
  */
-public class Zone {
+public class Zone implements Runnable {
 
 	private boolean controlee;
 	private NomZone nom;
-	private Map<Integer, Etudiant> troupesJoueur1;
-	private Map<Integer, Etudiant> troupesJoueur2;
+	private Map<Integer, Etudiant> troupesEquipe1;
+	private Map<Integer, Etudiant> troupesEquipe2;
+	private static CountDownLatch latch = new CountDownLatch(1);
+	private static final CyclicBarrier barrier = new CyclicBarrier(NomZone.values().length);
+	private static volatile boolean treveDeclaree;
 
 	/**
 	 * Constructeur de la classe Zone.
@@ -28,8 +35,60 @@ public class Zone {
 	 */
 	public Zone(NomZone nom) {
 		this.nom = nom;
-		this.troupesJoueur1 = new Hashtable<Integer, Etudiant>();
-		this.troupesJoueur2 = new Hashtable<Integer, Etudiant>();
+		this.troupesEquipe1 = new Hashtable<Integer, Etudiant>();
+		this.troupesEquipe2 = new Hashtable<Integer, Etudiant>();
+	}
+
+	/**
+	 * Attend que toutes les zones soient prêtes, puis lance le combat.
+	 */
+	@Override
+	public void run() {
+		try {
+			barrier.await();
+			this.lancerCombat();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Lance le combat dans cette zone dans un thread séparé.
+	 * 
+	 * @throws InterruptedException si le thread est interrompu
+	 */
+	private synchronized void lancerCombat() throws InterruptedException {
+		while (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
+			for (Etudiant etudiant : this.getTroupesParInitiative()) {
+				if (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
+					etudiant.agir(this.getLowestCreditsEquipeUne(), this.getLowestCreditsEquipeDeux());
+					this.clearCombattantsElimines();
+				} else {
+					break;
+				}
+			}
+			// On attend un peu, au cas où un thread aurait déclaré la trêve
+			Thread.sleep(new Random().nextLong(10, 50));
+			if (treveDeclaree) {
+				// Si la trêve a été déclarée, on attend la fin de la trêve avant de reprendre
+				wait();
+			}
+		}
+		// On sort du while, donc la zone est forcément contrôlée par un joueur
+		// On déclare la trêve et on note la zone comme contrôlée
+		treveDeclaree = true;
+		this.controlee = true;
+		if (this.getTroupesEquipe1().isEmpty()) {
+			System.out.println(Couleurs.VERT + "Le Joueur 2 contrôle maintenant la zone " + this.nom + " !"
+					+ Couleurs.RESET);
+			// joueur1.addZoneControlee(this);
+		} else if (this.getTroupesEquipe2().isEmpty()) {
+			System.out.println(Couleurs.VERT + "Le Joueur 1 contrôle maintenant la zone " + this.nom + " !"
+					+ Couleurs.RESET);
+			// joueur2.addZoneControlee(this);
+		}
+		// On notifie la Partie qu'un thread est terminé
+		latch.countDown();
 	}
 
 	/**
@@ -43,9 +102,9 @@ public class Zone {
 			throw new IllegalArgumentException("Joueur ou étudiant incorrect.");
 		}
 		if (etudiant.getEquipe() == Equipe.UNE) {
-			this.troupesJoueur1.put(this.troupesJoueur1.size() + 1, etudiant);
-		} else {
-			this.troupesJoueur2.put(this.troupesJoueur2.size() + 1, etudiant);
+			this.troupesEquipe1.put(this.troupesEquipe1.size() + 1, etudiant);
+		} else if (etudiant.getEquipe() == Equipe.DEUX) {
+			this.troupesEquipe2.put(this.troupesEquipe2.size() + 1, etudiant);
 		}
 	}
 
@@ -55,36 +114,34 @@ public class Zone {
 	 * 
 	 * @return la liste des étudiants triés par initiative
 	 */
-	public List<Etudiant> getTroupesParInitiative() {
+	private List<Etudiant> getTroupesParInitiative() {
 		List<Etudiant> troupes = new ArrayList<Etudiant>();
-		troupes.addAll(this.troupesJoueur1.values());
-		troupes.addAll(this.troupesJoueur2.values());
+		troupes.addAll(this.troupesEquipe1.values());
+		troupes.addAll(this.troupesEquipe2.values());
 		troupes.sort(Comparator.comparingInt(Etudiant::getInitiative).reversed());
 		return troupes;
 	}
 
 	/**
-	 * Retourne la liste des étudiants du Joueur 1 présents sur cette zone triés par
-	 * crédits, du plus petit au plus grand.
+	 * Retourne l'étudiant du Joueur 1 ayant le moins de crédits sur cette zone.
 	 * 
-	 * @return la liste des étudiants du Joueur 1 triés par crédits
+	 * @return l'étudiant ayant le moins de crédits
 	 */
-	public List<Etudiant> getTroupesJoueur1ParCredits() {
-		List<Etudiant> troupes = new ArrayList<Etudiant>(this.troupesJoueur1.values());
-		troupes.sort(Comparator.comparingDouble(Etudiant::getCreditsTotal));
-		return troupes;
+	private Etudiant getLowestCreditsEquipeUne() {
+		List<Etudiant> troupes = new ArrayList<Etudiant>(this.troupesEquipe1.values());
+		troupes.sort(Comparator.comparingInt(Etudiant::getCreditsTotal));
+		return troupes.get(0);
 	}
 
 	/**
-	 * Retourne la liste des étudiants du Joueur 2 présents sur cette zone triés par
-	 * crédits, du plus petit au plus grand.
+	 * Retourne l'étudiant du Joueur 1 ayant le moins de crédits sur cette zone.
 	 * 
-	 * @return la liste des étudiants du Joueur 2 triés par crédits
+	 * @return l'étudiant ayant le moins de crédits
 	 */
-	public List<Etudiant> getTroupesJoueur2ParCredits() {
-		List<Etudiant> troupes = new ArrayList<Etudiant>(this.troupesJoueur2.values());
-		troupes.sort(Comparator.comparingDouble(Etudiant::getCreditsTotal));
-		return troupes;
+	private Etudiant getLowestCreditsEquipeDeux() {
+		List<Etudiant> troupes = new ArrayList<Etudiant>(this.troupesEquipe2.values());
+		troupes.sort(Comparator.comparingInt(Etudiant::getCreditsTotal));
+		return troupes.get(0);
 	}
 
 	/**
@@ -93,9 +150,9 @@ public class Zone {
 	 * 
 	 * @return le total des crédits des étudiants du Joueur 1
 	 */
-	public int getCreditsTroupesJoueur1() {
+	public int getCreditsEquipeUne() {
 		int credits = 0;
-		for (Etudiant e : this.troupesJoueur1.values()) {
+		for (Etudiant e : this.troupesEquipe1.values()) {
 			credits += e.getCreditsTotal();
 		}
 		return credits;
@@ -107,12 +164,21 @@ public class Zone {
 	 * 
 	 * @return le total des crédits des étudiants du Joueur 2
 	 */
-	public int getCreditsTroupesJoueur2() {
+	public int getCreditsEquipeDeux() {
 		int credits = 0;
-		for (Etudiant e : this.troupesJoueur2.values()) {
+		for (Etudiant e : this.troupesEquipe2.values()) {
 			credits += e.getCreditsTotal();
 		}
 		return credits;
+	}
+
+	/**
+	 * Enlève les étudiants éliminés sur cette zone de la liste des combattants
+	 * de chaque équipe.
+	 */
+	private void clearCombattantsElimines() {
+		this.troupesEquipe1.values().removeIf(e -> e.isElimine());
+		this.troupesEquipe2.values().removeIf(e -> e.isElimine());
 	}
 
 	/**
@@ -133,15 +199,40 @@ public class Zone {
 	/**
 	 * @return les troupes du Joueur 1 présentes sur cette zone
 	 */
-	public Map<Integer, Etudiant> getTroupesJoueur1() {
-		return troupesJoueur1;
+	public Map<Integer, Etudiant> getTroupesEquipe1() {
+		return troupesEquipe1;
 	}
 
 	/**
 	 * @return les troupes du Joueur 2 présentes sur cette zone
 	 */
-	public Map<Integer, Etudiant> getTroupesJoueur2() {
-		return troupesJoueur2;
+	public Map<Integer, Etudiant> getTroupesEquipe2() {
+		return troupesEquipe2;
+	}
+
+	public static CountDownLatch getLatch() {
+		return latch;
+	}
+
+	public static void resetLatch() {
+		latch = new CountDownLatch(1);
+	}
+
+	/**
+	 * Termine la trêve et notifie les threads en attente.
+	 */
+	public static void finirTreve() {
+		treveDeclaree = false;
+		notifier();
+	}
+
+	/**
+	 * Notifie les threads en attente.
+	 */
+	private static void notifier() {
+		synchronized (Zone.class) {
+			Zone.class.notifyAll();
+		}
 	}
 
 }

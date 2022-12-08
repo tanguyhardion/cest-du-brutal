@@ -20,6 +20,8 @@ public class Etudiant {
 	 * Constructeur de la classe Etudiant.
 	 * <p>
 	 * Initialise les crédits de cet étudiant à 30.
+	 * 
+	 * @param equipe l'équipe à laquelle appartient cet étudiant
 	 */
 	public Etudiant(Equipe equipe) {
 		this.credits = 30;
@@ -37,6 +39,7 @@ public class Etudiant {
 	 * @param resistance   la résistance à attribuer
 	 * @param constitution la constitution à attribuer
 	 * @param initiative   l'initiative à attribuer
+	 * @param equipe       l'équipe à laquelle appartient cet étudiant
 	 */
 	public Etudiant(int dexterite, int force, int resistance, int constitution, int initiative, Equipe equipe) {
 		this.credits = 30;
