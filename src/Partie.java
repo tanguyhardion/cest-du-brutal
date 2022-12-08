@@ -22,8 +22,8 @@ public class Partie {
 	 * Initialise les joueurs et les zones de la partie.
 	 */
 	private Partie() {
-		this.joueur1 = new Joueur("Joueur 1");
-		this.joueur2 = new Joueur("Joueur 2");
+		this.joueur1 = new Joueur("Joueur 1", Equipe.UNE);
+		this.joueur2 = new Joueur("Joueur 2", Equipe.DEUX);
 		this.zones = new ArrayList<Zone>();
 
 		// on récupère tous les noms de zones

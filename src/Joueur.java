@@ -12,8 +12,9 @@ import java.util.Scanner;
  */
 public class Joueur {
 
-	private String nom;
 	private int points;
+	private String nom;
+	private Equipe equipe;
 	private Map<Integer, Etudiant> troupes;
 	private Map<Integer, Etudiant> reservistes;
 	private ArrayList<Zone> zoneControlees;
@@ -26,8 +27,9 @@ public class Joueur {
 	 * 
 	 * @param nom le nom du joueur
 	 */
-	public Joueur(String nom) {
+	public Joueur(String nom, Equipe equipe) {
 		this.nom = nom;
+		this.equipe = equipe;
 		this.points = 400;
 		this.troupes = new Hashtable<Integer, Etudiant>();
 		this.reservistes = new Hashtable<Integer, Etudiant>();
@@ -200,10 +202,6 @@ public class Joueur {
 							etudiant.setStrategie(new StrategieDefensive());
 							break;
 						case "A":
-							// etudiant.setStrategieAleatoire(true);
-							// StrategieEtudiant strategie = new Random().nextBoolean() ? new
-							// StrategieOffensive()
-							// : new StrategieDefensive();
 							etudiant.setStrategie(new StrategieAleatoire());
 							break;
 						default:
@@ -286,7 +284,9 @@ public class Joueur {
 	 * Au moins un combattant doit être déployé sur chaque zone.
 	 */
 	public void repartirTroupes(List<Zone> zones) {
-		int nombreCombattants = this.getTroupes().size();
+		// On sauvegarde le nombre initial de combattants du joueur
+		int nombreCombattants = this.getTroupes().size() + this.getReservistes().size();
+		// Et le nombre de zones, que l'on décrémentera
 		int zonesRestantes = zones.size();
 
 		System.out.println();
@@ -300,25 +300,32 @@ public class Joueur {
 		for (Zone zone : zones) {
 			System.out.println("\n" + Couleurs.BLEU + zone.getNom() + " :" + Couleurs.RESET);
 
-			while (this.getTroupes().size() >= zonesRestantes && this.getTroupes().size() != 0) {
+			// Tant qu'il reste des combattants à déployer et qu'il reste assez de
+			// combattants au joueur pour en déployer au moins un sur chaque zone
+			while (this.getTroupes().size() != 0 && this.getTroupes().size() >= zonesRestantes) {
 				try {
 					String s = scanner.next().toLowerCase();
 
+					// Si le joueur entre "t", on affiche ses troupes
 					if (s.equals("t")) {
 						this.afficherTroupes();
 					} else if (s.equals("suivant")) {
-						if (zone.getTroupesJoueur1().size() == 0 && this.getNom().equals("Joueur 1")
-								|| zone.getTroupesJoueur2().size() == 0 && this.getNom().equals("Joueur 2")) {
-							System.out.println(Couleurs.ROUGE + "Vous devez déployer au moins 1 combattant par zone."
-									+ Couleurs.RESET);
-						} else {
+						// Si le joueur entre "suivant" et qu'il a déployé au moins un combattant sur la
+						// zone en cours, on passe à la zone suivante
+						if (zone.getTroupesJoueur1().size() > 0 && this.equipe == Equipe.UNE
+								|| zone.getTroupesJoueur2().size() > 0 && this.equipe == Equipe.DEUX) {
 							zonesRestantes--;
 							break;
+						} else {
+							System.out.println(Couleurs.ROUGE + "Vous devez déployer au moins 1 combattant par zone."
+									+ Couleurs.RESET);
 						}
 					} else if (Integer.valueOf(s) <= nombreCombattants && Integer.valueOf(s) > 0) {
 						int key = Integer.valueOf(s);
 						Etudiant etudiant = this.getTroupes().get(key);
+						// On ajoute le combattant choisi à la zone en cours
 						zone.addCombattant(etudiant);
+						// On enlève le combattant des troupes du joueur
 						this.removeEtudiant(key);
 						System.out.println(Couleurs.VERT + "Combattant ajouté." + Couleurs.RESET);
 					} else {
