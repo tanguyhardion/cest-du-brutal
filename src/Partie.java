@@ -57,7 +57,7 @@ public class Partie {
 		Scanner sc = new Scanner(System.in);
 		// boucles pour les tests
 		final Random random = new Random();
-		for (int i = 1; i <= 20; i++) {
+		for (int i = 1; i <= 15; i++) {
 			StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
 					: new StrategieOffensive();
 			Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
@@ -72,9 +72,13 @@ public class Partie {
 			etudiant2.setStrategie(strategie2);
 			this.joueur2.addEtudiant(i, etudiant2);
 		}
+		for (int i = 1; i <= 5; i++) {
+			this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
+			this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
+		}
 		int n = 1;
 		for (Zone zone : this.zones) {
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 3; i++) {
 				zone.addCombattant(this.joueur1.getTroupes().get(n));
 				zone.addCombattant(this.joueur2.getTroupes().get(n++));
 			}
@@ -90,26 +94,49 @@ public class Partie {
 		// joueur2.choisirReservistes();
 		// joueur2.repartirTroupes(this.zones);
 
-		// int zonesAControler = (int) Math.floor(this.zones.size() / 2) + 1;
+		int zonesAControler = (int) Math.floor(this.zones.size() / 2) + 1;
 		ExecutorService executor = Executors.newCachedThreadPool();
 
 		for (Zone zone : this.zones) {
-			if (!zone.estControlee()) {
-				executor.execute(zone);
-			}
+			executor.execute(zone);
 		}
 
-		try {
-			Zone.getLatch().await();
-		} catch (InterruptedException e) {
-			System.out.println(e.getMessage());
+		while (this.joueur1.getZoneControlees().size() < zonesAControler
+				&& this.joueur2.getZoneControlees().size() < zonesAControler) {
+			try {
+				Zone.getPartieLatch().await();
+			} catch (InterruptedException e) {
+				System.out.println(e.getMessage());
+			}
+			Zone.resetPartieLatch();
+
+			// Zones sur lesquelles on peut affecter des réservistes
+			List<Zone> zonesAffectables = new ArrayList<Zone>(this.zones);
+			zonesAffectables.removeAll(this.joueur1.getZoneControlees());
+			zonesAffectables.removeAll(this.joueur2.getZoneControlees());
+
+			this.joueur1.affecterReservistes(zonesAffectables);
+			this.joueur2.affecterReservistes(zonesAffectables);
+
+			Zone.finirTreve();
+			Zone.getZoneLatch().countDown();
+			Zone.resetZoneLatch();
 		}
-		sc.next();
-		Zone.resetLatch();
-		Zone.finirTreve();
+
+		System.out.println(
+				"Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getNom()
+						: this.joueur2.getNom()) + " a gagné la partie !");
 
 		executor.shutdown();
 		sc.close();
 		Joueur.closeScanner();
+	}
+
+	public Joueur getJoueur1() {
+		return this.joueur1;
+	}
+
+	public Joueur getJoueur2() {
+		return this.joueur2;
 	}
 }

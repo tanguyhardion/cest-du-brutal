@@ -18,7 +18,7 @@ public class StrategieOffensive implements StrategieEtudiant {
 
 		if (x <= (40 + 3 * origine.getDexterite())) {
 			double y = Math.random();
-			double coeffDegat = Math.max(0, Math.min(100, 10 * origine.getForce() - 5 * cible.getResistance()));
+			double coeffDegat = Math.max(0, Math.min(100, 10 * origine.getForce() - 5 * cible.getResistance())) / 100;
 			cible.removeCredits((int) Math.floor(y * (1 + coeffDegat) * 10));
 		}
 	}

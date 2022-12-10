@@ -21,7 +21,8 @@ public class Zone implements Runnable {
 	private NomZone nom;
 	private Map<Integer, Etudiant> troupesEquipe1;
 	private Map<Integer, Etudiant> troupesEquipe2;
-	private static CountDownLatch latch = new CountDownLatch(1);
+	private static CountDownLatch partieLatch = new CountDownLatch(1);
+	private static CountDownLatch zoneLatch = new CountDownLatch(1);
 	private static final CyclicBarrier barrier = new CyclicBarrier(NomZone.values().length);
 	private static volatile boolean treveDeclaree;
 
@@ -71,7 +72,7 @@ public class Zone implements Runnable {
 			Thread.sleep(new Random().nextLong(10, 50));
 			if (treveDeclaree) {
 				// Si la trêve a été déclarée, on attend la fin de la trêve avant de reprendre
-				wait();
+				zoneLatch.await();
 			}
 		}
 		// On sort du while, donc la zone est forcément contrôlée par un joueur
@@ -81,14 +82,14 @@ public class Zone implements Runnable {
 		if (this.getTroupesEquipe1().isEmpty()) {
 			System.out.println(Couleurs.VERT + "Le Joueur 2 contrôle maintenant la zone " + this.nom + " !"
 					+ Couleurs.RESET);
-			// joueur1.addZoneControlee(this);
+			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		} else if (this.getTroupesEquipe2().isEmpty()) {
 			System.out.println(Couleurs.VERT + "Le Joueur 1 contrôle maintenant la zone " + this.nom + " !"
 					+ Couleurs.RESET);
-			// joueur2.addZoneControlee(this);
+			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		}
 		// On notifie la Partie qu'un thread est terminé
-		latch.countDown();
+		partieLatch.countDown();
 	}
 
 	/**
@@ -210,12 +211,20 @@ public class Zone implements Runnable {
 		return troupesEquipe2;
 	}
 
-	public static CountDownLatch getLatch() {
-		return latch;
+	public static CountDownLatch getPartieLatch() {
+		return partieLatch;
 	}
 
-	public static void resetLatch() {
-		latch = new CountDownLatch(1);
+	public static void resetPartieLatch() {
+		partieLatch = new CountDownLatch(1);
+	}
+
+	public static CountDownLatch getZoneLatch() {
+		return zoneLatch;
+	}
+
+	public static void resetZoneLatch() {
+		zoneLatch = new CountDownLatch(1);
 	}
 
 	/**
@@ -223,16 +232,6 @@ public class Zone implements Runnable {
 	 */
 	public static void finirTreve() {
 		treveDeclaree = false;
-		notifier();
-	}
-
-	/**
-	 * Notifie les threads en attente.
-	 */
-	private static void notifier() {
-		synchronized (Zone.class) {
-			Zone.class.notifyAll();
-		}
 	}
 
 }
