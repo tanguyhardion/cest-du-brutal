@@ -80,12 +80,14 @@ public class Zone implements Runnable {
 		treveDeclaree = true;
 		this.controlee = true;
 		if (this.getTroupesEquipe1().isEmpty()) {
+			System.out.println();
 			System.out.println(Couleurs.VERT + "Le Joueur 2 contrôle maintenant la zone " + this.nom + " !"
-					+ Couleurs.RESET);
+					+ Couleurs.RESET + "\n");
 			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		} else if (this.getTroupesEquipe2().isEmpty()) {
+			System.out.println();
 			System.out.println(Couleurs.VERT + "Le Joueur 1 contrôle maintenant la zone " + this.nom + " !"
-					+ Couleurs.RESET);
+					+ Couleurs.RESET + "\n");
 			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		}
 		// On notifie la Partie qu'un thread est terminé
@@ -106,6 +108,24 @@ public class Zone implements Runnable {
 			this.troupesEquipe1.put(this.troupesEquipe1.size() + 1, etudiant);
 		} else if (etudiant.getEquipe() == Equipe.DEUX) {
 			this.troupesEquipe2.put(this.troupesEquipe2.size() + 1, etudiant);
+		}
+	}
+
+	/**
+	 * Retire un étudiant d'un joueur des combattants du joueur correspondant
+	 * sur cette zone.
+	 * 
+	 * @param key      la clé de l'étudiant à retirer
+	 * @param etudiant l'étudiant à retirer
+	 */
+	public void removeCombattant(int key, Etudiant etudiant) {
+		if (etudiant == null) {
+			throw new IllegalArgumentException("Joueur ou étudiant incorrect.");
+		}
+		if (etudiant.getEquipe() == Equipe.UNE) {
+			this.troupesEquipe1.remove(key);
+		} else if (etudiant.getEquipe() == Equipe.DEUX) {
+			this.troupesEquipe2.remove(key);
 		}
 	}
 
@@ -209,6 +229,40 @@ public class Zone implements Runnable {
 	 */
 	public Map<Integer, Etudiant> getTroupesEquipe2() {
 		return troupesEquipe2;
+	}
+
+	/**
+	 * Retourne la liste des étudiants présents sur cette zone
+	 * pour le joueur passé en paramètre.
+	 * <p>
+	 * Cette méthode a pour but de simplifier la récupération des troupes lorsqu'on
+	 * connaît le joueur dont on veut les troupes.
+	 * 
+	 * @param joueur le joueur dont on veut les troupes
+	 * @return la liste des étudiants présents sur cette zone pour le joueur
+	 */
+	public Map<Integer, Etudiant> getTroupes(Joueur joueur) {
+		if (joueur == null) {
+			throw new IllegalArgumentException("Joueur incorrect.");
+		}
+		if (joueur.getEquipe() == Equipe.UNE) {
+			return new Hashtable<Integer, Etudiant>(this.troupesEquipe1);
+		} else if (joueur.getEquipe() == Equipe.DEUX) {
+			return new Hashtable<Integer, Etudiant>(this.troupesEquipe2);
+		}
+		return null;
+	}
+
+	/**
+	 * Affiche toutes les troupes présentes sur cette zone dans la console.
+	 */
+	public void afficherTroupes() {
+		Map<Integer, Etudiant> troupes = new Hashtable<Integer, Etudiant>();
+		troupes.putAll(this.troupesEquipe1);
+		troupes.putAll(this.troupesEquipe2);
+		System.out.println("\nVos troupes sur la zone " + Couleurs.CYAN + this.nom + Couleurs.RESET + " :");
+		troupes.forEach((key, etudiant) -> System.out.println(
+				Couleurs.BLEU + "Combattant " + key + Couleurs.RESET + " " + etudiant.toString()));
 	}
 
 	public static CountDownLatch getPartieLatch() {

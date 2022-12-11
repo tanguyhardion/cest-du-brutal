@@ -346,15 +346,16 @@ public class Joueur {
 	/**
 	 * Permet à ce joueur d'affecter ses réservistes sur les zones non contrôlées.
 	 * 
-	 * @param zonesAffectables la liste des zones non contrôlées
+	 * @param zonesNonControlees la liste des zones non contrôlées
 	 */
-	public void affecterReservistes(List<Zone> zonesAffectables) {
+	public void affecterReservistes(List<Zone> zonesNonControlees, List<Zone> zones) {
 		// On sauvegarde le nombre initial de réservsites du joueur
 		int reservistes = this.getReservistes().size();
 
 		// Si le joueur n'a aucun réserviste à affecter
 		if (reservistes == 0) {
-			System.out.println(Couleurs.ROUGE + "Vous n'avez aucun réserviste à affecter." + Couleurs.RESET);
+			System.out.println(
+					Couleurs.ROUGE + this.getNom() + ", vous n'avez aucun réserviste à affecter." + Couleurs.RESET);
 			return;
 		}
 
@@ -367,7 +368,7 @@ public class Joueur {
 		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "suivant" + Couleurs.RESET
 				+ ".");
 
-		for (Zone zone : zonesAffectables) {
+		for (Zone zone : zonesNonControlees) {
 			System.out.println("\n" + Couleurs.BLEU + zone.getNom() + " :" + Couleurs.RESET);
 
 			// Tant qu'il reste des réservistes à affecter
@@ -384,11 +385,11 @@ public class Joueur {
 					} else if (Integer.parseInt(s) <= reservistes && Integer.parseInt(s) > 0) {
 						int key = Integer.parseInt(s);
 						Etudiant etudiant = this.getReservistes().get(key);
-						// On ajoute le réserviste choisi à la zone en cours
-						zone.addCombattant(etudiant);
+						// On ajoute le réserviste choisi à la zone en cours correspondante
+						zones.get(zones.indexOf(zone)).addCombattant(etudiant);
 						// On enlève le réserviste des réservistes du joueur
 						this.removeReserviste(key);
-						System.out.println(Couleurs.VERT + "Réserviste ajouté." + Couleurs.RESET);
+						System.out.println(Couleurs.VERT + "Réserviste affecté." + Couleurs.RESET);
 					} else {
 						System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier entre 1 et "
 								+ reservistes + "." + Couleurs.RESET);
@@ -403,15 +404,88 @@ public class Joueur {
 
 			// Si le joueur n'a plus de réservistes à affecter, on sort de la boucle
 			if (this.getReservistes().isEmpty()) {
-				System.out.println(
-						"\n" + Couleurs.ROUGE + "Vous n'avez plus de réservistes à affecter." + Couleurs.RESET);
+				System.out.println("\n" + Couleurs.ROUGE + "Vous n'avez plus de réservistes à affecter."
+						+ Couleurs.RESET);
 				break;
 			}
 		}
 	}
 
-	public void redeployerTroupes() {
-		throw new UnsupportedOperationException();
+	/**
+	 * Permet à ce joueur de redéployer ses troupes valides des zones qu'il contrôle
+	 * sur les zones qui ne sont pas encore contrôlées.
+	 * <p>
+	 * Au moins un combattant doit rester dans chaque zone contrôlée.
+	 * 
+	 * @param zonesNonControlees la liste des zones non contrôlées
+	 * @param zones              la liste des zones du jeu
+	 */
+	public void redeployerTroupes(List<Zone> zonesNonControlees, List<Zone> zones) {
+		// Zones contrôlées par le joueur qui ont au moins 2 combattants
+		List<Zone> zonesControlees = new ArrayList<>(this.zoneControlees);
+		zonesControlees.removeIf(zone -> zone.getTroupes(this).size() <= 1);
+
+		// Si le joueur n'a aucune zone contrôlée avec au moins 2 combattants
+		if (zonesControlees.isEmpty()) {
+			System.out.println(Couleurs.ROUGE + this.getNom() + ", vous n'avez aucun combattant à redéployer."
+					+ Couleurs.RESET);
+			return;
+		}
+
+		System.out.println();
+		System.out.println(Couleurs.JAUNE + this.getNom() + ", vous pouvez maintenant redéployer vos troupes."
+				+ Couleurs.RESET);
+		System.out.println();
+		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
+		System.out.println("Pour choisir un combattant, entrez son numéro.");
+		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "suivant"
+				+ Couleurs.RESET + ".");
+
+		// Pour toutes les zones contrôlées par le joueur qui ont au moins 2 combattants
+		for (Zone zoneC : zonesControlees) {
+			// On affiche le nom de la zone en cours contrôlée
+			System.out.println("\n" + Couleurs.BLEU + zoneC.getNom() + " (contrôlée)" + " :" + Couleurs.RESET);
+			// Pour toutes les zones non contrôlées, sur lesquelles le joueur peut déployer
+			for (Zone zoneNC : zonesNonControlees) {
+				// Tant que le joueur a des combattants à redéployer
+				while (zoneC.getTroupes(this).size() > 1) {
+					// Nombre de combattants du joueur dans la zone en cours
+					int combattants = zoneC.getTroupes(this).size();
+
+					// On affiche le nom de la zone en cours non contrôlée
+					System.out.println("\n" + Couleurs.BLEU + zoneNC.getNom() + " :" + Couleurs.RESET);
+
+					try {
+						String s = scanner.next().toLowerCase();
+
+						// Si le joueur entre "t", on affiche ses troupes
+						if (s.equals("t")) {
+							zoneC.afficherTroupes();
+						} else if (s.equals("suivant")) {
+							// Si le joueur entre "suivant", on passe à la zone suivante
+							break;
+						} else if (Integer.parseInt(s) <= combattants && Integer.parseInt(s) > 0) {
+							int key = Integer.parseInt(s);
+							Etudiant etudiant = zoneC.getTroupes(this).get(key);
+							// On ajoute le combattant à la zone non contrôlée correspondante
+							zones.get(zones.indexOf(zoneNC)).addCombattant(etudiant);
+							// On retire le combattant de la zone contrôlée
+							this.zoneControlees.get(this.zoneControlees.indexOf(zoneC)).removeCombattant(key, etudiant);
+							System.out.println(Couleurs.VERT + "Combattant redeployé" + Couleurs.RESET);
+						} else {
+							System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier entre 1 et "
+									+ combattants + "." + Couleurs.RESET);
+						}
+					} catch (NumberFormatException e) {
+						System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide."
+								+ Couleurs.RESET);
+					} catch (IllegalArgumentException e) {
+						System.err.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
+					}
+				}
+			}
+		}
+		System.out.println("\n" + Couleurs.ROUGE + "Vous n'avez plus de combattants à redéployer." + Couleurs.RESET);
 	}
 
 	/**
@@ -444,10 +518,10 @@ public class Joueur {
 	}
 
 	/**
-	 * Ferme le scanner de la classe Joueur.
+	 * @return l'équipe de ce joueur
 	 */
-	public static void closeScanner() {
-		scanner.close();
+	public Equipe getEquipe() {
+		return this.equipe;
 	}
 
 	/**
@@ -516,6 +590,13 @@ public class Joueur {
 	 */
 	public void addZoneControlee(Zone zone) {
 		this.zoneControlees.add(zone);
+	}
+
+	/**
+	 * Ferme le scanner de la classe Joueur.
+	 */
+	public static void closeScanner() {
+		scanner.close();
 	}
 
 }
