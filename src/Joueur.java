@@ -54,7 +54,7 @@ public class Joueur {
 			try{
 				System.out.print("Filière : ");
 				Filiere filiere = Filiere.valueOf(scanner.next());
-				if (filiere == filiereInterdite) {
+				if (filiere == filiereInterdite || filiere == Filiere.NONE) {
 					System.out.println(Couleurs.ROUGE + "Cette filière n'est pas disponible." + Couleurs.RESET);
 				} else {
 					this.filiere = filiere;
