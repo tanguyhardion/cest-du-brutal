@@ -15,6 +15,7 @@ public class Joueur {
 	private int points;
 	private String nom;
 	private Equipe equipe;
+	private Filiere filiere;
 	private Map<Integer, Etudiant> troupes;
 	private Map<Integer, Etudiant> reservistes;
 	private ArrayList<Zone> zoneControlees;
@@ -36,6 +37,33 @@ public class Joueur {
 		this.zoneControlees = new ArrayList<Zone>();
 		if (scanner == null) {
 			scanner = new Scanner(System.in);
+		}
+	}
+
+	/**
+	 * Demande au joueur la filière à laquelle il appartient.
+	 * 
+	 * @param filiereInterdite    la filière déjà prise par l'autre joueur
+	 */
+	public void demanderFiliere(Filiere filiereInterdite) {
+		System.out.println();
+		System.out.println(Couleurs.JAUNE + this.getNom() + ", à quelle filière appartenez vous ? (ISI/RT/A2I/GI/GM/MTE/MM)" + Couleurs.RESET);
+
+		// Tant que le joueur n'a pas défini sa filière.
+		while (this.filiere == null) {
+			try{
+				System.out.print("Filière : ");
+				Filiere filiere = Filiere.valueOf(scanner.next());
+				if (filiere == filiereInterdite) {
+					System.out.println(Couleurs.ROUGE + "Cette filière n'est pas disponible." + Couleurs.RESET);
+				} else {
+					this.filiere = filiere;
+					System.out.println(this.getNom() + ", vous appartenez à la filière " + this.filiere + Couleurs.RESET);
+					break;
+				}
+			} catch (IllegalArgumentException e) {
+				System.err.println(Couleurs.ROUGE + "Veuillez entrer une filière valide." + Couleurs.RESET);
+			}
 		}
 	}
 
@@ -382,6 +410,13 @@ public class Joueur {
 	 */
 	public String getNom() {
 		return this.nom;
+	}
+
+	/**
+	 * @return la filière de ce joueur
+	 */
+	public Filiere getFiliere() {
+		return this.filiere;
 	}
 
 	/**

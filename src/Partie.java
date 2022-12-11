@@ -55,6 +55,10 @@ public class Partie {
 	 */
 	public void commencer() {
 		Scanner sc = new Scanner(System.in);
+
+		joueur1.demanderFiliere(Filiere.NONE);
+		joueur2.demanderFiliere(joueur1.getFiliere());
+
 		// boucles pour les tests
 		final Random random = new Random();
 		for (int i = 1; i <= 20; i++) {
@@ -80,11 +84,13 @@ public class Partie {
 			}
 		}
 
+		// joueur1.demanderFiliere(Filiere.NONE);
 		// joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 		// joueur1.parametrerTroupes();
 		// joueur1.choisirReservistes();
 		// joueur1.repartirTroupes(this.zones);
 
+		// joueur2.demanderFiliere(joueur1.getFiliere());
 		// joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 		// joueur2.parametrerTroupes();
 		// joueur2.choisirReservistes();
