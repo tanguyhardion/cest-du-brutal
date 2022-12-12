@@ -6,5 +6,5 @@ public enum Filiere {
     GM,
     MTE,
     MM,
-    NONE;
+    NONE
 }
