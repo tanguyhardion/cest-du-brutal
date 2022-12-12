@@ -89,7 +89,7 @@ public class Partie {
 			}
 		}
 
-		joueur1.demanderFiliere(Filiere.NONE);
+		/* joueur1.demanderFiliere(Filiere.NONE);
 		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 		joueur1.parametrerTroupes();
 		joueur1.choisirReservistes();
@@ -99,7 +99,7 @@ public class Partie {
 		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 		joueur2.parametrerTroupes();
 		joueur2.choisirReservistes();
-		joueur2.repartirTroupes(this.zones);
+		joueur2.repartirTroupes(this.zones); */
 
 		try {
 			this.gerer();
@@ -143,10 +143,12 @@ public class Partie {
 			zonesNonControlees.removeIf(zone -> zone.estControlee());
 
 			// Actions pendant la trêve du joueur 1
+			this.afficherCreditsZones();
 			this.joueur1.affecterReservistes(zonesNonControlees, this.zones);
 			this.joueur1.redeployerTroupes(zonesNonControlees, this.zones);
 
 			// Actions pendant la trêve du joueur 2
+			this.afficherCreditsZones();
 			this.joueur2.affecterReservistes(zonesNonControlees, this.zones);
 			this.joueur2.redeployerTroupes(zonesNonControlees, this.zones);
 
@@ -158,14 +160,28 @@ public class Partie {
 			Zone.resetZoneLatch();
 		}
 
-		Zone.getPartieLatch().await();
-
 		System.out.println(
 				"Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
 						: this.joueur2.getFiliere()) + " a gagné la partie !");
 
 		executor.shutdown();
 		Joueur.closeScanner();
+	}
+
+	/**
+	 * Affiche le nombre de crédits sur chaque zone.
+	 */
+	public void afficherCreditsZones() {
+		ArrayList<Zone> zonesNC = new ArrayList<Zone>(this.zones);
+		zonesNC.removeIf(zone->zone.estControlee());
+
+		System.out.println();
+
+		for (Zone zone : zonesNC) {
+			System.out.print(zone.getNom() + " : " + (zone.getCreditsEquipeUne()+zone.getCreditsEquipeDeux()) + " | ");
+		}
+
+		System.out.println();
 	}
 
 	/**

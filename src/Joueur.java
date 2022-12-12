@@ -497,9 +497,6 @@ public class Joueur {
 			for (Zone zoneNC : zonesNonControlees) {
 				// Tant que le joueur a des combattants à redéployer
 				while (zoneC.getTroupes(this).size() > 1) {
-					// Nombre de combattants du joueur dans la zone en cours
-					int combattants = zoneC.getTroupes(this).size();
-
 					// On affiche le nom de la zone en cours non contrôlée
 					System.out.println("\n" + Couleurs.BLEU + zoneNC.getNom() + " :" + Couleurs.RESET);
 
@@ -512,28 +509,72 @@ public class Joueur {
 						} else if (s.equals("suivant")) {
 							// Si le joueur entre "suivant", on passe à la zone suivante
 							break;
-						} else if (Integer.parseInt(s) <= combattants && Integer.parseInt(s) > 0) {
+						} else if (Integer.parseInt(s) > 0) {
 							int key = Integer.parseInt(s);
 							Etudiant etudiant = zoneC.getTroupes(this).get(key);
+							this.attribuerNouvelleStrategie(etudiant);
 							// On ajoute le combattant à la zone non contrôlée correspondante
 							zones.get(zones.indexOf(zoneNC)).addCombattant(etudiant);
 							// On retire le combattant de la zone contrôlée
 							this.zoneControlees.get(this.zoneControlees.indexOf(zoneC)).removeCombattant(key, etudiant);
 							System.out.println(Couleurs.VERT + "Combattant redeployé" + Couleurs.RESET);
 						} else {
-							System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier entre 1 et "
-									+ combattants + "." + Couleurs.RESET);
+							System.out.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
 						}
 					} catch (NumberFormatException e) {
 						System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide."
 								+ Couleurs.RESET);
-					} catch (IllegalArgumentException e) {
+					} catch (NullPointerException e) {
 						System.err.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
 					}
 				}
 			}
+			if (zoneC.getTroupes(this).size() <= 1) {
+				System.out.println(
+						"\n" + Couleurs.ROUGE + "Vous n'avez plus de combattants à redéployer." + Couleurs.RESET);
+				break;
+			}
 		}
-		System.out.println("\n" + Couleurs.ROUGE + "Vous n'avez plus de combattants à redéployer." + Couleurs.RESET);
+	}
+
+	public void attribuerNouvelleStrategie(Etudiant etudiant) {
+		System.out.println("L'étudiant en question est : " + etudiant.toString());
+		System.out.println("Voulez vous attribuer lui une nouvelle stratégie (oui/non) :");
+		
+
+		while (true) {
+			String result = scanner.next().toLowerCase();
+			if (result.equals("non")) {
+				return;
+			} else if (result.equals("oui")) {
+				while (true) {
+					try {
+						System.out.print("Stratégie (Offensive : o, Défensive : d, Aléatoire : a) : ");
+						String s = scanner.next();
+						switch (s.toUpperCase()) {
+							case "O":
+								etudiant.setStrategie(new StrategieOffensive());
+								break;
+							case "D":
+								etudiant.setStrategie(new StrategieDefensive());
+								break;
+							case "A":
+								etudiant.setStrategie(new StrategieAleatoire());
+								break;
+							default:
+								etudiant.setStrategie(null);
+						}
+						break;
+					} catch (IllegalArgumentException e) {
+						System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+					}
+				}
+				break;
+			} else {
+				System.out.println(Couleurs.ROUGE + "Saisie non reconnue." + Couleurs.RESET);
+			}
+		}
+
 	}
 
 	/**
