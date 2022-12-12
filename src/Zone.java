@@ -21,7 +21,8 @@ public class Zone implements Runnable {
 	private NomZone nom;
 	private Map<Integer, Etudiant> troupesEquipe1;
 	private Map<Integer, Etudiant> troupesEquipe2;
-	private static CountDownLatch latch = new CountDownLatch(1);
+	private static CountDownLatch partieLatch = new CountDownLatch(1);
+	private static CountDownLatch zoneLatch = new CountDownLatch(1);
 	private static final CyclicBarrier barrier = new CyclicBarrier(NomZone.values().length);
 	private static volatile boolean treveDeclaree;
 
@@ -71,7 +72,7 @@ public class Zone implements Runnable {
 			Thread.sleep(new Random().nextLong(10, 50));
 			if (treveDeclaree) {
 				// Si la trêve a été déclarée, on attend la fin de la trêve avant de reprendre
-				wait();
+				zoneLatch.await();
 			}
 		}
 		// On sort du while, donc la zone est forcément contrôlée par un joueur
@@ -79,16 +80,18 @@ public class Zone implements Runnable {
 		treveDeclaree = true;
 		this.controlee = true;
 		if (this.getTroupesEquipe1().isEmpty()) {
+			System.out.println();
 			System.out.println(Couleurs.VERT + "Le Joueur 2 contrôle maintenant la zone " + this.nom + " !"
-					+ Couleurs.RESET);
-			// joueur1.addZoneControlee(this);
+					+ Couleurs.RESET + "\n");
+			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		} else if (this.getTroupesEquipe2().isEmpty()) {
+			System.out.println();
 			System.out.println(Couleurs.VERT + "Le Joueur 1 contrôle maintenant la zone " + this.nom + " !"
-					+ Couleurs.RESET);
-			// joueur2.addZoneControlee(this);
+					+ Couleurs.RESET + "\n");
+			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		}
 		// On notifie la Partie qu'un thread est terminé
-		latch.countDown();
+		partieLatch.countDown();
 	}
 
 	/**
@@ -105,6 +108,24 @@ public class Zone implements Runnable {
 			this.troupesEquipe1.put(this.troupesEquipe1.size() + 1, etudiant);
 		} else if (etudiant.getEquipe() == Equipe.DEUX) {
 			this.troupesEquipe2.put(this.troupesEquipe2.size() + 1, etudiant);
+		}
+	}
+
+	/**
+	 * Retire un étudiant d'un joueur des combattants du joueur correspondant
+	 * sur cette zone.
+	 * 
+	 * @param key      la clé de l'étudiant à retirer
+	 * @param etudiant l'étudiant à retirer
+	 */
+	public void removeCombattant(int key, Etudiant etudiant) {
+		if (etudiant == null) {
+			throw new IllegalArgumentException("Joueur ou étudiant incorrect.");
+		}
+		if (etudiant.getEquipe() == Equipe.UNE) {
+			this.troupesEquipe1.remove(key);
+		} else if (etudiant.getEquipe() == Equipe.DEUX) {
+			this.troupesEquipe2.remove(key);
 		}
 	}
 
@@ -210,12 +231,54 @@ public class Zone implements Runnable {
 		return troupesEquipe2;
 	}
 
-	public static CountDownLatch getLatch() {
-		return latch;
+	/**
+	 * Retourne la liste des étudiants présents sur cette zone
+	 * pour le joueur passé en paramètre.
+	 * <p>
+	 * Cette méthode a pour but de simplifier la récupération des troupes lorsqu'on
+	 * connaît le joueur dont on veut les troupes.
+	 * 
+	 * @param joueur le joueur dont on veut les troupes
+	 * @return la liste des étudiants présents sur cette zone pour le joueur
+	 */
+	public Map<Integer, Etudiant> getTroupes(Joueur joueur) {
+		if (joueur == null) {
+			throw new IllegalArgumentException("Joueur incorrect.");
+		}
+		if (joueur.getEquipe() == Equipe.UNE) {
+			return new Hashtable<Integer, Etudiant>(this.troupesEquipe1);
+		} else if (joueur.getEquipe() == Equipe.DEUX) {
+			return new Hashtable<Integer, Etudiant>(this.troupesEquipe2);
+		}
+		return null;
 	}
 
-	public static void resetLatch() {
-		latch = new CountDownLatch(1);
+	/**
+	 * Affiche toutes les troupes présentes sur cette zone dans la console.
+	 */
+	public void afficherTroupes() {
+		Map<Integer, Etudiant> troupes = new Hashtable<Integer, Etudiant>();
+		troupes.putAll(this.troupesEquipe1);
+		troupes.putAll(this.troupesEquipe2);
+		System.out.println("\nVos troupes sur la zone " + Couleurs.CYAN + this.nom + Couleurs.RESET + " :");
+		troupes.forEach((key, etudiant) -> System.out.println(
+				Couleurs.BLEU + "Combattant " + key + Couleurs.RESET + " " + etudiant.toString()));
+	}
+
+	public static CountDownLatch getPartieLatch() {
+		return partieLatch;
+	}
+
+	public static void resetPartieLatch() {
+		partieLatch = new CountDownLatch(1);
+	}
+
+	public static CountDownLatch getZoneLatch() {
+		return zoneLatch;
+	}
+
+	public static void resetZoneLatch() {
+		zoneLatch = new CountDownLatch(1);
 	}
 
 	/**
@@ -223,16 +286,6 @@ public class Zone implements Runnable {
 	 */
 	public static void finirTreve() {
 		treveDeclaree = false;
-		notifier();
-	}
-
-	/**
-	 * Notifie les threads en attente.
-	 */
-	private static void notifier() {
-		synchronized (Zone.class) {
-			Zone.class.notifyAll();
-		}
 	}
 
 }

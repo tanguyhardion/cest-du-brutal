@@ -256,19 +256,21 @@ public class Etudiant {
 	 * @return une représentation textuelle de cet étudiant
 	 */
 	public String toString() {
+		// Type de l'étudiant
 		String type = this instanceof MaitreGobi ? "(Maître du gobi)"
 				: this instanceof EtudiantElite ? "(Étudiant d'élite)" : "(Étudiant)";
+		// Stratégie de l'étudiant : texte après "Strategie" dans le nom de la classe
 		String strategie = this.strategie != null ? this.strategie.getClass().getSimpleName().substring(9).toLowerCase()
 				: "aucune";
 
 		StringBuffer sb = new StringBuffer();
 		sb.append(Couleurs.BLANC).append(type).append(Couleurs.RESET);
-		sb.append(" | Dextérité : ").append(this.dexterite);
-		sb.append(" | Force : ").append(this.force);
-		sb.append(" | Résistance : ").append(this.resistance);
-		sb.append(" | Constitution : ").append(this.constitution);
-		sb.append(" | Initiative : ").append(this.initiative);
-		sb.append(" | Stratégie : ").append(strategie);
+		sb.append(" | Dextérité : ").append(Couleurs.CYAN + this.dexterite + Couleurs.RESET);
+		sb.append(" | Force : ").append(Couleurs.CYAN + this.force + Couleurs.RESET);
+		sb.append(" | Résistance : ").append(Couleurs.CYAN + this.resistance + Couleurs.RESET);
+		sb.append(" | Constitution : ").append(Couleurs.CYAN + this.constitution + Couleurs.RESET);
+		sb.append(" | Initiative : ").append(Couleurs.CYAN + this.initiative + Couleurs.RESET);
+		sb.append(" | Stratégie : ").append(Couleurs.CYAN + strategie + Couleurs.RESET);
 		return sb.toString();
 	}
 
