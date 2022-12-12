@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.concurrent.Executors;
@@ -56,52 +57,65 @@ public class Partie {
 		System.out.println(Couleurs.CLEAR);
 		System.out.flush();
 
-		// TODO : paramétrage aléatoire
-		// TODO : déploiement des troupes restantes lors du déploiement initial
+		joueur1.demanderFiliere(Filiere.NONE);
+		joueur2.demanderFiliere(joueur1.getFiliere());
 
-		final Random random = new Random();
-		for (int i = 1; i <= 15; i++) {
-			Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-					random.nextInt(10), random.nextInt(10), Equipe.UNE);
-			etudiant1.setStrategie(new StrategieAleatoire());
-			this.joueur1.addEtudiant(i, etudiant1);
+		System.out.println(Couleurs.JAUNE + "\nVoulez-vous jouer avec des étudiants aléatoires ? (oui/non)" + Couleurs.RESET);
 
-			Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-					random.nextInt(10), random.nextInt(10), Equipe.DEUX);
-			etudiant2.setStrategie(new StrategieAleatoire());
-			this.joueur2.addEtudiant(i, etudiant2);
+		Scanner sc = new Scanner(System.in);
+
+		String choix = sc.next();
+
+		while (!choix.equals("oui") && !choix.equals("non")) {
+			System.out.println("Veuillez répondre par" + Couleurs.BLEU + " oui " + Couleurs.RESET + "ou par"
+					+ Couleurs.BLEU + " non" + Couleurs.RESET + ".");
+			choix = sc.next();
 		}
-		for (int i = 1; i <= 5; i++) {
-			this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
-			this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
-		}
-		int n = 1;
-		for (Zone zone : this.zones) {
-			for (int i = 0; i < 3; i++) {
-				zone.addCombattant(this.joueur1.getTroupes().get(n));
-				zone.addCombattant(this.joueur2.getTroupes().get(n++));
+
+		if (choix.equals("oui")) {
+			final Random random = new Random();
+			for (int i = 1; i <= 15; i++) {
+				Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
+						random.nextInt(10), random.nextInt(10), Equipe.UNE);
+				etudiant1.setStrategie(new StrategieAleatoire());
+				this.joueur1.addEtudiant(i, etudiant1);
+
+				Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
+						random.nextInt(10), random.nextInt(10), Equipe.DEUX);
+				etudiant2.setStrategie(new StrategieAleatoire());
+				this.joueur2.addEtudiant(i, etudiant2);
 			}
+			for (int i = 1; i <= 5; i++) {
+				this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
+				this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
+			}
+			// int n = 1;
+			// for (Zone zone : this.zones) {
+			// for (int i = 0; i < 3; i++) {
+			// zone.addCombattant(this.joueur1.getTroupes().get(n));
+			// zone.addCombattant(this.joueur2.getTroupes().get(n++));
+			// }
+			// }
+		} else {
+			joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
+			joueur1.parametrerTroupes();
+			joueur1.choisirReservistes();
+
+			joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
+			joueur2.parametrerTroupes();
+			joueur2.choisirReservistes();
 		}
 
-		/*
-		 * joueur1.demanderFiliere(Filiere.NONE);
-		 * joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
-		 * joueur1.parametrerTroupes();
-		 * joueur1.choisirReservistes();
-		 * joueur1.repartirTroupes(this.zones);
-		 * 
-		 * joueur2.demanderFiliere(joueur1.getFiliere());
-		 * joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
-		 * joueur2.parametrerTroupes();
-		 * joueur2.choisirReservistes();
-		 * joueur2.repartirTroupes(this.zones);
-		 */
+		joueur1.repartirTroupes(this.zones);
+		joueur2.repartirTroupes(this.zones);
 
 		try {
 			this.gerer();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
+		sc.close();
 	}
 
 	/**

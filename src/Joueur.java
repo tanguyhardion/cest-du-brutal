@@ -1,5 +1,4 @@
 import java.util.Map;
-import java.util.Random;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.ArrayList;
@@ -366,29 +365,54 @@ public class Joueur {
 			}
 
 			zonesRestantes--;
+
+			// Si le joueur n'a pas déployé tous ses combattants
 		}
 
-		// Si le joueur n'a pas déployé tous ses combattants
-		if (this.getTroupes().size() > 0) {
-			// On récupère les clés des troupes restantes du joueur
-			List<Integer> keys = new ArrayList<>(this.troupes.keySet());
-			Random r = new Random();
-			// Tant qu'il reste des combattants à déployer
-			while (this.getTroupes().size() > 0) {
-				for (Zone zone : zones) {
-					// On choisit un combattant au hasard parmi ceux restants
-					int key = keys.get(r.nextInt(keys.size()));
-					Etudiant etudiant = this.getTroupes().get(key);
-					// On ajoute le combattant choisi à la zone en cours
-					zone.addCombattant(etudiant);
-					// On enlève le combattant des troupes du joueur
+		if (this.troupes.size() > 0) {
+			this.repartirTroupesRestantes(zones);
+		}
+
+		/*
+		 * // Si le joueur n'a pas déployé tous ses combattants
+		 * if (this.getTroupes().size() > 0) {
+		 * // On récupère les clés des troupes restantes du joueur
+		 * List<Integer> keys = new ArrayList<>(this.troupes.keySet());
+		 * Random r = new Random();
+		 * // Tant qu'il reste des combattants à déployer
+		 * while (this.getTroupes().size() > 0) {
+		 * for (Zone zone : zones) {
+		 * // On choisit un combattant au hasard parmi ceux restants
+		 * int key = keys.get(r.nextInt(keys.size()));
+		 * Etudiant etudiant = this.getTroupes().get(key);
+		 * // On ajoute le combattant choisi à la zone en cours
+		 * zone.addCombattant(etudiant);
+		 * // On enlève le combattant des troupes du joueur
+		 * this.removeEtudiant(key);
+		 * // On enlève la clé de la liste des clés
+		 * keys.remove(Integer.valueOf(key));
+		 * }
+		 * }
+		 * }
+		 */
+
+	}
+
+	private void repartirTroupesRestantes(List<Zone> zones) {
+		while (this.getTroupes().size() > 0) {
+			for (Zone zone : zones) {
+				if (this.getTroupes().size() > 0) {
+					int key = 0;
+					while (!this.getTroupes().containsKey(key)) {
+						key++;
+					}
+					zone.addCombattant(this.getTroupes().get(key));
 					this.removeEtudiant(key);
-					// On enlève la clé de la liste des clés
-					keys.remove(Integer.valueOf(key));
 				}
 			}
 		}
-
+		System.out.println(Couleurs.BLANC + "Le restant de vos troupes a été déployé automatiquement."
+				+ Couleurs.RESET);
 	}
 
 	/**
@@ -540,7 +564,6 @@ public class Joueur {
 	public void attribuerNouvelleStrategie(Etudiant etudiant) {
 		System.out.println("L'étudiant en question est : " + etudiant.toString());
 		System.out.println("Voulez vous attribuer lui une nouvelle stratégie (oui/non) :");
-		
 
 		while (true) {
 			String result = scanner.next().toLowerCase();

@@ -104,7 +104,7 @@ public class Zone implements Runnable {
 	 */
 	public void addCombattant(Etudiant etudiant) {
 		if (etudiant == null) {
-			throw new IllegalArgumentException("Joueur ou étudiant incorrect.");
+			throw new IllegalArgumentException("Étudiant incorrect.");
 		}
 		if (etudiant.getEquipe() == Equipe.UNE) {
 			this.troupesEquipe1.put(this.troupesEquipe1.size() + 1, etudiant);
