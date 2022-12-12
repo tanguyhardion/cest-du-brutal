@@ -126,13 +126,17 @@ public class Partie {
 		while (this.joueur1.getZoneControlees().size() < zonesAControler
 				&& this.joueur2.getZoneControlees().size() < zonesAControler) {
 
+			// On attend qu'une zone soit contrôlée
 			Zone.getPartieLatch().await();
-			Zone.resetPartieLatch();
 
+			// On vérifie si la partie est terminée
 			if (this.joueur1.getZoneControlees().size() >= zonesAControler
 					|| this.joueur2.getZoneControlees().size() >= zonesAControler) {
 				break;
 			}
+
+			// On réinitialise le latch qui notifie la partie
+			Zone.resetPartieLatch();
 
 			// Zones où on peut affecter des réservistes et redéployer des troupes
 			List<Zone> zonesNonControlees = new ArrayList<Zone>(this.zones);
@@ -146,8 +150,11 @@ public class Partie {
 			this.joueur2.affecterReservistes(zonesNonControlees, this.zones);
 			this.joueur2.redeployerTroupes(zonesNonControlees, this.zones);
 
+			// Fin de la trêve
 			Zone.finirTreve();
+			// On notifie les zones que la trêve est terminée
 			Zone.getZoneLatch().countDown();
+			// On réinitialise le latch qui notifie les zones
 			Zone.resetZoneLatch();
 		}
 

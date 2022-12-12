@@ -59,7 +59,8 @@ public class Joueur {
 					System.out.println(Couleurs.ROUGE + "Cette filière n'est pas disponible." + Couleurs.RESET);
 				} else {
 					this.filiere = filiere;
-					System.out.println(Couleurs.BLANC + nomJoueur + ", vous appartenez à la filière " + this.filiere + Couleurs.RESET);
+					System.out.println(Couleurs.BLANC + nomJoueur + ", vous appartenez à la filière " + this.filiere
+							+ Couleurs.RESET);
 					break;
 				}
 			} catch (IllegalArgumentException e) {
@@ -375,11 +376,15 @@ public class Joueur {
 			// Tant qu'il reste des combattants à déployer
 			while (this.getTroupes().size() > 0) {
 				for (Zone zone : zones) {
+					// On choisit un combattant au hasard parmi ceux restants
 					int key = keys.get(r.nextInt(keys.size()));
-					// On ajoute un combattant de ce joueur à la zone en cours
-					zone.addCombattant(this.getTroupes().get(key));
+					Etudiant etudiant = this.getTroupes().get(key);
+					// On ajoute le combattant choisi à la zone en cours
+					zone.addCombattant(etudiant);
 					// On enlève le combattant des troupes du joueur
 					this.removeEtudiant(key);
+					// On enlève la clé de la liste des clés
+					keys.remove(Integer.valueOf(key));
 				}
 			}
 		}
