@@ -139,8 +139,8 @@ public class Partie {
 			executor.execute(zone);
 		}
 
-		while (this.joueur1.getZoneControlees().size() < zonesAControler
-				&& this.joueur2.getZoneControlees().size() < zonesAControler) {
+		while (this.joueur1.getZonesControlees().size() < zonesAControler
+				&& this.joueur2.getZonesControlees().size() < zonesAControler) {
 
 			System.out.println(Couleurs.VIOLET_GRAS + "\nLancement des combats..." + Couleurs.RESET);
 
@@ -148,8 +148,8 @@ public class Partie {
 			Zone.getPartieLatch().await();
 
 			// On vérifie si la partie est terminée
-			if (this.joueur1.getZoneControlees().size() >= zonesAControler
-					|| this.joueur2.getZoneControlees().size() >= zonesAControler) {
+			if (this.joueur1.getZonesControlees().size() >= zonesAControler
+					|| this.joueur2.getZonesControlees().size() >= zonesAControler) {
 				break;
 			}
 
@@ -180,7 +180,7 @@ public class Partie {
 
 		System.out.println(
 				Couleurs.VIOLET_GRAS_VIF + "Le Joueur "
-						+ (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
+						+ (this.joueur1.getZonesControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
 								: this.joueur2.getFiliere())
 						+ " a gagné la partie !" + Couleurs.RESET);
 

@@ -17,7 +17,7 @@ public class Joueur {
 	private Filiere filiere;
 	private Map<Integer, Etudiant> troupes;
 	private Map<Integer, Etudiant> reservistes;
-	private ArrayList<Zone> zoneControlees;
+	private ArrayList<Zone> zonesControlees;
 	private static Scanner scanner;
 
 	/**
@@ -32,7 +32,7 @@ public class Joueur {
 		this.points = 400;
 		this.troupes = new Hashtable<Integer, Etudiant>();
 		this.reservistes = new Hashtable<Integer, Etudiant>();
-		this.zoneControlees = new ArrayList<Zone>();
+		this.zonesControlees = new ArrayList<Zone>();
 		if (scanner == null) {
 			scanner = new Scanner(System.in);
 		}
@@ -494,7 +494,7 @@ public class Joueur {
 	 */
 	public void redeployerTroupes(List<Zone> zonesNonControlees, List<Zone> zones) {
 		// Zones contrôlées par le joueur qui ont au moins 2 combattants
-		List<Zone> zonesControlees = new ArrayList<>(this.zoneControlees);
+		List<Zone> zonesControlees = new ArrayList<>(this.zonesControlees);
 		zonesControlees.removeIf(zone -> zone.getTroupes(this).size() <= 1);
 
 		// Si le joueur n'a aucune zone contrôlée avec au moins 2 combattants
@@ -540,7 +540,7 @@ public class Joueur {
 							// On ajoute le combattant à la zone non contrôlée correspondante
 							zones.get(zones.indexOf(zoneNC)).addCombattant(etudiant);
 							// On retire le combattant de la zone contrôlée
-							this.zoneControlees.get(this.zoneControlees.indexOf(zoneC)).removeCombattant(key, etudiant);
+							this.zonesControlees.get(this.zonesControlees.indexOf(zoneC)).removeCombattant(key, etudiant);
 							System.out.println(Couleurs.VERT + "Combattant redeployé" + Couleurs.RESET);
 						} else {
 							System.out.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
@@ -691,8 +691,8 @@ public class Joueur {
 	/**
 	 * @return les zones contrôlées par ce joueur
 	 */
-	public List<Zone> getZoneControlees() {
-		return this.zoneControlees;
+	public List<Zone> getZonesControlees() {
+		return this.zonesControlees;
 	}
 
 	/**
@@ -701,7 +701,7 @@ public class Joueur {
 	 * @param zone la zone à ajouter
 	 */
 	public void addZoneControlee(Zone zone) {
-		this.zoneControlees.add(zone);
+		this.zonesControlees.add(zone);
 	}
 
 	/**
