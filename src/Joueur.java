@@ -13,7 +13,6 @@ import java.util.Scanner;
 public class Joueur {
 
 	private int points;
-	private String nom;
 	private Equipe equipe;
 	private Filiere filiere;
 	private Map<Integer, Etudiant> troupes;
@@ -28,8 +27,7 @@ public class Joueur {
 	 * 
 	 * @param nom le nom du joueur
 	 */
-	public Joueur(String nom, Equipe equipe) {
-		this.nom = nom;
+	public Joueur(Equipe equipe) {
 		this.equipe = equipe;
 		this.points = 400;
 		this.troupes = new Hashtable<Integer, Etudiant>();
@@ -43,22 +41,24 @@ public class Joueur {
 	/**
 	 * Demande au joueur la filière à laquelle il appartient.
 	 * 
-	 * @param filiereInterdite    la filière déjà prise par l'autre joueur
+	 * @param filiereInterdite la filière déjà prise par l'autre joueur
 	 */
 	public void demanderFiliere(Filiere filiereInterdite) {
+		String nomJoueur = this.getEquipe() == Equipe.UNE ? "Joueur 1" : "Joueur 2";
 		System.out.println();
-		System.out.println(Couleurs.JAUNE + this.getNom() + ", à quelle filière appartenez vous ? (ISI/RT/A2I/GI/GM/MTE/MM)" + Couleurs.RESET);
+		System.out.println(Couleurs.JAUNE + nomJoueur + ", à quelle filière appartenez vous ? (ISI/RT/A2I/GI/GM/MTE/MM)"
+				+ Couleurs.RESET);
 
 		// Tant que le joueur n'a pas défini sa filière.
 		while (this.filiere == null) {
-			try{
+			try {
 				System.out.print("Filière : ");
 				Filiere filiere = Filiere.valueOf(scanner.next().toUpperCase());
 				if (filiere == filiereInterdite || filiere == Filiere.NONE) {
 					System.out.println(Couleurs.ROUGE + "Cette filière n'est pas disponible." + Couleurs.RESET);
 				} else {
 					this.filiere = filiere;
-					System.out.println(this.getNom() + ", vous appartenez à la filière " + this.filiere + Couleurs.RESET);
+					System.out.println(nomJoueur + ", vous appartenez à la filière " + this.filiere + Couleurs.RESET);
 					break;
 				}
 			} catch (IllegalArgumentException e) {
@@ -94,7 +94,7 @@ public class Joueur {
 	 */
 	public void parametrerTroupes() {
 		System.out.println();
-		System.out.println(Couleurs.JAUNE + this.getNom() + ", vous avez " + this.points
+		System.out.println(Couleurs.JAUNE + "Joueur " + this.getFiliere() + ", vous avez " + this.points
 				+ " points à attribuer aux différentes compétences de vos troupes :" + Couleurs.RESET);
 
 		// Compteur pour les combattants
@@ -264,7 +264,8 @@ public class Joueur {
 		// Compteur pour les réservistes
 		int n = 1;
 
-		System.out.println("\n" + Couleurs.JAUNE + this.getNom() + ", choisissez vos réservistes.\n" + Couleurs.RESET);
+		System.out.println("\n" + Couleurs.JAUNE + "Joueur " + this.getFiliere() + ", choisissez vos réservistes.\n"
+				+ Couleurs.RESET);
 		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
 		System.out.println("Pour afficher vos réservistes, entrez " + Couleurs.BLEU + "r" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un réserviste, entrez son numéro.");
@@ -318,7 +319,8 @@ public class Joueur {
 		int zonesRestantes = zones.size();
 
 		System.out.println();
-		System.out.println(Couleurs.JAUNE + this.getNom() + ", répartissez vos troupes.\n" + Couleurs.RESET);
+		System.out.println(
+				Couleurs.JAUNE + "Joueur " + this.getFiliere() + ", répartissez vos troupes.\n" + Couleurs.RESET);
 		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un combattant, entrez son numéro.");
 		System.out.println("Vous devez déployer au moins 1 combattant par zone.");
@@ -382,14 +384,14 @@ public class Joueur {
 
 		// Si le joueur n'a aucun réserviste à affecter
 		if (reservistes == 0) {
-			System.out.println(
-					Couleurs.ROUGE + this.getNom() + ", vous n'avez aucun réserviste à affecter." + Couleurs.RESET);
+			System.out.println(Couleurs.ROUGE + "Joueur " + this.getFiliere()
+					+ ", vous n'avez aucun réserviste à affecter." + Couleurs.RESET);
 			return;
 		}
 
 		System.out.println();
-		System.out.println(Couleurs.JAUNE + this.getNom() + ", vous pouvez maintenant affecter vos réservistes."
-				+ Couleurs.RESET);
+		System.out.println(Couleurs.JAUNE + "Joueur " + this.getFiliere()
+				+ ", vous pouvez maintenant affecter vos réservistes." + Couleurs.RESET);
 		System.out.println();
 		System.out.println("Pour afficher vos réservistes, entrez " + Couleurs.BLEU + "r" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un réserviste, entrez son numéro.");
@@ -455,14 +457,14 @@ public class Joueur {
 
 		// Si le joueur n'a aucune zone contrôlée avec au moins 2 combattants
 		if (zonesControlees.isEmpty()) {
-			System.out.println(Couleurs.ROUGE + this.getNom() + ", vous n'avez aucun combattant à redéployer."
-					+ Couleurs.RESET);
+			System.out.println(Couleurs.ROUGE + "Joueur " + this.getFiliere()
+					+ ", vous n'avez aucun combattant à redéployer." + Couleurs.RESET);
 			return;
 		}
 
 		System.out.println();
-		System.out.println(Couleurs.JAUNE + this.getNom() + ", vous pouvez maintenant redéployer vos troupes."
-				+ Couleurs.RESET);
+		System.out.println(Couleurs.JAUNE + "Joueur " + this.getFiliere()
+				+ ", vous pouvez maintenant redéployer vos troupes." + Couleurs.RESET);
 		System.out.println();
 		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un combattant, entrez son numéro.");
@@ -539,10 +541,10 @@ public class Joueur {
 	}
 
 	/**
-	 * @return le nom de ce joueur
+	 * @return l'équipe de ce joueur
 	 */
-	public String getNom() {
-		return this.nom;
+	public Equipe getEquipe() {
+		return this.equipe;
 	}
 
 	/**
@@ -550,13 +552,6 @@ public class Joueur {
 	 */
 	public Filiere getFiliere() {
 		return this.filiere;
-	}
-
-	/**
-	 * @return l'équipe de ce joueur
-	 */
-	public Equipe getEquipe() {
-		return this.equipe;
 	}
 
 	/**

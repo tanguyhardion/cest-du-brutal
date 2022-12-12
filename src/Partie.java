@@ -25,8 +25,8 @@ public class Partie {
 	 * Initialise les joueurs et les zones de la partie.
 	 */
 	private Partie() {
-		this.joueur1 = new Joueur("Joueur 1", Equipe.UNE);
-		this.joueur2 = new Joueur("Joueur 2", Equipe.DEUX);
+		this.joueur1 = new Joueur(Equipe.UNE);
+		this.joueur2 = new Joueur(Equipe.DEUX);
 		this.zones = new ArrayList<Zone>();
 
 		// on récupère tous les noms de zones
@@ -56,34 +56,34 @@ public class Partie {
 		System.out.println(Couleurs.CLEAR);
 		System.out.flush();
 
-		// boucles pour les tests
-		/*final Random random = new Random();
-		for (int i = 1; i <= 15; i++) {
-			StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
-					: new StrategieOffensive();
-			Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-					random.nextInt(10), random.nextInt(10), Equipe.UNE);
-			etudiant1.setStrategie(strategie1);
-			this.joueur1.addEtudiant(i, etudiant1);
+		// TODO : paramétrage aléatoire
+		// final Random random = new Random();
+		// for (int i = 1; i <= 15; i++) {
+		// 	StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
+		// 			: new StrategieOffensive();
+		// 	Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
+		// 			random.nextInt(10), random.nextInt(10), Equipe.UNE);
+		// 	etudiant1.setStrategie(strategie1);
+		// 	this.joueur1.addEtudiant(i, etudiant1);
 
-			StrategieEtudiant strategie2 = random.nextBoolean() ? new StrategieDefensive()
-					: new StrategieOffensive();
-			Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-					random.nextInt(10), random.nextInt(10), Equipe.DEUX);
-			etudiant2.setStrategie(strategie2);
-			this.joueur2.addEtudiant(i, etudiant2);
-		}
-		for (int i = 1; i <= 5; i++) {
-			this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
-			this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
-		}
-		int n = 1;
-		for (Zone zone : this.zones) {
-			for (int i = 0; i < 3; i++) {
-				zone.addCombattant(this.joueur1.getTroupes().get(n));
-				zone.addCombattant(this.joueur2.getTroupes().get(n++));
-			}
-		} */
+		// 	StrategieEtudiant strategie2 = random.nextBoolean() ? new StrategieDefensive()
+		// 			: new StrategieOffensive();
+		// 	Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
+		// 			random.nextInt(10), random.nextInt(10), Equipe.DEUX);
+		// 	etudiant2.setStrategie(strategie2);
+		// 	this.joueur2.addEtudiant(i, etudiant2);
+		// }
+		// for (int i = 1; i <= 5; i++) {
+		// 	this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
+		// 	this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
+		// }
+		// int n = 1;
+		// for (Zone zone : this.zones) {
+		// 	for (int i = 0; i < 3; i++) {
+		// 		zone.addCombattant(this.joueur1.getTroupes().get(n));
+		// 		zone.addCombattant(this.joueur2.getTroupes().get(n++));
+		// 	}
+		// }
 
 		joueur1.demanderFiliere(Filiere.NONE);
 		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
@@ -145,8 +145,8 @@ public class Partie {
 		Zone.getPartieLatch().await();
 
 		System.out.println(
-				"Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getNom()
-						: this.joueur2.getNom()) + " a gagné la partie !");
+				"Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
+						: this.joueur2.getFiliere()) + " a gagné la partie !");
 
 		executor.shutdown();
 		Joueur.closeScanner();
