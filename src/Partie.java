@@ -99,14 +99,14 @@ public class Partie {
 		} else {
 			joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 			joueur1.parametrerTroupes();
-			joueur1.choisirReservistes();
-
+			
 			joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 			joueur2.parametrerTroupes();
-			joueur2.choisirReservistes();
 		}
-
+		
+		joueur1.choisirReservistes();
 		joueur1.repartirTroupes(this.zones);
+		joueur2.choisirReservistes();
 		joueur2.repartirTroupes(this.zones);
 
 		try {
