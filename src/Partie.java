@@ -59,8 +59,12 @@ public class Partie {
 
 		joueur1.demanderFiliere(Filiere.NONE);
 		joueur2.demanderFiliere(joueur1.getFiliere());
+		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
+		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 
-		System.out.println(Couleurs.JAUNE + "\nVoulez-vous jouer avec des étudiants aléatoires ? (oui/non)" + Couleurs.RESET);
+		System.out.println(
+				Couleurs.JAUNE + "\nVoulez-vous jouer avec des étudiants paramétrés aléatoirement ? (oui/non)"
+						+ Couleurs.RESET);
 
 		Scanner sc = new Scanner(System.in);
 
@@ -74,21 +78,26 @@ public class Partie {
 
 		if (choix.equals("oui")) {
 			final Random random = new Random();
-			for (int i = 1; i <= 15; i++) {
-				Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-						random.nextInt(10), random.nextInt(10), Equipe.UNE);
-				etudiant1.setStrategie(new StrategieAleatoire());
-				this.joueur1.addEtudiant(i, etudiant1);
-
-				Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-						random.nextInt(10), random.nextInt(10), Equipe.DEUX);
-				etudiant2.setStrategie(new StrategieAleatoire());
-				this.joueur2.addEtudiant(i, etudiant2);
-			}
-			for (int i = 1; i <= 5; i++) {
-				this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
-				this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
-			}
+			this.joueur1.getTroupes().forEach((key, value) -> {
+				value.setDexterite(random.nextInt(10));
+				value.setForce(random.nextInt(10));
+				value.setResistance(random.nextInt(10));
+				value.setConstitution(random.nextInt(10));
+				value.setInitiative(random.nextInt(10));
+				value.setStrategie(new StrategieAleatoire());
+			});
+			this.joueur2.getTroupes().forEach((key, value) -> {
+				value.setDexterite(random.nextInt(10));
+				value.setForce(random.nextInt(10));
+				value.setResistance(random.nextInt(10));
+				value.setConstitution(random.nextInt(10));
+				value.setInitiative(random.nextInt(10));
+				value.setStrategie(new StrategieAleatoire());
+			});
+			// for (int i = 1; i <= 5; i++) {
+			// this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
+			// this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
+			// }
 			// int n = 1;
 			// for (Zone zone : this.zones) {
 			// for (int i = 0; i < 3; i++) {
@@ -97,13 +106,10 @@ public class Partie {
 			// }
 			// }
 		} else {
-			joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 			joueur1.parametrerTroupes();
-			
-			joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 			joueur2.parametrerTroupes();
 		}
-		
+
 		joueur1.choisirReservistes();
 		joueur1.repartirTroupes(this.zones);
 		joueur2.choisirReservistes();
@@ -135,6 +141,8 @@ public class Partie {
 
 		while (this.joueur1.getZoneControlees().size() < zonesAControler
 				&& this.joueur2.getZoneControlees().size() < zonesAControler) {
+
+			System.out.println(Couleurs.VIOLET_GRAS + "\nLancement des combats..." + Couleurs.RESET);
 
 			// On attend qu'une zone soit contrôlée
 			Zone.getPartieLatch().await();
@@ -171,8 +179,10 @@ public class Partie {
 		}
 
 		System.out.println(
-				Couleurs.VERT_GRAS_VIF + "Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
-						: this.joueur2.getFiliere()) + " a gagné la partie !" + Couleurs.RESET);
+				Couleurs.VIOLET_GRAS_VIF + "Le Joueur "
+						+ (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
+								: this.joueur2.getFiliere())
+						+ " a gagné la partie !" + Couleurs.RESET);
 
 		executor.shutdownNow();
 		Joueur.closeScanner();
@@ -185,11 +195,11 @@ public class Partie {
 		ArrayList<Zone> zonesNC = new ArrayList<Zone>(this.zones);
 		zonesNC.removeIf(zone -> zone.estControlee());
 
-		System.out.print("\nCrédits par zones :   ");
+		System.out.println("\nCrédits par zones :   ");
 
 		for (Zone zone : zonesNC) {
-			System.out.print(zone.getNom() + " : " + (zone.getCreditsEquipeUne() + zone.getCreditsEquipeDeux())
-					+ " | ");
+			System.out.print(Couleurs.BLEU + zone.getNom() + Couleurs.RESET + " : "
+					+ (zone.getCreditsEquipeUne() + zone.getCreditsEquipeDeux()) + " | ");
 		}
 
 		System.out.println();
