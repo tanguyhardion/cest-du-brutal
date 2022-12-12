@@ -58,7 +58,7 @@ public class Joueur {
 					System.out.println(Couleurs.ROUGE + "Cette filière n'est pas disponible." + Couleurs.RESET);
 				} else {
 					this.filiere = filiere;
-					System.out.println(nomJoueur + ", vous appartenez à la filière " + this.filiere + Couleurs.RESET);
+					System.out.println(Couleurs.BLANC + nomJoueur + ", vous appartenez à la filière " + this.filiere + Couleurs.RESET);
 					break;
 				}
 			} catch (IllegalArgumentException e) {
