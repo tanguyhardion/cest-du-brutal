@@ -171,8 +171,8 @@ public class Partie {
 		}
 
 		System.out.println(
-				"Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
-						: this.joueur2.getFiliere()) + " a gagné la partie !");
+				Couleurs.VERT_GRAS_VIF + "Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
+						: this.joueur2.getFiliere()) + " a gagné la partie !" + Couleurs.RESET);
 
 		executor.shutdownNow();
 		Joueur.closeScanner();
@@ -185,7 +185,7 @@ public class Partie {
 		ArrayList<Zone> zonesNC = new ArrayList<Zone>(this.zones);
 		zonesNC.removeIf(zone -> zone.estControlee());
 
-		System.out.println();
+		System.out.print("\nCrédits par zones :   ");
 
 		for (Zone zone : zonesNC) {
 			System.out.print(zone.getNom() + " : " + (zone.getCreditsEquipeUne() + zone.getCreditsEquipeDeux())
