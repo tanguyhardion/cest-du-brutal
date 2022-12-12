@@ -57,8 +57,8 @@ public class Partie {
 		System.out.flush();
 
 		// boucles pour les tests
-		final Random random = new Random();
-		/* for (int i = 1; i <= 15; i++) {
+		/*final Random random = new Random();
+		for (int i = 1; i <= 15; i++) {
 			StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
 					: new StrategieOffensive();
 			Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
