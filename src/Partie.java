@@ -58,7 +58,7 @@ public class Partie {
 
 		// boucles pour les tests
 		final Random random = new Random();
-		for (int i = 1; i <= 15; i++) {
+		/* for (int i = 1; i <= 15; i++) {
 			StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
 					: new StrategieOffensive();
 			Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
@@ -83,19 +83,19 @@ public class Partie {
 				zone.addCombattant(this.joueur1.getTroupes().get(n));
 				zone.addCombattant(this.joueur2.getTroupes().get(n++));
 			}
-		}
+		} */
 
-		// joueur1.demanderFiliere(Filiere.NONE);
-		// joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
-		// joueur1.parametrerTroupes();
-		// joueur1.choisirReservistes();
-		// joueur1.repartirTroupes(this.zones);
+		joueur1.demanderFiliere(Filiere.NONE);
+		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
+		joueur1.parametrerTroupes();
+		joueur1.choisirReservistes();
+		joueur1.repartirTroupes(this.zones);
 
-		// joueur2.demanderFiliere(joueur1.getFiliere());
-		// joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
-		// joueur2.parametrerTroupes();
-		// joueur2.choisirReservistes();
-		// joueur2.repartirTroupes(this.zones);
+		joueur2.demanderFiliere(joueur1.getFiliere());
+		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
+		joueur2.parametrerTroupes();
+		joueur2.choisirReservistes();
+		joueur2.repartirTroupes(this.zones);
 
 		try {
 			this.gerer();
