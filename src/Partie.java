@@ -57,24 +57,18 @@ public class Partie {
 		System.out.flush();
 
 		// TODO : paramétrage aléatoire
-		// TODO : affichage des crédits par zone
-		// TODO : affecter nouvelle stratégie lors du redéploiement
 		// TODO : déploiement des troupes restantes lors du déploiement initial
 
 		final Random random = new Random();
 		for (int i = 1; i <= 15; i++) {
-			StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
-					: new StrategieOffensive();
 			Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
 					random.nextInt(10), random.nextInt(10), Equipe.UNE);
-			etudiant1.setStrategie(strategie1);
+			etudiant1.setStrategie(new StrategieAleatoire());
 			this.joueur1.addEtudiant(i, etudiant1);
 
-			StrategieEtudiant strategie2 = random.nextBoolean() ? new StrategieDefensive()
-					: new StrategieOffensive();
 			Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
 					random.nextInt(10), random.nextInt(10), Equipe.DEUX);
-			etudiant2.setStrategie(strategie2);
+			etudiant2.setStrategie(new StrategieAleatoire());
 			this.joueur2.addEtudiant(i, etudiant2);
 		}
 		for (int i = 1; i <= 5; i++) {
@@ -89,17 +83,19 @@ public class Partie {
 			}
 		}
 
-		/* joueur1.demanderFiliere(Filiere.NONE);
-		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
-		joueur1.parametrerTroupes();
-		joueur1.choisirReservistes();
-		joueur1.repartirTroupes(this.zones);
-
-		joueur2.demanderFiliere(joueur1.getFiliere());
-		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
-		joueur2.parametrerTroupes();
-		joueur2.choisirReservistes();
-		joueur2.repartirTroupes(this.zones); */
+		/*
+		 * joueur1.demanderFiliere(Filiere.NONE);
+		 * joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
+		 * joueur1.parametrerTroupes();
+		 * joueur1.choisirReservistes();
+		 * joueur1.repartirTroupes(this.zones);
+		 * 
+		 * joueur2.demanderFiliere(joueur1.getFiliere());
+		 * joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
+		 * joueur2.parametrerTroupes();
+		 * joueur2.choisirReservistes();
+		 * joueur2.repartirTroupes(this.zones);
+		 */
 
 		try {
 			this.gerer();
@@ -173,12 +169,13 @@ public class Partie {
 	 */
 	public void afficherCreditsZones() {
 		ArrayList<Zone> zonesNC = new ArrayList<Zone>(this.zones);
-		zonesNC.removeIf(zone->zone.estControlee());
+		zonesNC.removeIf(zone -> zone.estControlee());
 
 		System.out.println();
 
 		for (Zone zone : zonesNC) {
-			System.out.print(zone.getNom() + " : " + (zone.getCreditsEquipeUne()+zone.getCreditsEquipeDeux()) + " | ");
+			System.out.print(zone.getNom() + " : " + (zone.getCreditsEquipeUne() + zone.getCreditsEquipeDeux())
+					+ " | ");
 		}
 
 		System.out.println();

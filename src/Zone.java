@@ -49,7 +49,6 @@ public class Zone implements Runnable {
 			barrier.await();
 			this.lancerCombat();
 		} catch (InterruptedException | BrokenBarrierException e) {
-			System.out.println(e.getMessage());
 		}
 	}
 
@@ -62,9 +61,11 @@ public class Zone implements Runnable {
 		while (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
 			for (Etudiant etudiant : this.getTroupesParInitiative()) {
 				if (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
+					// On fait agir l'étudiant (attaquer ou soigner)
 					etudiant.agir(this.getLowestCreditsEquipeUne(), this.getLowestCreditsEquipeDeux());
 					// On enlève les combattants éliminés
 					this.clearCombattantsElimines();
+					this.verifierStrategies();
 				} else {
 					break;
 				}
@@ -201,6 +202,37 @@ public class Zone implements Runnable {
 	private void clearCombattantsElimines() {
 		this.troupesEquipe1.values().removeIf(e -> e.isElimine());
 		this.troupesEquipe2.values().removeIf(e -> e.isElimine());
+	}
+
+	/**
+	 * Vérifie qu'il existe moins un combattant possède un stratégie offensive sur
+	 * cette zone.
+	 */
+	private void verifierStrategies() {
+		boolean defensivesEquipe1 = true;
+		boolean defensivesEquipe2 = true;
+		for (Etudiant e : this.troupesEquipe1.values()) {
+			if (e.getStrategie() instanceof StrategieOffensive || e.getStrategie() instanceof StrategieAleatoire) {
+				defensivesEquipe1 = false;
+			}
+		}
+		for (Etudiant e : this.troupesEquipe2.values()) {
+			if (e.getStrategie() instanceof StrategieOffensive || e.getStrategie() instanceof StrategieAleatoire) {
+				defensivesEquipe2 = false;
+			}
+		}
+		if (defensivesEquipe1) {
+			this.troupesEquipe1.forEach((k, v) -> v.setStrategie(new StrategieAleatoire()));
+			/* List<Etudiant> values = new ArrayList<Etudiant>(this.troupesEquipe1.values());
+			Etudiant etudiant = values.get(new Random().nextInt(values.size()));
+			this.troupesEquipe1.get(this.getTroupesEquipe1().).setStrategie(new StrategieAleatoire()); */
+		}
+		if (defensivesEquipe2) {
+			this.troupesEquipe2.forEach((k, v) -> v.setStrategie(new StrategieAleatoire()));
+			/* List<Etudiant> values = new ArrayList<Etudiant>(this.troupesEquipe2.values());
+			Etudiant etudiant = values.get(new Random().nextInt(values.size()));
+			this.troupesEquipe1.get(this.getTroupesEquipe1().get(etudiant)).setStrategie(new StrategieAleatoire()); */
+		}
 	}
 
 	/**
