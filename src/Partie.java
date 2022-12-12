@@ -164,7 +164,7 @@ public class Partie {
 				"Le Joueur " + (this.joueur1.getZoneControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
 						: this.joueur2.getFiliere()) + " a gagné la partie !");
 
-		executor.shutdown();
+		executor.shutdownNow();
 		Joueur.closeScanner();
 	}
 
