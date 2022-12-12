@@ -57,33 +57,37 @@ public class Partie {
 		System.out.flush();
 
 		// TODO : paramétrage aléatoire
-		// final Random random = new Random();
-		// for (int i = 1; i <= 15; i++) {
-		// 	StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
-		// 			: new StrategieOffensive();
-		// 	Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-		// 			random.nextInt(10), random.nextInt(10), Equipe.UNE);
-		// 	etudiant1.setStrategie(strategie1);
-		// 	this.joueur1.addEtudiant(i, etudiant1);
+		// TODO : affichage des crédits par zone
+		// TODO : affecter nouvelle stratégie lors du redéploiement
+		// TODO : déploiement des troupes restantes lors du déploiement initial
 
-		// 	StrategieEtudiant strategie2 = random.nextBoolean() ? new StrategieDefensive()
-		// 			: new StrategieOffensive();
-		// 	Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
-		// 			random.nextInt(10), random.nextInt(10), Equipe.DEUX);
-		// 	etudiant2.setStrategie(strategie2);
-		// 	this.joueur2.addEtudiant(i, etudiant2);
-		// }
-		// for (int i = 1; i <= 5; i++) {
-		// 	this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
-		// 	this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
-		// }
-		// int n = 1;
-		// for (Zone zone : this.zones) {
-		// 	for (int i = 0; i < 3; i++) {
-		// 		zone.addCombattant(this.joueur1.getTroupes().get(n));
-		// 		zone.addCombattant(this.joueur2.getTroupes().get(n++));
-		// 	}
-		// }
+		final Random random = new Random();
+		for (int i = 1; i <= 15; i++) {
+			StrategieEtudiant strategie1 = random.nextBoolean() ? new StrategieDefensive()
+					: new StrategieOffensive();
+			Etudiant etudiant1 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
+					random.nextInt(10), random.nextInt(10), Equipe.UNE);
+			etudiant1.setStrategie(strategie1);
+			this.joueur1.addEtudiant(i, etudiant1);
+
+			StrategieEtudiant strategie2 = random.nextBoolean() ? new StrategieDefensive()
+					: new StrategieOffensive();
+			Etudiant etudiant2 = new Etudiant(random.nextInt(10), random.nextInt(10), random.nextInt(10),
+					random.nextInt(10), random.nextInt(10), Equipe.DEUX);
+			etudiant2.setStrategie(strategie2);
+			this.joueur2.addEtudiant(i, etudiant2);
+		}
+		for (int i = 1; i <= 5; i++) {
+			this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
+			this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
+		}
+		int n = 1;
+		for (Zone zone : this.zones) {
+			for (int i = 0; i < 3; i++) {
+				zone.addCombattant(this.joueur1.getTroupes().get(n));
+				zone.addCombattant(this.joueur2.getTroupes().get(n++));
+			}
+		}
 
 		joueur1.demanderFiliere(Filiere.NONE);
 		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
@@ -124,6 +128,11 @@ public class Partie {
 
 			Zone.getPartieLatch().await();
 			Zone.resetPartieLatch();
+
+			if (this.joueur1.getZoneControlees().size() >= zonesAControler
+					|| this.joueur2.getZoneControlees().size() >= zonesAControler) {
+				break;
+			}
 
 			// Zones où on peut affecter des réservistes et redéployer des troupes
 			List<Zone> zonesNonControlees = new ArrayList<Zone>(this.zones);

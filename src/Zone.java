@@ -63,6 +63,7 @@ public class Zone implements Runnable {
 			for (Etudiant etudiant : this.getTroupesParInitiative()) {
 				if (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
 					etudiant.agir(this.getLowestCreditsEquipeUne(), this.getLowestCreditsEquipeDeux());
+					// On enlève les combattants éliminés
 					this.clearCombattantsElimines();
 				} else {
 					break;
@@ -83,7 +84,7 @@ public class Zone implements Runnable {
 			System.out.println();
 			System.out.println(Couleurs.VERT + "Le Joueur 2 contrôle maintenant la zone " + this.nom + " !"
 					+ Couleurs.RESET + "\n");
-			Partie.getInstance().getJoueur1().addZoneControlee(this);
+			Partie.getInstance().getJoueur2().addZoneControlee(this);
 		} else if (this.getTroupesEquipe2().isEmpty()) {
 			System.out.println();
 			System.out.println(Couleurs.VERT + "Le Joueur 1 contrôle maintenant la zone " + this.nom + " !"

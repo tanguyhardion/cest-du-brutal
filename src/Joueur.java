@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.Random;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.ArrayList;
@@ -259,8 +260,6 @@ public class Joueur {
 	 * pourront seulement être déployés à partir de la première trêve.
 	 */
 	public void choisirReservistes() {
-		// On sauvegarde le nombre initial de combattants du joueur
-		final int nombreCombattants = this.getTroupes().size();
 		// Compteur pour les réservistes
 		int n = 1;
 
@@ -281,7 +280,7 @@ public class Joueur {
 				} else if (s.equals("r")) {
 					// Affichage des réservistes
 					this.afficherReservistes();
-				} else if (Integer.parseInt(s) > 0 && Integer.parseInt(s) <= nombreCombattants) {
+				} else if (Integer.parseInt(s) > 0 && this.getTroupes().containsKey(Integer.parseInt(s))) {
 					// Si la saisie est incorrecte, une exception sera levée à la ligne précédente
 					int key = Integer.parseInt(s);
 					// On récupère le combattant correspondant à la clé
@@ -294,8 +293,7 @@ public class Joueur {
 					this.removeEtudiant(key);
 					System.out.println(Couleurs.VERT + "Réserviste ajouté." + Couleurs.RESET);
 				} else {
-					System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier entre 1 et "
-							+ nombreCombattants + "." + Couleurs.RESET);
+					System.out.println(Couleurs.ROUGE + "Combattant incorrect." + Couleurs.RESET);
 				}
 			} catch (NumberFormatException e) {
 				System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide." + Couleurs.RESET);
@@ -313,9 +311,7 @@ public class Joueur {
 	 * Au moins un combattant doit être déployé sur chaque zone.
 	 */
 	public void repartirTroupes(List<Zone> zones) {
-		// On sauvegarde le nombre initial de combattants du joueur
-		int combattants = this.getTroupes().size() + this.getReservistes().size();
-		// Et le nombre de zones, que l'on décrémentera
+		// Le nombre de zones, que l'on décrémentera
 		int zonesRestantes = zones.size();
 
 		System.out.println();
@@ -350,7 +346,7 @@ public class Joueur {
 							zonesRestantes--;
 							break;
 						}
-					} else if (Integer.parseInt(s) <= combattants && Integer.parseInt(s) > 0) {
+					} else if (Integer.parseInt(s) > 0 && this.troupes.containsKey(Integer.parseInt(s))) {
 						int key = Integer.parseInt(s);
 						Etudiant etudiant = this.getTroupes().get(key);
 						// On ajoute le combattant choisi à la zone en cours
@@ -359,8 +355,7 @@ public class Joueur {
 						this.removeEtudiant(key);
 						System.out.println(Couleurs.VERT + "Combattant ajouté." + Couleurs.RESET);
 					} else {
-						System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier entre 1 et "
-								+ combattants + "." + Couleurs.RESET);
+						System.out.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
 					}
 				} catch (NumberFormatException e) {
 					System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide." + Couleurs.RESET);
@@ -371,6 +366,24 @@ public class Joueur {
 
 			zonesRestantes--;
 		}
+
+		// Si le joueur n'a pas déployé tous ses combattants
+		if (this.getTroupes().size() > 0) {
+			// On récupère les clés des troupes restantes du joueur
+			List<Integer> keys = new ArrayList<>(this.troupes.keySet());
+			Random r = new Random();
+			// Tant qu'il reste des combattants à déployer
+			while (this.getTroupes().size() > 0) {
+				for (Zone zone : zones) {
+					int key = keys.get(r.nextInt(keys.size()));
+					// On ajoute un combattant de ce joueur à la zone en cours
+					zone.addCombattant(this.getTroupes().get(key));
+					// On enlève le combattant des troupes du joueur
+					this.removeEtudiant(key);
+				}
+			}
+		}
+
 	}
 
 	/**
