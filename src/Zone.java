@@ -83,13 +83,13 @@ public class Zone implements Runnable {
 		this.controlee = true;
 		if (this.getTroupesEquipe1().isEmpty()) {
 			System.out.println();
-			System.out.println(Couleurs.VERT + "Le Joueur 2 contrôle maintenant la zone " + this.nom + " !"
-					+ Couleurs.RESET + "\n");
+			System.out.println(Couleurs.VERT + "Le Joueur " + Partie.getInstance().getJoueur2().getFiliere()
+					+ " contrôle maintenant la zone " + this.nom + " !" + Couleurs.RESET + "\n");
 			Partie.getInstance().getJoueur2().addZoneControlee(this);
 		} else if (this.getTroupesEquipe2().isEmpty()) {
 			System.out.println();
-			System.out.println(Couleurs.VERT + "Le Joueur 1 contrôle maintenant la zone " + this.nom + " !"
-					+ Couleurs.RESET + "\n");
+			System.out.println(Couleurs.VERT + "Le Joueur " + Partie.getInstance().getJoueur1().getFiliere()
+					+ " contrôle maintenant la zone " + this.nom + " !" + Couleurs.RESET + "\n");
 			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		}
 		// On notifie la Partie qu'un thread est terminé
@@ -223,15 +223,23 @@ public class Zone implements Runnable {
 		}
 		if (defensivesEquipe1) {
 			this.troupesEquipe1.forEach((k, v) -> v.setStrategie(new StrategieAleatoire()));
-			/* List<Etudiant> values = new ArrayList<Etudiant>(this.troupesEquipe1.values());
-			Etudiant etudiant = values.get(new Random().nextInt(values.size()));
-			this.troupesEquipe1.get(this.getTroupesEquipe1().).setStrategie(new StrategieAleatoire()); */
+			/*
+			 * List<Etudiant> values = new
+			 * ArrayList<Etudiant>(this.troupesEquipe1.values());
+			 * Etudiant etudiant = values.get(new Random().nextInt(values.size()));
+			 * this.troupesEquipe1.get(this.getTroupesEquipe1().).setStrategie(new
+			 * StrategieAleatoire());
+			 */
 		}
 		if (defensivesEquipe2) {
 			this.troupesEquipe2.forEach((k, v) -> v.setStrategie(new StrategieAleatoire()));
-			/* List<Etudiant> values = new ArrayList<Etudiant>(this.troupesEquipe2.values());
-			Etudiant etudiant = values.get(new Random().nextInt(values.size()));
-			this.troupesEquipe1.get(this.getTroupesEquipe1().get(etudiant)).setStrategie(new StrategieAleatoire()); */
+			/*
+			 * List<Etudiant> values = new
+			 * ArrayList<Etudiant>(this.troupesEquipe2.values());
+			 * Etudiant etudiant = values.get(new Random().nextInt(values.size()));
+			 * this.troupesEquipe1.get(this.getTroupesEquipe1().get(etudiant)).setStrategie(
+			 * new StrategieAleatoire());
+			 */
 		}
 	}
 
