@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.Random;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Joueur {
 	private Filiere filiere;
 	private Map<Integer, Etudiant> troupes;
 	private Map<Integer, Etudiant> reservistes;
-	private ArrayList<Zone> zonesControlees;
+	private List<Zone> zonesControlees;
 	private static Scanner scanner;
 
 	/**
@@ -45,7 +46,6 @@ public class Joueur {
 	 */
 	public void demanderFiliere(Filiere filiereInterdite) {
 		String nomJoueur = this.getEquipe() == Equipe.UNE ? "Joueur 1" : "Joueur 2";
-		System.out.println();
 		System.out.println(Couleurs.JAUNE + nomJoueur + ", à quelle filière appartenez vous ? (ISI/RT/A2I/GI/GM/MTE/MM)"
 				+ Couleurs.RESET);
 
@@ -59,7 +59,7 @@ public class Joueur {
 				} else {
 					this.filiere = filiere;
 					System.out.println(Couleurs.BLANC + nomJoueur + ", vous appartenez à la filière " + this.filiere
-							+ Couleurs.RESET);
+							+ Couleurs.RESET + "\n");
 					break;
 				}
 			} catch (IllegalArgumentException e) {
@@ -256,7 +256,7 @@ public class Joueur {
 	}
 
 	/**
-	 * Permet à ce joueur de choisir ses réservistes, des combattants qui ne
+	 * Permet à ce joueur de choisir ses réservistes, des étudiants qui ne
 	 * pourront seulement être déployés à partir de la première trêve.
 	 */
 	public void choisirReservistes() {
@@ -283,13 +283,13 @@ public class Joueur {
 				} else if (Integer.parseInt(s) > 0 && this.getTroupes().containsKey(Integer.parseInt(s))) {
 					// Si la saisie est incorrecte, une exception sera levée à la ligne précédente
 					int key = Integer.parseInt(s);
-					// On récupère le combattant correspondant à la clé
+					// On récupère l'étudiant correspondant à la clé
 					Etudiant etudiant = this.getTroupes().get(key);
 					// On l'ajoute aux réservistes
 					this.addReserviste(n, etudiant);
 					// La ligne précédente n'a pas levé d'exception, on continue
 					n++;
-					// On enlève le combattant des troupes
+					// On enlève l'étudiant des troupes
 					this.removeEtudiant(key);
 					System.out.println(Couleurs.VERT + "Réserviste ajouté." + Couleurs.RESET);
 				} else {
@@ -309,6 +309,8 @@ public class Joueur {
 	 * Permet à ce joueur de répartir ses troupes sur les différentes zones du jeu.
 	 * <p>
 	 * Au moins un combattant doit être déployé sur chaque zone.
+	 * 
+	 * @param zones La liste des zones du jeu
 	 */
 	public void repartirTroupes(List<Zone> zones) {
 		// Le nombre de zones, que l'on décrémentera
@@ -320,8 +322,7 @@ public class Joueur {
 		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un combattant, entrez son numéro.");
 		System.out.println("Vous devez déployer au moins 1 combattant par zone.");
-		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "suivant"
-				+ Couleurs.RESET + ".");
+		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "s" + Couleurs.RESET + ".");
 
 		for (Zone zone : zones) {
 			System.out.println("\n" + Couleurs.BLEU + zone.getNom() + " :" + Couleurs.RESET);
@@ -335,8 +336,8 @@ public class Joueur {
 					// Si le joueur entre "t", on affiche ses troupes
 					if (s.equals("t")) {
 						this.afficherTroupes();
-					} else if (s.equals("suivant")) {
-						// Si le joueur entre "suivant" mais qu'il n'a déployé aucun combattant
+					} else if (s.equals("s")) {
+						// Si le joueur entre "s" mais qu'il n'a déployé aucun combattant
 						if (zone.getTroupesEquipe1().isEmpty() && this.equipe == Equipe.UNE
 								|| zone.getTroupesEquipe2().isEmpty() && this.equipe == Equipe.DEUX) {
 							System.out.println(Couleurs.ROUGE + "Vous devez déployer au moins 1 combattant par zone."
@@ -365,50 +366,41 @@ public class Joueur {
 			}
 
 			zonesRestantes--;
-
-			// Si le joueur n'a pas déployé tous ses combattants
 		}
 
-		if (this.troupes.size() > 0) {
+		// S'il reste des combattants à déployer, on les répartit aléatoirement
+		if (this.getTroupes().size() > 0) {
 			this.repartirTroupesRestantes(zones);
 		}
-
-		/*
-		 * // Si le joueur n'a pas déployé tous ses combattants
-		 * if (this.getTroupes().size() > 0) {
-		 * // On récupère les clés des troupes restantes du joueur
-		 * List<Integer> keys = new ArrayList<>(this.troupes.keySet());
-		 * Random r = new Random();
-		 * // Tant qu'il reste des combattants à déployer
-		 * while (this.getTroupes().size() > 0) {
-		 * for (Zone zone : zones) {
-		 * // On choisit un combattant au hasard parmi ceux restants
-		 * int key = keys.get(r.nextInt(keys.size()));
-		 * Etudiant etudiant = this.getTroupes().get(key);
-		 * // On ajoute le combattant choisi à la zone en cours
-		 * zone.addCombattant(etudiant);
-		 * // On enlève le combattant des troupes du joueur
-		 * this.removeEtudiant(key);
-		 * // On enlève la clé de la liste des clés
-		 * keys.remove(Integer.valueOf(key));
-		 * }
-		 * }
-		 * }
-		 */
-
 	}
 
+	/**
+	 * Répartit aléatoirement les combattants restants du joueur
+	 * sur les zones du jeu.
+	 * 
+	 * @param zones la liste des zones du jeu
+	 */
 	private void repartirTroupesRestantes(List<Zone> zones) {
+		// Tant qu'il reste des combattants à déployer
 		while (this.getTroupes().size() > 0) {
+			// On récupère les clés des troupes restantes du joueur
+			List<Integer> keys = new ArrayList<>(this.troupes.keySet());
+			Random r = new Random();
 			for (Zone zone : zones) {
-				if (this.getTroupes().size() > 0) {
-					int key = 0;
-					while (!this.getTroupes().containsKey(key)) {
-						key++;
-					}
-					zone.addCombattant(this.getTroupes().get(key));
-					this.removeEtudiant(key);
+				// Si le joueur n'a plus de combattants à déployer, on sort du while
+				if (this.getTroupes().isEmpty()) {
+					break;
 				}
+				// Sinon, on choisit un combattant au hasard parmi ceux restants
+				int key = keys.get(r.nextInt(keys.size()));
+				// On récupère le combattant
+				Etudiant etudiant = this.getTroupes().get(key);
+				// On ajoute le combattant choisi à la zone en cours
+				zone.addCombattant(etudiant);
+				// On enlève le combattant des troupes du joueur
+				this.removeEtudiant(key);
+				// On enlève la clé de la liste des clés
+				keys.remove(Integer.valueOf(key));
 			}
 		}
 		System.out.println(Couleurs.BLANC + "Le restant de vos troupes a été déployé automatiquement."
@@ -419,6 +411,7 @@ public class Joueur {
 	 * Permet à ce joueur d'affecter ses réservistes sur les zones non contrôlées.
 	 * 
 	 * @param zonesNonControlees la liste des zones non contrôlées
+	 * @param zones              la liste de toutes les zones
 	 */
 	public void affecterReservistes(List<Zone> zonesNonControlees, List<Zone> zones) {
 		// On sauvegarde le nombre initial de réservsites du joueur
@@ -437,7 +430,7 @@ public class Joueur {
 		System.out.println();
 		System.out.println("Pour afficher vos réservistes, entrez " + Couleurs.BLEU + "r" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un réserviste, entrez son numéro.");
-		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "suivant" + Couleurs.RESET
+		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "s" + Couleurs.RESET
 				+ ".");
 
 		for (Zone zone : zonesNonControlees) {
@@ -451,8 +444,8 @@ public class Joueur {
 					// Si le joueur entre "r", on affiche ses réservistes
 					if (s.equals("r")) {
 						this.afficherReservistes();
-					} else if (s.equals("suivant")) {
-						// Si le joueur entre "suivant", on passe à la zone suivante
+					} else if (s.equals("s")) {
+						// Si le joueur entre "s", on passe à la zone suivante
 						break;
 					} else if (Integer.parseInt(s) <= reservistes && Integer.parseInt(s) > 0) {
 						int key = Integer.parseInt(s);
@@ -490,7 +483,7 @@ public class Joueur {
 	 * Au moins un combattant doit rester dans chaque zone contrôlée.
 	 * 
 	 * @param zonesNonControlees la liste des zones non contrôlées
-	 * @param zones              la liste des zones du jeu
+	 * @param zones              la liste de toutes les zones
 	 */
 	public void redeployerTroupes(List<Zone> zonesNonControlees, List<Zone> zones) {
 		// Zones contrôlées par le joueur qui ont au moins 2 combattants
@@ -510,14 +503,14 @@ public class Joueur {
 		System.out.println();
 		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
 		System.out.println("Pour choisir un combattant, entrez son numéro.");
-		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "suivant"
-				+ Couleurs.RESET + ".");
+		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "s" + Couleurs.RESET + ".");
 
 		// Pour toutes les zones contrôlées par le joueur qui ont au moins 2 combattants
 		for (Zone zoneC : zonesControlees) {
 			// On affiche le nom de la zone en cours contrôlée
 			System.out.println("\n" + Couleurs.BLEU + zoneC.getNom() + " (contrôlée)" + " :" + Couleurs.RESET);
-			// Pour toutes les zones non contrôlées, sur lesquelles le joueur peut déployer
+			// Pour toutes les zones non contrôlées, sur lesquelles le joueur peut
+			// redéployer
 			for (Zone zoneNC : zonesNonControlees) {
 				// Tant que le joueur a des combattants à redéployer
 				while (zoneC.getTroupes(this).size() > 1) {
@@ -530,17 +523,19 @@ public class Joueur {
 						// Si le joueur entre "t", on affiche ses troupes
 						if (s.equals("t")) {
 							zoneC.afficherTroupes();
-						} else if (s.equals("suivant")) {
-							// Si le joueur entre "suivant", on passe à la zone suivante
+						} else if (s.equals("s")) {
+							// Si le joueur entre "s", on passe à la zone suivante
 							break;
 						} else if (Integer.parseInt(s) > 0) {
 							int key = Integer.parseInt(s);
 							Etudiant etudiant = zoneC.getTroupes(this).get(key);
+							// On propose au joueur d'attribuer une nouvelle stratégie au combattant
 							this.attribuerNouvelleStrategie(etudiant);
 							// On ajoute le combattant à la zone non contrôlée correspondante
 							zones.get(zones.indexOf(zoneNC)).addCombattant(etudiant);
 							// On retire le combattant de la zone contrôlée
-							this.zonesControlees.get(this.zonesControlees.indexOf(zoneC)).removeCombattant(key, etudiant);
+							this.zonesControlees.get(this.zonesControlees.indexOf(zoneC)).removeCombattant(key,
+									etudiant);
 							System.out.println(Couleurs.VERT + "Combattant redeployé" + Couleurs.RESET);
 						} else {
 							System.out.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
@@ -553,14 +548,22 @@ public class Joueur {
 					}
 				}
 			}
+			// Si le joueur n'a plus de combattants à redéployer
 			if (zoneC.getTroupes(this).size() <= 1) {
 				System.out.println(
 						"\n" + Couleurs.ROUGE + "Vous n'avez plus de combattants à redéployer." + Couleurs.RESET);
+				// On sort de la boucle for
 				break;
 			}
 		}
 	}
 
+	/**
+	 * Permet au joueur d'attribuer une nouvelle stratégie à un étudiant
+	 * lors du redéploiement.
+	 * 
+	 * @param etudiant l'étudiant à qui on attribue une nouvelle stratégie
+	 */
 	public void attribuerNouvelleStrategie(Etudiant etudiant) {
 		System.out.println("L'étudiant en question est : " + etudiant.toString());
 		System.out.println("Voulez vous attribuer lui une nouvelle stratégie (oui/non) :");

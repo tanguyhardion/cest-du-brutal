@@ -67,7 +67,6 @@ public class Partie {
 						+ Couleurs.RESET);
 
 		Scanner sc = new Scanner(System.in);
-
 		String choix = sc.next();
 
 		while (!choix.equals("oui") && !choix.equals("non")) {
@@ -135,10 +134,12 @@ public class Partie {
 		// On créé un pool de threads pour les zones
 		ExecutorService executor = Executors.newFixedThreadPool(this.zones.size());
 
+		// On lance le combat sur chaque zone
 		for (Zone zone : this.zones) {
 			executor.execute(zone);
 		}
 
+		// Tant que personne n'a gagné
 		while (this.joueur1.getZonesControlees().size() < zonesAControler
 				&& this.joueur2.getZonesControlees().size() < zonesAControler) {
 
@@ -178,11 +179,13 @@ public class Partie {
 			Zone.resetZoneLatch();
 		}
 
-		System.out.println(
-				Couleurs.VIOLET_GRAS_VIF + "Le Joueur "
-						+ (this.joueur1.getZonesControlees().size() >= zonesAControler ? this.joueur1.getFiliere()
-								: this.joueur2.getFiliere())
-						+ " a gagné la partie !" + Couleurs.RESET);
+		// On récupère le gagnant
+		Filiere filiereJoueurGagnant = this.joueur1.getZonesControlees().size() >= zonesAControler
+				? this.joueur1.getFiliere()
+				: this.joueur2.getFiliere();
+
+		System.out.println(Couleurs.VIOLET_GRAS + "Le Joueur " + filiereJoueurGagnant + " a gagné la partie !"
+				+ Couleurs.RESET);
 
 		executor.shutdownNow();
 		Joueur.closeScanner();
