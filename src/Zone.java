@@ -139,7 +139,7 @@ public class Zone implements Runnable {
 	 * @return la liste des étudiants triés par initiative
 	 */
 	private List<Etudiant> getTroupesParInitiative() {
-		List<Etudiant> troupes = new ArrayList<Etudiant>();
+		List<Etudiant> troupes = new ArrayList<>();
 		troupes.addAll(this.troupesEquipe1.values());
 		troupes.addAll(this.troupesEquipe2.values());
 		troupes.sort(Comparator.comparingInt(Etudiant::getInitiative).reversed());
@@ -156,11 +156,11 @@ public class Zone implements Runnable {
 	private Etudiant getLowestCredits(Equipe equipe) {
 		List<Etudiant> troupes;
 		if (equipe == Equipe.UNE) {
-			troupes = new ArrayList<Etudiant>(this.troupesEquipe1.values());
+			troupes = new ArrayList<>(this.troupesEquipe1.values());
 		} else if (equipe == Equipe.DEUX) {
-			troupes = new ArrayList<Etudiant>(this.troupesEquipe2.values());
+			troupes = new ArrayList<>(this.troupesEquipe2.values());
 		}
-		troupes = new ArrayList<Etudiant>(this.troupesEquipe1.values());
+		troupes = new ArrayList<>(this.troupesEquipe1.values());
 		troupes.sort(Comparator.comparingInt(Etudiant::getCreditsTotal));
 		return troupes.get(0);
 	}

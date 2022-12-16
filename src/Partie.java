@@ -1,8 +1,11 @@
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 
@@ -28,7 +31,7 @@ public class Partie {
 	private Partie() {
 		this.joueur1 = new Joueur(Equipe.UNE);
 		this.joueur2 = new Joueur(Equipe.DEUX);
-		this.zones = new ArrayList<Zone>();
+		this.zones = new ArrayList<>();
 
 		// on récupère tous les noms de zones
 		EnumSet<NomZone> zones = EnumSet.allOf(NomZone.class);
@@ -57,67 +60,58 @@ public class Partie {
 		System.out.println(Couleurs.CLEAR);
 		System.out.flush();
 
+		System.out.println(Couleurs.CYAN_GRAS + "---------------- C'EST DU BRUTAL ! ----------------" + Couleurs.RESET);
+		System.out.println("Bienvenue dans le jeu. Vous allez jouer à deux, chacun votre tour.");
+		System.out.println("Chaque étape du jeu est décrite dans le terminal.\n");
+
+		// On demande à chaque joueur de choisir sa filière
 		joueur1.demanderFiliere(Filiere.NONE);
 		joueur2.demanderFiliere(joueur1.getFiliere());
+
+		// On initialise les troupes de chaque joueur
+		// (15 étudiants, 4 étudiants d'élite, 1 Maître du gobi)
 		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 
-		System.out.println(
-				Couleurs.JAUNE + "\nVoulez-vous jouer avec des étudiants paramétrés aléatoirement ? (oui/non)"
-						+ Couleurs.RESET);
-
 		Scanner sc = new Scanner(System.in);
+		//
+		Set<String> reponses = new HashSet<String>();
+		reponses.add("oui");
+		reponses.add("non");
+		String saisieIncorrecte = "Veuillez répondre par" + Couleurs.BLEU + " oui " + Couleurs.RESET + "ou par"
+				+ Couleurs.BLEU + " non" + Couleurs.RESET + ".";
+
+		System.out.println(Couleurs.JAUNE
+				+ "\nVoulez-vous jouer avec des étudiants paramétrés aléatoirement ? (oui/non)" + Couleurs.RESET);
+
 		String choix = sc.next();
 
-		while (!choix.equals("oui") && !choix.equals("non")) {
-			System.out.println("Veuillez répondre par" + Couleurs.BLEU + " oui " + Couleurs.RESET + "ou par"
-					+ Couleurs.BLEU + " non" + Couleurs.RESET + ".");
+		// Tant que le choix n'est pas "oui" ou "non"
+		while (!reponses.contains(choix)) {
+			System.out.println(saisieIncorrecte);
 			choix = sc.next();
 		}
 
+		// Si le choix est "oui", on paramètre les troupes aléatoirement
 		if (choix.equals("oui")) {
-			final Random random = new Random();
-			this.joueur1.getTroupes().forEach((key, value) -> {
-				value.setDexterite(random.nextInt(10));
-				value.setForce(random.nextInt(10));
-				value.setResistance(random.nextInt(10));
-				value.setConstitution(random.nextInt(10));
-				value.setInitiative(random.nextInt(10));
-				value.setStrategie(new StrategieAleatoire());
-			});
-			this.joueur2.getTroupes().forEach((key, value) -> {
-				value.setDexterite(random.nextInt(10));
-				value.setForce(random.nextInt(10));
-				value.setResistance(random.nextInt(10));
-				value.setConstitution(random.nextInt(10));
-				value.setInitiative(random.nextInt(10));
-				value.setStrategie(new StrategieAleatoire());
-			});
-			// for (int i = 1; i <= 5; i++) {
-			// this.joueur1.addReserviste(i, this.joueur1.getTroupes().get(i));
-			// this.joueur2.addReserviste(i, this.joueur2.getTroupes().get(i));
-			// }
-			// int n = 1;
-			// for (Zone zone : this.zones) {
-			// for (int i = 0; i < 3; i++) {
-			// zone.addCombattant(this.joueur1.getTroupes().get(n));
-			// zone.addCombattant(this.joueur2.getTroupes().get(n++));
-			// }
-			// }
+			this.parametrerTroupesAleatoirement();
 		} else {
+			// Sinon, on demande à chaque joueur de paramétrer ses troupes
 			joueur1.parametrerTroupes();
 			joueur2.parametrerTroupes();
 		}
 
 		joueur1.choisirReservistes();
 		joueur1.repartirTroupes(this.zones);
+
 		joueur2.choisirReservistes();
 		joueur2.repartirTroupes(this.zones);
 
+		// Setup effectué, on lance la partie
 		try {
 			this.gerer();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			System.err.println(Couleurs.ROUGE_GRAS + "Erreur lors de l'exécution de la partie." + Couleurs.RESET);
 		}
 
 		sc.close();
@@ -126,7 +120,7 @@ public class Partie {
 	/**
 	 * Gère le déroulement de la partie.
 	 * 
-	 * @throws InterruptedException
+	 * @throws InterruptedException si une zone est interrompue lors du combat
 	 */
 	private void gerer() throws InterruptedException {
 		// Nombre de zones à contrôler pour gagner la partie
@@ -158,7 +152,7 @@ public class Partie {
 			Zone.resetPartieLatch();
 
 			// Zones où on peut affecter des réservistes et redéployer des troupes
-			List<Zone> zonesNonControlees = new ArrayList<Zone>(this.zones);
+			List<Zone> zonesNonControlees = new ArrayList<>(this.zones);
 			zonesNonControlees.removeIf(zone -> zone.estControlee());
 
 			// Actions pendant la trêve du joueur 1
@@ -192,17 +186,64 @@ public class Partie {
 	}
 
 	/**
+	 * Paramètre aléatoirement les troupes de chaque joueur, en leur attribuant une
+	 * valeur aléatoire pour chacune de leur caractéristiques.
+	 */
+	private void parametrerTroupesAleatoirement() {
+		// Hashtable dans laquelle on va choisir une stratégie aléatoirement
+		Hashtable<Integer, StrategieEtudiant> strategie = new Hashtable<>();
+		strategie.put(0, new StrategieAleatoire());
+		strategie.put(1, new StrategieOffensive());
+		strategie.put(2, new StrategieDefensive());
+
+		final Random random = new Random();
+
+		// Valeurs aléatoires pour les caractéristiques des troupes du joueur 1
+		for (Etudiant etudiant : this.joueur1.getTroupes().values()) {
+			// On choisit une stratégie aléatoirement (0, 1 ou 2)
+			int strat = random.nextInt(3);
+			etudiant.setStrategie(strategie.get(strat));
+
+			// Pour chaque caractéristique, on attribue une valeur aléatoire entre 0 et 8.
+			// De cette manière, en moyenne, la somme des valeurs sera égale à 400.
+			// Sachant qu'on choisit un nombre aléatoire entre 0 et 8 : valeurMoyenne = 4
+			// donc 20 combattants * 5 caractéristiques * valeurMoyenne = 400 points
+			etudiant.setDexterite(random.nextInt(9));
+			etudiant.setForce(random.nextInt(9));
+			etudiant.setResistance(random.nextInt(9));
+			etudiant.setConstitution(random.nextInt(9));
+			etudiant.setInitiative(random.nextInt(9));
+		}
+
+		// Même principe pour les troupes du joueur 2
+		for (Etudiant etudiant : this.joueur2.getTroupes().values()) {
+			int strat = random.nextInt(3);
+			etudiant.setStrategie(strategie.get(strat));
+
+			etudiant.setDexterite(random.nextInt(9));
+			etudiant.setForce(random.nextInt(9));
+			etudiant.setResistance(random.nextInt(9));
+			etudiant.setConstitution(random.nextInt(9));
+			etudiant.setInitiative(random.nextInt(9));
+		}
+	}
+
+	/**
 	 * Affiche le nombre de crédits sur chaque zone.
 	 */
-	public void afficherCreditsZones() {
-		ArrayList<Zone> zonesNC = new ArrayList<Zone>(this.zones);
+	private void afficherCreditsZones() {
+		ArrayList<Zone> zonesNC = new ArrayList<>(this.zones);
 		zonesNC.removeIf(zone -> zone.estControlee());
 
 		System.out.println("\nCrédits par zones :   ");
 
 		for (Zone zone : zonesNC) {
 			System.out.print(Couleurs.BLEU + zone.getNom() + Couleurs.RESET + " : "
-					+ (zone.getCreditsEquipeUne() + zone.getCreditsEquipeDeux()) + " | ");
+					+ (zone.getCreditsEquipeUne() + zone.getCreditsEquipeDeux()));
+			// Si ce n'est pas la dernière zone, on affiche un tiret
+			if (zonesNC.indexOf(zone) != zonesNC.size() - 1) {
+				System.out.print(" - ");
+			}
 		}
 
 		System.out.println();

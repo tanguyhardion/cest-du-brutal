@@ -15,28 +15,28 @@
 public class Couleurs {
 
     // Code pour réinitialiser les couleurs, à utiliser à la fin de chaque affichage
-    public static String RESET = "\033[0m";
+    public static final String RESET = "\033[0m";
     // Code pour effacer la console
-    public static String CLEAR = "\033[H\033[2J";
+    public static final String CLEAR = "\033[H\033[2J";
 
     // Couleurs standards
-    public static String NOIR = "\033[0;30m";
-    public static String ROUGE = "\033[0;31m";
-    public static String VERT = "\033[0;32m";
-    public static String JAUNE = "\033[0;33m";
-    public static String BLEU = "\033[0;34m";
-    public static String VIOLET = "\033[0;35m";
-    public static String CYAN = "\033[0;36m";
-    public static String BLANC = "\033[0;37m";
+    public static final String NOIR = "\033[0;30m";
+    public static final String ROUGE = "\033[0;31m";
+    public static final String VERT = "\033[0;32m";
+    public static final String JAUNE = "\033[0;33m";
+    public static final String BLEU = "\033[0;34m";
+    public static final String VIOLET = "\033[0;35m";
+    public static final String CYAN = "\033[0;36m";
+    public static final String BLANC = "\033[0;37m";
 
     // Couleurs gras
-    public static String NOIR_GRAS = "\033[1;30m";
-    public static String ROUGE_GRAS = "\033[1;31m";
-    public static String VERT_GRAS = "\033[1;32m";
-    public static String JAUNE_GRAS = "\033[1;33m";
-    public static String BLEU_GRAS = "\033[1;34m";
-    public static String VIOLET_GRAS = "\033[1;35m";
-    public static String CYAN_GRAS = "\033[1;36m";
-    public static String BLANC_GRAS = "\033[1;37m";
+    public static final String NOIR_GRAS = "\033[1;30m";
+    public static final String ROUGE_GRAS = "\033[1;31m";
+    public static final String VERT_GRAS = "\033[1;32m";
+    public static final String JAUNE_GRAS = "\033[1;33m";
+    public static final String BLEU_GRAS = "\033[1;34m";
+    public static final String VIOLET_GRAS = "\033[1;35m";
+    public static final String CYAN_GRAS = "\033[1;36m";
+    public static final String BLANC_GRAS = "\033[1;37m";
 
 }

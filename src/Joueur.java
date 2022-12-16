@@ -31,9 +31,9 @@ public class Joueur {
 	public Joueur(Equipe equipe) {
 		this.equipe = equipe;
 		this.points = 400;
-		this.troupes = new Hashtable<Integer, Etudiant>();
-		this.reservistes = new Hashtable<Integer, Etudiant>();
-		this.zonesControlees = new ArrayList<Zone>();
+		this.troupes = new Hashtable<>();
+		this.reservistes = new Hashtable<>();
+		this.zonesControlees = new ArrayList<>();
 		if (scanner == null) {
 			scanner = new Scanner(System.in);
 		}
@@ -263,7 +263,8 @@ public class Joueur {
 		// Compteur pour les réservistes
 		int n = 1;
 
-		System.out.println("\n" + Couleurs.JAUNE + "Joueur " + this.getFiliere() + ", choisissez vos réservistes.\n"
+		System.out.println("\n" + Couleurs.JAUNE + "Joueur " + this.getFiliere()
+				+ ", choisissez vos réservistes (les troupes qui n'iront pas tout de suite sur les zones de combat).\n"
 				+ Couleurs.RESET);
 		System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
 		System.out.println("Pour afficher vos réservistes, entrez " + Couleurs.BLEU + "r" + Couleurs.RESET + ".");
