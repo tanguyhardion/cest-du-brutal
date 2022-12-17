@@ -21,6 +21,7 @@ public class Partie {
 	private Joueur joueur1;
 	private Joueur joueur2;
 	private List<Zone> zones;
+	private Scanner scanner;
 	private static Partie instance;
 
 	/**
@@ -32,9 +33,10 @@ public class Partie {
 		this.joueur1 = new Joueur(Equipe.UNE);
 		this.joueur2 = new Joueur(Equipe.DEUX);
 		this.zones = new ArrayList<>();
+		this.scanner = new Scanner(System.in);
 
 		// on récupère tous les noms de zones
-		EnumSet<NomZone> zones = EnumSet.allOf(NomZone.class);
+		Set<NomZone> zones = EnumSet.allOf(NomZone.class);
 		// on crée une zone pour chaque nom de zone
 		for (NomZone nom : zones) {
 			this.zones.add(new Zone(nom));
@@ -62,7 +64,8 @@ public class Partie {
 
 		System.out.println(Couleurs.CYAN_GRAS + "---------------- C'EST DU BRUTAL ! ----------------" + Couleurs.RESET);
 		System.out.println("Bienvenue dans le jeu. Vous allez jouer à deux, chacun votre tour.");
-		System.out.println("Chaque étape du jeu est décrite dans le terminal.\n");
+		System.out.println("Pour gagner, vous devrez conquérir 3 zones d'influence.");
+		System.out.println("\nChaque étape du jeu est décrite dans le terminal.\n");
 
 		// On demande à chaque joueur de choisir sa filière
 		joueur1.demanderFiliere(Filiere.NONE);
@@ -73,37 +76,37 @@ public class Partie {
 		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 
-		Scanner sc = new Scanner(System.in);
-		//
-		Set<String> reponses = new HashSet<String>();
-		reponses.add("oui");
-		reponses.add("non");
-		String saisieIncorrecte = "Veuillez répondre par" + Couleurs.BLEU + " oui " + Couleurs.RESET + "ou par"
-				+ Couleurs.BLEU + " non" + Couleurs.RESET + ".";
-
 		System.out.println(Couleurs.JAUNE
-				+ "\nVoulez-vous jouer avec des étudiants paramétrés aléatoirement ? (oui/non)" + Couleurs.RESET);
+				+ "\nVoulez-vous jouer avec des étudiants paramétrés aléatoirement ? [oui, non]" + Couleurs.RESET);
 
-		String choix = sc.next();
+		boolean parametrageManuel = false;
 
-		// Tant que le choix n'est pas "oui" ou "non"
-		while (!reponses.contains(choix)) {
-			System.out.println(saisieIncorrecte);
-			choix = sc.next();
-		}
+		// On vérifie que le choix est "oui" ou "non"
+		String choix = this.verifierChoix(this.scanner.next().toLowerCase(), "oui", "non");
 
 		// Si le choix est "oui", on paramètre les troupes aléatoirement
 		if (choix.equals("oui")) {
 			this.parametrerTroupesAleatoirement();
 		} else {
-			// Sinon, on demande à chaque joueur de paramétrer ses troupes
-			joueur1.parametrerTroupes();
-			joueur2.parametrerTroupes();
+			// Sinon, on se souvient que le paramétrage est manuel
+			parametrageManuel = true;
 		}
 
+		/* Joueur 1 */
+		// Si le paramétrage est manuel
+		if (parametrageManuel) {
+			this.joueur1.parametrerTroupes();
+		}
+		// Choix des réservistes
 		joueur1.choisirReservistes();
+		// Répartition des troupes
 		joueur1.repartirTroupes(this.zones);
 
+		/* Joueur 2 */
+		// On répète les mêmes étapes
+		if (parametrageManuel) {
+			this.joueur2.parametrerTroupes();
+		}
 		joueur2.choisirReservistes();
 		joueur2.repartirTroupes(this.zones);
 
@@ -111,10 +114,7 @@ public class Partie {
 		try {
 			this.gerer();
 		} catch (InterruptedException e) {
-			System.err.println(Couleurs.ROUGE_GRAS + "Erreur lors de l'exécution de la partie." + Couleurs.RESET);
 		}
-
-		sc.close();
 	}
 
 	/**
@@ -141,6 +141,9 @@ public class Partie {
 
 			// On attend qu'une zone soit contrôlée
 			Zone.getPartieLatch().await();
+
+			// On attend un peu pour que les zones aient le temps de se mettre en pause
+			Thread.sleep(10);
 
 			// On vérifie si la partie est terminée
 			if (this.joueur1.getZonesControlees().size() >= zonesAControler
@@ -182,6 +185,7 @@ public class Partie {
 				+ Couleurs.RESET);
 
 		executor.shutdownNow();
+		this.scanner.close();
 		Joueur.closeScanner();
 	}
 
@@ -202,7 +206,7 @@ public class Partie {
 		for (Etudiant etudiant : this.joueur1.getTroupes().values()) {
 			// On choisit une stratégie aléatoirement (0, 1 ou 2)
 			int strat = random.nextInt(3);
-			etudiant.setStrategie(strategie.get(strat));
+			etudiant.setStrategie(strategie.get(2));
 
 			// Pour chaque caractéristique, on attribue une valeur aléatoire entre 0 et 8.
 			// De cette manière, en moyenne, la somme des valeurs sera égale à 400.
@@ -218,7 +222,7 @@ public class Partie {
 		// Même principe pour les troupes du joueur 2
 		for (Etudiant etudiant : this.joueur2.getTroupes().values()) {
 			int strat = random.nextInt(3);
-			etudiant.setStrategie(strategie.get(strat));
+			etudiant.setStrategie(strategie.get(2));
 
 			etudiant.setDexterite(random.nextInt(9));
 			etudiant.setForce(random.nextInt(9));
@@ -247,6 +251,34 @@ public class Partie {
 		}
 
 		System.out.println();
+	}
+
+	/**
+	 * Vérifie le choix de l'utilisateur grâce aux réponses possibles et lui
+	 * redemande de saisir une réponse tant qu'il n'a pas saisi une réponse valide.
+	 * 
+	 * @param choix    le choix de l'utilisateur
+	 * @param reponses les réponses possibles
+	 * @return le choix de l'utilisateur
+	 */
+	private String verifierChoix(String choix, String... reponses) {
+		// On crée un HashSet pour stocker les réponses possibles
+		HashSet<String> reponsesPossibles = new HashSet<String>();
+		for (String reponse : reponses) {
+			reponsesPossibles.add(reponse);
+		}
+
+		// Message d'erreur
+		String saisieIncorrecte = "Veuillez répondre par " + Couleurs.BLEU + reponsesPossibles.toString()
+				+ Couleurs.RESET + ".";
+
+		// Tant que le choix n'est pas "oui" ou "non"
+		while (!reponsesPossibles.contains(choix)) {
+			System.out.println(saisieIncorrecte);
+			choix = this.scanner.next().toLowerCase();
+		}
+
+		return choix;
 	}
 
 	/**

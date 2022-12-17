@@ -3,7 +3,9 @@ import java.util.Random;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Représente un joueur du jeu, possédant des troupes.
@@ -46,7 +48,9 @@ public class Joueur {
 	 */
 	public void demanderFiliere(Filiere filiereInterdite) {
 		String nomJoueur = this.getEquipe() == Equipe.UNE ? "Joueur 1" : "Joueur 2";
-		System.out.println(Couleurs.JAUNE + nomJoueur + ", à quelle filière appartenez vous ? (ISI/RT/A2I/GI/GM/MTE/MM)"
+		Set<Filiere> filieres = EnumSet.allOf(Filiere.class);
+		filieres.remove(Filiere.NONE);
+		System.out.println(Couleurs.JAUNE + nomJoueur + ", à quelle filière appartenez vous ? " + filieres.toString()
 				+ Couleurs.RESET);
 
 		// Tant que le joueur n'a pas défini sa filière.
@@ -58,7 +62,7 @@ public class Joueur {
 					System.out.println(Couleurs.ROUGE + "Cette filière n'est pas disponible." + Couleurs.RESET);
 				} else {
 					this.filiere = filiere;
-					System.out.println(Couleurs.BLANC + nomJoueur + ", vous appartenez à la filière " + this.filiere
+					System.out.println(Couleurs.VERT + nomJoueur + ", vous appartenez à la filière " + this.filiere
 							+ Couleurs.RESET + "\n");
 					break;
 				}
@@ -324,6 +328,8 @@ public class Joueur {
 		System.out.println("Pour choisir un combattant, entrez son numéro.");
 		System.out.println("Vous devez déployer au moins 1 combattant par zone.");
 		System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "s" + Couleurs.RESET + ".");
+		System.out.println("Vous pouvez à tout moment entrer " + Couleurs.BLEU + "aleatoire" + Couleurs.RESET
+				+ " pour répartir vos troupes aléatoirement.");
 
 		for (Zone zone : zones) {
 			System.out.println("\n" + Couleurs.BLEU + zone.getNom() + " :" + Couleurs.RESET);
@@ -348,6 +354,9 @@ public class Joueur {
 							zonesRestantes--;
 							break;
 						}
+					} else if (s.equals("aleatoire")) {
+						this.repartirTroupesRestantes(zones);
+						return;
 					} else if (Integer.parseInt(s) > 0 && this.troupes.containsKey(Integer.parseInt(s))) {
 						int key = Integer.parseInt(s);
 						Etudiant etudiant = this.getTroupes().get(key);
@@ -404,7 +413,7 @@ public class Joueur {
 				keys.remove(Integer.valueOf(key));
 			}
 		}
-		System.out.println(Couleurs.BLANC + "Le restant de vos troupes a été déployé automatiquement."
+		System.out.println(Couleurs.VERT + "Le restant de vos troupes a été déployé automatiquement."
 				+ Couleurs.RESET);
 	}
 
@@ -415,11 +424,8 @@ public class Joueur {
 	 * @param zones              la liste de toutes les zones
 	 */
 	public void affecterReservistes(List<Zone> zonesNonControlees, List<Zone> zones) {
-		// On sauvegarde le nombre initial de réservsites du joueur
-		int reservistes = this.getReservistes().size();
-
 		// Si le joueur n'a aucun réserviste à affecter
-		if (reservistes == 0) {
+		if (this.reservistes.size() == 0) {
 			System.out.println(Couleurs.ROUGE + "Joueur " + this.getFiliere()
 					+ ", vous n'avez aucun réserviste à affecter." + Couleurs.RESET);
 			return;
@@ -448,7 +454,7 @@ public class Joueur {
 					} else if (s.equals("s")) {
 						// Si le joueur entre "s", on passe à la zone suivante
 						break;
-					} else if (Integer.parseInt(s) <= reservistes && Integer.parseInt(s) > 0) {
+					} else if (Integer.parseInt(s) > 0 && this.reservistes.containsKey(Integer.parseInt(s))) {
 						int key = Integer.parseInt(s);
 						Etudiant etudiant = this.getReservistes().get(key);
 						// On ajoute le réserviste choisi à la zone en cours correspondante
@@ -457,8 +463,7 @@ public class Joueur {
 						this.removeReserviste(key);
 						System.out.println(Couleurs.VERT + "Réserviste affecté." + Couleurs.RESET);
 					} else {
-						System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier entre 1 et "
-								+ reservistes + "." + Couleurs.RESET);
+						System.out.println(Couleurs.ROUGE + "Réserviste invalide." + Couleurs.RESET);
 					}
 				} catch (NumberFormatException e) {
 					System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide."

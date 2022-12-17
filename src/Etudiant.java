@@ -184,7 +184,7 @@ public class Etudiant {
 	 *                                  à 0 ou supérieure à 30
 	 */
 	public void setConstitution(int constitution) {
-		if (constitution < 0 || constitution > 3000) {
+		if (constitution < 0 || constitution > 30) {
 			throw new IllegalArgumentException("La constitution doit être comprise entre 0 et 30.");
 		}
 		this.constitution += constitution;
@@ -264,7 +264,7 @@ public class Etudiant {
 				: "aucune";
 
 		StringBuffer sb = new StringBuffer();
-		sb.append(Couleurs.BLANC).append(type).append(Couleurs.RESET);
+		sb.append(Couleurs.ROUGE).append(type).append(Couleurs.RESET);
 		sb.append(" | Dextérité : ").append(Couleurs.CYAN + this.dexterite + Couleurs.RESET);
 		sb.append(" | Force : ").append(Couleurs.CYAN + this.force + Couleurs.RESET);
 		sb.append(" | Résistance : ").append(Couleurs.CYAN + this.resistance + Couleurs.RESET);

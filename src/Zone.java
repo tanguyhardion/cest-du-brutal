@@ -154,13 +154,17 @@ public class Zone implements Runnable {
 	 * @return l'étudiant ayant le moins de crédits
 	 */
 	private Etudiant getLowestCredits(Equipe equipe) {
-		List<Etudiant> troupes;
-		if (equipe == Equipe.UNE) {
-			troupes = new ArrayList<>(this.troupesEquipe1.values());
-		} else if (equipe == Equipe.DEUX) {
-			troupes = new ArrayList<>(this.troupesEquipe2.values());
+		List<Etudiant> troupes = new ArrayList<>();
+		switch (equipe) {
+			case UNE:
+				troupes = new ArrayList<>(this.troupesEquipe1.values());
+				break;
+			case DEUX:
+				troupes = new ArrayList<>(this.troupesEquipe2.values());
+				break;
+			default:
+				throw new IllegalArgumentException("Équipe incorrecte.");
 		}
-		troupes = new ArrayList<>(this.troupesEquipe1.values());
 		troupes.sort(Comparator.comparingInt(Etudiant::getCreditsTotal));
 		return troupes.get(0);
 	}
@@ -207,13 +211,13 @@ public class Zone implements Runnable {
 	 * aléatoire sur cette zone, afin que le combat ne soit pas bloqué.
 	 */
 	private void verifierStrategies() {
-		boolean defensiveEquipe1 = this.troupesEquipe1.values().stream().anyMatch(
-				e -> e.getStrategie() instanceof StrategieOffensive || e.getStrategie() instanceof StrategieAleatoire);
+		boolean defensiveEquipe1 = this.troupesEquipe1.isEmpty() ? false
+				: this.troupesEquipe1.values().stream().allMatch(e -> e.getStrategie() instanceof StrategieDefensive);
 
-		boolean defensiveEquipe2 = this.troupesEquipe2.values().stream().anyMatch(
-				e -> e.getStrategie() instanceof StrategieOffensive || e.getStrategie() instanceof StrategieAleatoire);
+		boolean defensiveEquipe2 = this.troupesEquipe2.isEmpty() ? false
+				: this.troupesEquipe2.values().stream().allMatch(e -> e.getStrategie() instanceof StrategieDefensive);
 
-		// Si tous les combattants de l'équipe 1 ont une stratégie défensive
+		// Si aucun combattant de l'équipe 1 n'a de stratégie offensive ou aléatoire
 		if (defensiveEquipe1) {
 			// On choisit un combattant au hasard et on lui met une stratégie offensive
 			Random r = new Random();

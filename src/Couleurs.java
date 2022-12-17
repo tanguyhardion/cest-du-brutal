@@ -20,23 +20,19 @@ public class Couleurs {
     public static final String CLEAR = "\033[H\033[2J";
 
     // Couleurs standards
-    public static final String NOIR = "\033[0;30m";
     public static final String ROUGE = "\033[0;31m";
     public static final String VERT = "\033[0;32m";
     public static final String JAUNE = "\033[0;33m";
     public static final String BLEU = "\033[0;34m";
     public static final String VIOLET = "\033[0;35m";
     public static final String CYAN = "\033[0;36m";
-    public static final String BLANC = "\033[0;37m";
 
     // Couleurs gras
-    public static final String NOIR_GRAS = "\033[1;30m";
     public static final String ROUGE_GRAS = "\033[1;31m";
     public static final String VERT_GRAS = "\033[1;32m";
     public static final String JAUNE_GRAS = "\033[1;33m";
     public static final String BLEU_GRAS = "\033[1;34m";
     public static final String VIOLET_GRAS = "\033[1;35m";
     public static final String CYAN_GRAS = "\033[1;36m";
-    public static final String BLANC_GRAS = "\033[1;37m";
 
 }
