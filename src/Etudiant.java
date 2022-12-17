@@ -13,8 +13,8 @@ public class Etudiant {
 	private int constitution;
 	private int initiative;
 	private boolean elimine;
-	private Equipe equipe;
 	private StrategieEtudiant strategie;
+	private final Equipe equipe;
 
 	/**
 	 * Constructeur de la classe Etudiant.
@@ -84,11 +84,18 @@ public class Etudiant {
 	 * <p>
 	 * Un étudiant ne peut gagner des crédits qu'en se faisant soigner par un
 	 * étudiant allié.
+	 * <p>
+	 * Ces crédits ne peuvent pas dépasser 100, afin que le combat ne se bloque pas
+	 * si les étudiants avec une stratégie offensive ne peuvent pas rivaliser contre
+	 * les étudiants avec une stratégie défensive.
 	 * 
 	 * @param credits le nombre de crédits à ajouter
 	 */
 	public void addCredits(int credits) {
 		this.credits += credits;
+		if (this.credits > 100) {
+			this.credits = 100;
+		}
 	}
 
 	/**

@@ -18,7 +18,7 @@ import java.util.concurrent.CyclicBarrier;
 public class Zone implements Runnable {
 
 	private boolean controlee;
-	private NomZone nom;
+	private final NomZone nom;
 	private Map<Integer, Etudiant> troupesEquipe1;
 	private Map<Integer, Etudiant> troupesEquipe2;
 	private static CountDownLatch partieLatch = new CountDownLatch(1);
@@ -65,7 +65,7 @@ public class Zone implements Runnable {
 					etudiant.agir(this.getLowestCredits(Equipe.UNE), this.getLowestCredits(Equipe.DEUX));
 					// On enlève les combattants éliminés
 					this.clearCombattantsElimines();
-					// On vérifie qu'au moins un combattant par équipe a une stratégie offensive
+					// On vérifie que chaque équipe a au moins une stratégie offensive ou aléatoire
 					this.verifierStrategies();
 				} else {
 					break;
@@ -207,25 +207,29 @@ public class Zone implements Runnable {
 	}
 
 	/**
-	 * Vérifie qu'il existe moins un combattant possède une stratégie offensive ou
-	 * aléatoire sur cette zone, afin que le combat ne soit pas bloqué.
+	 * Vérifie qu'il existe assez de combattants qui possèdent une stratégie
+	 * offensive ou aléatoire sur cette zone, afin que le combat ne soit pas bloqué.
 	 */
 	private void verifierStrategies() {
-		boolean defensiveEquipe1 = this.troupesEquipe1.isEmpty() ? false
-				: this.troupesEquipe1.values().stream().allMatch(e -> e.getStrategie() instanceof StrategieDefensive);
+		List<Etudiant> tempEquipe1 = new ArrayList<>(this.troupesEquipe1.values());
+		List<Etudiant> tempEquipe2 = new ArrayList<>(this.troupesEquipe2.values());
 
-		boolean defensiveEquipe2 = this.troupesEquipe2.isEmpty() ? false
-				: this.troupesEquipe2.values().stream().allMatch(e -> e.getStrategie() instanceof StrategieDefensive);
+		// On enlève les étudiants qui ont une stratégie offensive ou aléatoire
+		tempEquipe1.stream().filter(e -> e.getStrategie() instanceof StrategieDefensive);
+		tempEquipe2.stream().filter(e -> e.getStrategie() instanceof StrategieDefensive);
 
-		// Si aucun combattant de l'équipe 1 n'a de stratégie offensive ou aléatoire
-		if (defensiveEquipe1) {
-			// On choisit un combattant au hasard et on lui met une stratégie offensive
+		// Si il n'y a plus assez d'étudiants avec une stratégie offensive ou aléatoire
+		if (!this.troupesEquipe1.isEmpty() && (tempEquipe1.size() == Math.floor(this.troupesEquipe1.size() - 1)
+				|| tempEquipe1.size() == this.troupesEquipe1.size())) {
+			// On choisit un étudiant au hasard et on lui donne une stratégie offensive
 			Random r = new Random();
 			int randomKey = (int) this.troupesEquipe1.keySet().toArray()[r.nextInt(this.troupesEquipe1.size())];
 			this.troupesEquipe1.get(randomKey).setStrategie(new StrategieOffensive());
 		}
-		// Même chose pour l'équipe 2
-		if (defensiveEquipe2) {
+
+		// Même principe pour l'équipe 2
+		if (!this.troupesEquipe2.isEmpty() && (tempEquipe2.size() == Math.floor(this.troupesEquipe2.size() - 1)
+				|| tempEquipe2.size() == this.troupesEquipe2.size())) {
 			Random r = new Random();
 			int randomKey = (int) this.troupesEquipe2.keySet().toArray()[r.nextInt(this.troupesEquipe2.size())];
 			this.troupesEquipe2.get(randomKey).setStrategie(new StrategieOffensive());
@@ -295,18 +299,30 @@ public class Zone implements Runnable {
 				Couleurs.BLEU + "Combattant " + key + Couleurs.RESET + " " + etudiant.toString()));
 	}
 
+	/**
+	 * @return le latch qui notifie la Partie
+	 */
 	public static CountDownLatch getPartieLatch() {
 		return partieLatch;
 	}
 
+	/**
+	 * Réinitialise le latch qui notifie la Partie.
+	 */
 	public static void resetPartieLatch() {
 		partieLatch = new CountDownLatch(1);
 	}
 
+	/**
+	 * @return le latch qui notifie les zones
+	 */
 	public static CountDownLatch getZoneLatch() {
 		return zoneLatch;
 	}
 
+	/**
+	 * Réinitialise le latch qui notifie les zones.
+	 */
 	public static void resetZoneLatch() {
 		zoneLatch = new CountDownLatch(1);
 	}

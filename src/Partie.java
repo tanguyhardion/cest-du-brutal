@@ -18,8 +18,8 @@ import java.util.concurrent.ExecutorService;
  */
 public class Partie {
 
-	private Joueur joueur1;
-	private Joueur joueur2;
+	private final Joueur joueur1;
+	private final Joueur joueur2;
 	private List<Zone> zones;
 	private Scanner scanner;
 	private static Partie instance;
@@ -205,8 +205,7 @@ public class Partie {
 		// Valeurs aléatoires pour les caractéristiques des troupes du joueur 1
 		for (Etudiant etudiant : this.joueur1.getTroupes().values()) {
 			// On choisit une stratégie aléatoirement (0, 1 ou 2)
-			int strat = random.nextInt(3);
-			etudiant.setStrategie(strategie.get(2));
+			etudiant.setStrategie(strategie.get(random.nextInt(3)));
 
 			// Pour chaque caractéristique, on attribue une valeur aléatoire entre 0 et 8.
 			// De cette manière, en moyenne, la somme des valeurs sera égale à 400.
@@ -221,8 +220,7 @@ public class Partie {
 
 		// Même principe pour les troupes du joueur 2
 		for (Etudiant etudiant : this.joueur2.getTroupes().values()) {
-			int strat = random.nextInt(3);
-			etudiant.setStrategie(strategie.get(2));
+			etudiant.setStrategie(strategie.get(random.nextInt(3)));
 
 			etudiant.setDexterite(random.nextInt(9));
 			etudiant.setForce(random.nextInt(9));

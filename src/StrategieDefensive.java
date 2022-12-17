@@ -21,6 +21,7 @@ public class StrategieDefensive implements StrategieEtudiant {
 		if (x <= 20 + 6 * origine.getDexterite()) {
 			double y = Math.random() * 0.6;
 			double creditsGagnes = y * (10 + cible.getConstitution());
+			// Gain maximal de 30 + constitution du soigné
 			cible.addCredits(Math.min((int) Math.floor(creditsGagnes), 30 + cible.getConstitution()));
 		}
 	}
