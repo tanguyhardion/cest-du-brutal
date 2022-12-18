@@ -1,3 +1,5 @@
+package fr.utt.lo02.cdb.model;
+
 /**
  * Énumération des différentes filières parmi lesquelles un joueur peut choisir.
  */

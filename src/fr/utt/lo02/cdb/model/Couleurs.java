@@ -1,3 +1,5 @@
+package fr.utt.lo02.cdb.model;
+
 /**
  * Donne accès aux couleurs en ligne de commandes grâce aux escapes codes ANSI,
  * si le terminal est compatible.

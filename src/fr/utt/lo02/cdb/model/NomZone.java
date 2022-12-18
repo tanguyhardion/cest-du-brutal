@@ -1,3 +1,5 @@
+package fr.utt.lo02.cdb.model;
+
 /**
  * Énumération des noms des différentes zones.
  * <p>
