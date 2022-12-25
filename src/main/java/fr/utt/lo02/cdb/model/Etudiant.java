@@ -280,7 +280,7 @@ public class Etudiant {
         // Type de l'étudiant
         String type = "(" + this.getClass().getSimpleName() + ")";
 
-        return "Etudiant " + this.id + " " + type;
+        return "Combattant " + this.id + " " + type;
     }
 
 }

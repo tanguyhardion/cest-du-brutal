@@ -86,13 +86,13 @@ public class Zone implements Runnable {
 		this.controlee = true;
 		if (this.getTroupesEquipe1().isEmpty()) {
 			System.out.println();
-			System.out.println(Couleurs.VERT + "Le Joueur " + Partie.getInstance().getJoueur2().getFiliere()
-					+ " contrôle maintenant la zone " + this.nom + " !" + Couleurs.RESET + "\n");
+			System.out.println("Le Joueur " + Partie.getInstance().getJoueur2().getFiliere()
+					+ " contrôle maintenant la zone " + this.nom + " !\n");
 			Partie.getInstance().getJoueur2().addZoneControlee(this);
 		} else if (this.getTroupesEquipe2().isEmpty()) {
 			System.out.println();
-			System.out.println(Couleurs.VERT + "Le Joueur " + Partie.getInstance().getJoueur1().getFiliere()
-					+ " contrôle maintenant la zone " + this.nom + " !" + Couleurs.RESET + "\n");
+			System.out.println("Le Joueur " + Partie.getInstance().getJoueur1().getFiliere()
+					+ " contrôle maintenant la zone " + this.nom + " !\n");
 			Partie.getInstance().getJoueur1().addZoneControlee(this);
 		}
 		// On notifie la Partie qu'un thread est terminé

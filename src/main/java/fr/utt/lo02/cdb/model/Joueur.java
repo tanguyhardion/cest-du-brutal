@@ -49,25 +49,22 @@ public class Joueur {
     public void demanderFiliere(Filiere filiereInterdite) {
         String nomJoueur = this.getEquipe() == Equipe.UNE ? "Joueur 1" : "Joueur 2";
         Set<Filiere> filieres = EnumSet.allOf(Filiere.class);
-        filieres.remove(Filiere.NONE);
-        System.out.println(Couleurs.JAUNE + nomJoueur + ", à quelle filière appartenez vous ? " + filieres.toString()
-                + Couleurs.RESET);
+        System.out.println(nomJoueur + ", à quelle filière appartenez vous ? " + filieres.toString());
 
         // Tant que le joueur n'a pas défini sa filière.
         while (this.filiere == null) {
             try {
                 System.out.print("Filière : ");
                 Filiere filiere = Filiere.valueOf(scanner.next().toUpperCase());
-                if (filiere == filiereInterdite || filiere == Filiere.NONE) {
-                    System.out.println(Couleurs.ROUGE + "Cette filière n'est pas disponible." + Couleurs.RESET);
+                if (filiere == filiereInterdite) {
+                    System.out.println("Cette filière n'est pas disponible.");
                 } else {
                     this.filiere = filiere;
-                    System.out.println(Couleurs.VERT + nomJoueur + ", vous appartenez à la filière " + this.filiere
-                            + Couleurs.RESET + "\n");
+                    System.out.println(nomJoueur + ", vous appartenez à la filière " + this.filiere + "\n");
                     break;
                 }
             } catch (IllegalArgumentException e) {
-                System.err.println(Couleurs.ROUGE + "Veuillez entrer une filière valide." + Couleurs.RESET);
+                System.err.println("Veuillez entrer une filière valide.");
             }
         }
     }
@@ -99,8 +96,8 @@ public class Joueur {
      */
     public void parametrerTroupes() {
         System.out.println();
-        System.out.println(Couleurs.JAUNE + "Joueur " + this.getFiliere() + ", vous avez " + this.points
-                + " points à attribuer aux différentes compétences de vos troupes :" + Couleurs.RESET);
+        System.out.println("Joueur " + this.getFiliere() + ", vous avez " + this.points
+                + " points à attribuer aux différentes compétences de vos troupes :");
 
         // Compteur pour les combattants
         int n = 1;
@@ -109,15 +106,15 @@ public class Joueur {
         for (Etudiant etudiant : this.getTroupes()) {
 
             // Affichage : "Étudiant n°..."
-            System.out.print(Couleurs.BLEU + "\nCombattant " + n++);
+            System.out.print("\nCombattant " + n++);
 
             // Affichage du type de l'étudiant, s'il en a un
             if (etudiant instanceof MaitreGobi) {
-                System.out.println(" (Maître du gobi) :" + Couleurs.RESET);
+                System.out.println(" (Maître du gobi) :");
             } else if (etudiant instanceof EtudiantElite) {
-                System.out.println(" (étudiant d'élite) :" + Couleurs.RESET);
+                System.out.println(" (étudiant d'élite) :");
             } else {
-                System.out.println(" :" + Couleurs.RESET);
+                System.out.println(" :");
             }
 
             // Tant que l'utilisateur n'a pas défini la dexterité de l'étudiant
@@ -128,17 +125,17 @@ public class Joueur {
                     int dexterite = Integer.parseInt(scanner.next());
                     // Si l'utilisateur a entré un nombre supérieur à son nombre de points restants
                     if (dexterite > this.points) {
-                        System.out.println(Couleurs.ROUGE + "Vous n'avez pas assez de points. Points restants : "
-                                + this.points + Couleurs.RESET);
+                        System.out.println("Vous n'avez pas assez de points. Points restants : "
+                                + this.points);
                     } else {
                         etudiant.setDexterite(dexterite);
                         this.points -= dexterite;
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier." + Couleurs.RESET);
+                    System.out.println("Veuillez entrer un nombre entier.");
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -148,17 +145,17 @@ public class Joueur {
                     System.out.print("Force : ");
                     int force = Integer.parseInt(scanner.next());
                     if (force > this.points) {
-                        System.out.println(Couleurs.ROUGE + "Vous n'avez pas assez de points. Points restants : "
-                                + this.points + Couleurs.RESET);
+                        System.out.println("Vous n'avez pas assez de points. Points restants : "
+                                + this.points);
                     } else {
                         etudiant.setForce(force);
                         this.points -= force;
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier." + Couleurs.RESET);
+                    System.out.println("Veuillez entrer un nombre entier.");
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -168,17 +165,17 @@ public class Joueur {
                     System.out.print("Résistance : ");
                     int resistance = Integer.parseInt(scanner.next());
                     if (resistance > this.points) {
-                        System.out.println(Couleurs.ROUGE + "Vous n'avez pas assez de points. Points restants : "
-                                + this.points + Couleurs.RESET);
+                        System.out.println("Vous n'avez pas assez de points. Points restants : "
+                                + this.points);
                     } else {
                         etudiant.setResistance(resistance);
                         this.points -= resistance;
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier." + Couleurs.RESET);
+                    System.out.println("Veuillez entrer un nombre entier.");
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -188,17 +185,17 @@ public class Joueur {
                     System.out.print("Constitution : ");
                     int constitution = Integer.parseInt(scanner.next());
                     if (constitution > this.points) {
-                        System.out.println(Couleurs.ROUGE + "Vous n'avez pas assez de points. Points restants : "
-                                + this.points + Couleurs.RESET);
+                        System.out.println("Vous n'avez pas assez de points. Points restants : "
+                                + this.points);
                     } else {
                         etudiant.setConstitution(constitution);
                         this.points -= constitution;
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier." + Couleurs.RESET);
+                    System.out.println("Veuillez entrer un nombre entier.");
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -208,17 +205,17 @@ public class Joueur {
                     System.out.print("Initiative : ");
                     int initiative = Integer.parseInt(scanner.next());
                     if (initiative > this.points) {
-                        System.out.println(Couleurs.ROUGE + "Vous n'avez pas assez de points. Points restants : "
-                                + this.points + Couleurs.RESET);
+                        System.out.println("Vous n'avez pas assez de points. Points restants : "
+                                + this.points);
                     } else {
                         etudiant.setInitiative(initiative);
                         this.points -= initiative;
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier." + Couleurs.RESET);
+                    System.out.println("Veuillez entrer un nombre entier.");
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -242,19 +239,17 @@ public class Joueur {
                     }
                     break;
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                    System.err.println(e.getMessage());
                 }
             }
 
             // Affichage du nombre de points restants
             if (this.points == 1) {
-                System.out.println("\n" + Couleurs.JAUNE + "Il vous reste " + this.points + " point à attribuer."
-                        + Couleurs.RESET);
+                System.out.println("\nIl vous reste " + this.points + " point à attribuer.");
             } else if (this.points > 0) {
-                System.out.println("\n" + Couleurs.JAUNE + "Il vous reste " + this.points + " points à attribuer."
-                        + Couleurs.RESET);
+                System.out.println("\nIl vous reste " + this.points + " points à attribuer.");
             } else {
-                System.out.println("\n" + Couleurs.ROUGE + "Vous n'avez plus de points." + Couleurs.RESET);
+                System.out.println("\n" + "Vous n'avez plus de points.");
             }
         }
     }
@@ -267,11 +262,10 @@ public class Joueur {
         // Compteur pour les réservistes
         int n = 1;
 
-        System.out.println("\n" + Couleurs.JAUNE + "Joueur " + this.getFiliere()
-                + ", choisissez vos réservistes (les troupes qui n'iront pas tout de suite sur les zones de combat).\n"
-                + Couleurs.RESET);
-        System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
-        System.out.println("Pour afficher vos réservistes, entrez " + Couleurs.BLEU + "r" + Couleurs.RESET + ".");
+        System.out.println("\nJoueur " + this.getFiliere()
+                + ", choisissez vos réservistes (les troupes qui n'iront pas tout de suite sur les zones de combat).\n");
+        System.out.println("Pour afficher vos troupes, entrez t" + ".");
+        System.out.println("Pour afficher vos réservistes, entrez r" + ".");
         System.out.println("Pour choisir un réserviste, entrez son numéro.");
 
         // Tant que le joueur n'a pas choisi 5 réservistes
@@ -290,16 +284,16 @@ public class Joueur {
                     n++;
                     // On enlève l'étudiant des troupes
                     this.removeEtudiant(id);
-                    System.out.println(Couleurs.VERT + "Réserviste ajouté." + Couleurs.RESET);
+                    System.out.println("Réserviste ajouté.");
                 } else {
-                    System.out.println(Couleurs.ROUGE + "Combattant incorrect." + Couleurs.RESET);
+                    System.out.println("Combattant incorrect.");
                 }
             } catch (NumberFormatException e) {
-                System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide." + Couleurs.RESET);
+                System.err.println("Veuillez entrer un nombre entier valide.");
             } catch (NullPointerException e) {
-                System.err.println(Couleurs.ROUGE + "Ce combattant est déjà un réserviste." + Couleurs.RESET);
+                System.err.println("Ce combattant est déjà un réserviste.");
             } catch (IllegalArgumentException e) {
-                System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                System.err.println(e.getMessage());
             }
         }
     }
@@ -316,16 +310,14 @@ public class Joueur {
         int zonesRestantes = zones.size();
 
         System.out.println();
-        System.out.println(
-                Couleurs.JAUNE + "Joueur " + this.getFiliere() + ", répartissez vos troupes.\n" + Couleurs.RESET);
+        System.out.println("Joueur " + this.getFiliere() + ", répartissez vos troupes.\n");
         System.out.println("Pour choisir un combattant, entrez son numéro.");
         System.out.println("Vous devez déployer au moins 1 combattant par zone.");
-        System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "s" + Couleurs.RESET + ".");
-        System.out.println("Vous pouvez à tout moment entrer " + Couleurs.BLEU + "aleatoire" + Couleurs.RESET
-                + " pour répartir vos troupes aléatoirement.");
+        System.out.println("Pour passer à la zone suivante, entrez s.");
+        System.out.println("Vous pouvez à tout moment entrer aleatoire pour répartir vos troupes aléatoirement.");
 
         for (Zone zone : zones) {
-            System.out.println("\n" + Couleurs.BLEU + zone.getNom() + " :" + Couleurs.RESET);
+            System.out.println("\n" + zone.getNom() + " :");
 
             // Tant qu'il reste des combattants à déployer et qu'il reste assez de
             // combattants au joueur pour en déployer au moins un sur chaque zone
@@ -337,8 +329,8 @@ public class Joueur {
                         // Si le joueur entre "s" mais qu'il n'a déployé aucun combattant
                         if (zone.getTroupesEquipe1().isEmpty() && this.equipe == Equipe.UNE
                                 || zone.getTroupesEquipe2().isEmpty() && this.equipe == Equipe.DEUX) {
-                            System.out.println(Couleurs.ROUGE + "Vous devez déployer au moins 1 combattant par zone."
-                                    + Couleurs.RESET);
+                            System.out.println("Vous devez déployer au moins 1 combattant par zone."
+                                   );
                         } else {
                             // Si le joueur a déployé au moins un combattant, on passe à la zone suivante
                             zonesRestantes--;
@@ -354,14 +346,14 @@ public class Joueur {
                         zone.addCombattant(etudiant);
                         // On enlève le combattant des troupes du joueur
                         this.removeEtudiant(key);
-                        System.out.println(Couleurs.VERT + "Combattant ajouté." + Couleurs.RESET);
+                        System.out.println("Combattant ajouté.");
                     } else {
-                        System.out.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
+                        System.out.println("Combattant invalide.");
                     }
                 } catch (NumberFormatException e) {
-                    System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide." + Couleurs.RESET);
+                    System.err.println("Veuillez entrer un nombre entier valide.");
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + "Ce combattant a déjà été déployé." + Couleurs.RESET);
+                    System.err.println("Ce combattant a déjà été déployé.");
                 }
             }
 
@@ -414,21 +406,20 @@ public class Joueur {
     public void affecterReservistes(List<Zone> zonesNonControlees, List<Zone> zones) {
         // Si le joueur n'a aucun réserviste à affecter
         if (this.reservistes.size() == 0) {
-            System.out.println(Couleurs.ROUGE + "Joueur " + this.getFiliere()
-                    + ", vous n'avez aucun réserviste à affecter." + Couleurs.RESET);
+            System.out.println("Joueur " + this.getFiliere()
+                    + ", vous n'avez aucun réserviste à affecter.");
             return;
         }
 
         System.out.println();
-        System.out.println(Couleurs.JAUNE + "Joueur " + this.getFiliere()
-                + ", vous pouvez maintenant affecter vos réservistes." + Couleurs.RESET);
+        System.out.println("Joueur " + this.getFiliere()
+                + ", vous pouvez maintenant affecter vos réservistes.");
         System.out.println();
         System.out.println("Pour choisir un réserviste, entrez son numéro.");
-        System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "s" + Couleurs.RESET
-                + ".");
+        System.out.println("Pour passer à la zone suivante, entrez s.");
 
         for (Zone zone : zonesNonControlees) {
-            System.out.println("\n" + Couleurs.BLEU + zone.getNom() + " :" + Couleurs.RESET);
+            System.out.println("\n" + zone.getNom() + " :");
 
             // Tant qu'il reste des réservistes à affecter
             while (!this.getReservistes().isEmpty()) {
@@ -445,22 +436,22 @@ public class Joueur {
                         zones.get(zones.indexOf(zone)).addCombattant(etudiant);
                         // On enlève le réserviste des réservistes du joueur
                         this.removeReserviste(key);
-                        System.out.println(Couleurs.VERT + "Réserviste affecté." + Couleurs.RESET);
+                        System.out.println("Réserviste affecté.");
                     } else {
-                        System.out.println(Couleurs.ROUGE + "Réserviste invalide." + Couleurs.RESET);
+                        System.out.println("Réserviste invalide.");
                     }
                 } catch (NumberFormatException e) {
-                    System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide."
-                            + Couleurs.RESET);
+                    System.err.println("Veuillez entrer un nombre entier valide."
+                           );
                 } catch (IllegalArgumentException e) {
-                    System.err.println(Couleurs.ROUGE + "Ce réserviste a déjà été déployé." + Couleurs.RESET);
+                    System.err.println("Ce réserviste a déjà été déployé.");
                 }
             }
 
             // Si le joueur n'a plus de réservistes à affecter, on sort de la boucle
             if (this.getReservistes().isEmpty()) {
-                System.out.println("\n" + Couleurs.ROUGE + "Vous n'avez plus de réservistes à affecter."
-                        + Couleurs.RESET);
+                System.out.println("\n" + "Vous n'avez plus de réservistes à affecter."
+                       );
                 break;
             }
         }
@@ -482,38 +473,34 @@ public class Joueur {
 
         // Si le joueur n'a aucune zone contrôlée avec au moins 2 combattants
         if (zonesControlees.isEmpty()) {
-            System.out.println(Couleurs.ROUGE + "Joueur " + this.getFiliere()
-                    + ", vous n'avez aucun combattant à redéployer." + Couleurs.RESET);
+            System.out.println("Joueur " + this.getFiliere()
+                    + ", vous n'avez aucun combattant à redéployer.");
             return;
         }
 
         System.out.println();
-        System.out.println(Couleurs.JAUNE + "Joueur " + this.getFiliere()
-                + ", vous pouvez maintenant redéployer vos troupes." + Couleurs.RESET);
+        System.out.println("Joueur " + this.getFiliere()
+                + ", vous pouvez maintenant redéployer vos troupes.");
         System.out.println();
-        System.out.println("Pour afficher vos troupes, entrez " + Couleurs.BLEU + "t" + Couleurs.RESET + ".");
+        System.out.println("Pour afficher vos troupes, entrez t" + ".");
         System.out.println("Pour choisir un combattant, entrez son numéro.");
-        System.out.println("Pour passer à la zone suivante, entrez " + Couleurs.BLEU + "s" + Couleurs.RESET + ".");
+        System.out.println("Pour passer à la zone suivante, entrez s" + ".");
 
         // Pour toutes les zones contrôlées par le joueur qui ont au moins 2 combattants
         for (Zone zoneC : zonesControlees) {
             // On affiche le nom de la zone en cours contrôlée
-            System.out.println("\n" + Couleurs.BLEU + zoneC.getNom() + " (contrôlée)" + " :" + Couleurs.RESET);
+            System.out.println("\n" + zoneC.getNom() + " (contrôlée)" + " :");
             // Pour toutes les zones non contrôlées, sur lesquelles le joueur peut
             // redéployer
             for (Zone zoneNC : zonesNonControlees) {
                 // Tant que le joueur a des combattants à redéployer
                 while (zoneC.getTroupes(this).size() > 1) {
                     // On affiche le nom de la zone en cours non contrôlée
-                    System.out.println("\n" + Couleurs.BLEU + zoneNC.getNom() + " :" + Couleurs.RESET);
+                    System.out.println("\n" + zoneNC.getNom() + " :");
 
                     try {
                         String s = scanner.next().toLowerCase();
-
-                        // Si le joueur entre "t", on affiche ses troupes
-                        if (s.equals("t")) {
-                            zoneC.afficherTroupes();
-                        } else if (s.equals("s")) {
+                        if (s.equals("s")) {
                             // Si le joueur entre "s", on passe à la zone suivante
                             break;
                         } else if (Integer.parseInt(s) > 0) {
@@ -526,22 +513,22 @@ public class Joueur {
                             // On retire le combattant de la zone contrôlée
                             this.zonesControlees.get(this.zonesControlees.indexOf(zoneC)).removeCombattant(key,
                                     etudiant);
-                            System.out.println(Couleurs.VERT + "Combattant redeployé" + Couleurs.RESET);
+                            System.out.println("Combattant redeployé");
                         } else {
-                            System.out.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
+                            System.out.println("Combattant invalide.");
                         }
                     } catch (NumberFormatException e) {
-                        System.err.println(Couleurs.ROUGE + "Veuillez entrer un nombre entier valide."
-                                + Couleurs.RESET);
+                        System.err.println("Veuillez entrer un nombre entier valide."
+                               );
                     } catch (NullPointerException e) {
-                        System.err.println(Couleurs.ROUGE + "Combattant invalide." + Couleurs.RESET);
+                        System.err.println("Combattant invalide.");
                     }
                 }
             }
             // Si le joueur n'a plus de combattants à redéployer
             if (zoneC.getTroupes(this).size() <= 1) {
                 System.out.println(
-                        "\n" + Couleurs.ROUGE + "Vous n'avez plus de combattants à redéployer." + Couleurs.RESET);
+                        "\n" + "Vous n'avez plus de combattants à redéployer.");
                 // On sort de la boucle for
                 break;
             }
@@ -582,12 +569,12 @@ public class Joueur {
                         }
                         break;
                     } catch (IllegalArgumentException e) {
-                        System.err.println(Couleurs.ROUGE + e.getMessage() + Couleurs.RESET);
+                        System.err.println(e.getMessage());
                     }
                 }
                 break;
             } else {
-                System.out.println(Couleurs.ROUGE + "Saisie non reconnue." + Couleurs.RESET);
+                System.out.println("Saisie non reconnue.");
             }
         }
 
@@ -605,6 +592,10 @@ public class Joueur {
      */
     public Filiere getFiliere() {
         return this.filiere;
+    }
+
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
     }
 
     /**
@@ -675,6 +666,11 @@ public class Joueur {
      */
     public void addZoneControlee(Zone zone) {
         this.zonesControlees.add(zone);
+    }
+
+    @Override
+    public String toString() {
+        return "Joueur " + this.filiere;
     }
 
 }
