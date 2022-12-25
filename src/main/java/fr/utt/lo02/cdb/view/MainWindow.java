@@ -4,11 +4,15 @@
 
 package fr.utt.lo02.cdb.view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.GroupLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 
 /**
- * @author tangu
+ * @author Tanguy HARDION
  */
 public class MainWindow extends JFrame {
 
@@ -16,7 +20,15 @@ public class MainWindow extends JFrame {
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
     public MainWindow() {
+        super("C'est du brutal !");
         initComponents();
+        // Termine le programme lorsqu'on ferme la fenêtre
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                System.exit(0);
+            }
+        });
     }
 
     private void initComponents() {
