@@ -215,8 +215,8 @@ public class Zone implements Runnable {
 		List<Etudiant> tempEquipe2 = new ArrayList<>(this.troupesEquipe2.values());
 
 		// On enlève les étudiants qui ont une stratégie offensive ou aléatoire
-		tempEquipe1.stream().filter(e -> e.getStrategie() instanceof StrategieDefensive);
-		tempEquipe2.stream().filter(e -> e.getStrategie() instanceof StrategieDefensive);
+		tempEquipe1.removeIf(e -> e.getStrategie() instanceof StrategieDefensive);
+		tempEquipe2.removeIf(e -> e.getStrategie() instanceof StrategieDefensive);
 
 		// Si il n'y a plus assez d'étudiants avec une stratégie offensive ou aléatoire
 		if (!this.troupesEquipe1.isEmpty() && (tempEquipe1.size() == Math.floor(this.troupesEquipe1.size() - 1)
