@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space ::525:x, comp label1:::p::p, space u:::p, comp joueurComboBox:::p::p, space :p:24:p}, seq l {space :p:39:p, par l {comp label2:::p::p, comp troupesComboBox:::p::p}, space ::562:x}}"
-			"$verticalGroup": "par l {seq l {space :p:14:p, par b {comp joueurComboBox::b:p::p, comp label1::b:p::p}, space :p:38:p, comp label2:::p::p, space u:::p, comp troupesComboBox:::p::p, space ::336:x}}"
+			"$horizontalGroup": "par l {seq l {space :p:17:p, par l {comp label2:::p::p, comp troupesComboBox:::p::p, seq {comp label1:::p::p, space u:::p, comp joueurComboBox:::p::p}}, space ::532:x}}"
+			"$verticalGroup": "par l {seq l {space :p:22:p, par b {comp joueurComboBox::b:p::p, comp label1::b:p::p}, space :p:80:p, comp label2:::p::p, space u:::p, comp troupesComboBox:::p::p, space ::286:x}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JComboBox" ) {
@@ -13,6 +13,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "joueurComboBox"
+				addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "joueurComboBoxItemStateChanged", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label1"
@@ -20,7 +21,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label2"
-				"text": "Combattants :"
+				"text": "Combattant :"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
