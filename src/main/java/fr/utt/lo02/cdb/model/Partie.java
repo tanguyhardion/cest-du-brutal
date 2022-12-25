@@ -1,5 +1,8 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.controller.ConfigController;
+import fr.utt.lo02.cdb.view.Configuration;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -37,9 +40,9 @@ public class Partie {
 		this.zones = new ArrayList<>();
 		this.scanner = new Scanner(System.in);
 
-		// on récupère tous les noms de zones
+		// On récupère tous les noms de zones
 		Set<NomZone> zones = EnumSet.allOf(NomZone.class);
-		// on crée une zone pour chaque nom de zone
+		// On crée une zone pour chaque nom de zone
 		for (NomZone nom : zones) {
 			this.zones.add(new Zone(nom));
 		}
@@ -61,22 +64,21 @@ public class Partie {
 	 * Commence et gère la partie.
 	 */
 	public void commencer() {
-		System.out.println(Couleurs.CLEAR);
-		System.out.flush();
-
-		System.out.println(Couleurs.CYAN_GRAS + "---------------- C'EST DU BRUTAL ! ----------------" + Couleurs.RESET);
-		System.out.println("Bienvenue dans le jeu. Vous allez jouer à deux, chacun votre tour.");
-		System.out.println("Pour gagner, vous devrez conquérir 3 zones d'influence.");
-		System.out.println("\nChaque étape du jeu est décrite dans le terminal.\n");
-
-		// On demande à chaque joueur de choisir sa filière
-		joueur1.demanderFiliere(Filiere.NONE);
-		joueur2.demanderFiliere(joueur1.getFiliere());
-
 		// On initialise les troupes de chaque joueur
 		// (15 étudiants, 4 étudiants d'élite, 1 Maître du gobi)
 		joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
 		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
+
+		Configuration configuration = new Configuration();
+		ConfigController configController = new ConfigController(configuration, this.joueur1);
+		ConfigController configController2 = new ConfigController(configuration, this.joueur2);
+		configController.loadTroupes();
+		configController2.loadTroupes();
+		configuration.setVisible(true);
+
+		// On demande à chaque joueur de choisir sa filière
+		joueur1.demanderFiliere(Filiere.NONE);
+		joueur2.demanderFiliere(joueur1.getFiliere());
 
 		System.out.println(Couleurs.JAUNE
 				+ "\nVoulez-vous jouer avec des étudiants paramétrés aléatoirement ? [oui, non]" + Couleurs.RESET);

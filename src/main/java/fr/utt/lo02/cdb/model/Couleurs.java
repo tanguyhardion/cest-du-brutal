@@ -12,7 +12,7 @@ package fr.utt.lo02.cdb.model;
  * <p>
  * {@code System.out.println(Couleurs.ROUGE + "texte" + Couleurs.RESET);}
  * <p>
- * Source : https://stackoverflow.com/a/45444716
+ * <a href="https://stackoverflow.com/a/45444716">Source</a>
  */
 public class Couleurs {
 
