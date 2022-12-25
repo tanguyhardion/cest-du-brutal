@@ -3,17 +3,29 @@ JFDML JFormDesigner: "8.0.1.0.199" Java: "17.0.3" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:26:p, comp troupesComboBox:::p::p, space ::583:x}}"
-			"$verticalGroup": "par l {seq l {space :p:27:p, comp troupesComboBox:::p::p, space ::410:x}}"
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p:15:p, par l {comp joueurComboBox:::p::p, comp combattantsLabel:::p::p, comp joueurLabel:::p::p, comp troupesComboBox::l:p::p}, space ::581:x}}"
+			"$verticalGroup": "par l {seq l {space :p:17:p, comp joueurLabel:::p::p, space u:::p, comp joueurComboBox:::p::p, space :p:67:p, comp combattantsLabel:::p::p, space u:::p, comp troupesComboBox:::p::p, space ::271:x}}"
 		} ) {
 			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "combattantsLabel"
+				"text": "Combattants :"
+			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "troupesComboBox"
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "joueurLabel"
+				"text": "Joueur :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "joueurComboBox"
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 710, 510 )
+			"size": new java.awt.Dimension( 695, 495 )
 		} )
 	}
 }
+

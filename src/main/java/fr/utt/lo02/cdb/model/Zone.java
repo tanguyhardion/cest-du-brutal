@@ -21,8 +21,8 @@ public class Zone implements Runnable {
 
 	private boolean controlee;
 	private final NomZone nom;
-	private Map<Integer, Etudiant> troupesEquipe1;
-	private Map<Integer, Etudiant> troupesEquipe2;
+	private List<Etudiant> troupesEquipe1;
+	private List<Etudiant> troupesEquipe2;
 	private static CountDownLatch partieLatch = new CountDownLatch(1);
 	private static CountDownLatch zoneLatch = new CountDownLatch(1);
 	private static final CyclicBarrier barrier = new CyclicBarrier(NomZone.values().length);
@@ -38,8 +38,8 @@ public class Zone implements Runnable {
 	 */
 	public Zone(NomZone nom) {
 		this.nom = nom;
-		this.troupesEquipe1 = new Hashtable<Integer, Etudiant>();
-		this.troupesEquipe2 = new Hashtable<Integer, Etudiant>();
+		this.troupesEquipe1 = new ArrayList<Etudiant>();
+		this.troupesEquipe2 = new ArrayList<Etudiant>();
 	}
 
 	/**
@@ -110,9 +110,9 @@ public class Zone implements Runnable {
 			throw new IllegalArgumentException("Étudiant incorrect.");
 		}
 		if (etudiant.getEquipe() == Equipe.UNE) {
-			this.troupesEquipe1.put(this.troupesEquipe1.size() + 1, etudiant);
+			this.troupesEquipe1.add(etudiant);
 		} else if (etudiant.getEquipe() == Equipe.DEUX) {
-			this.troupesEquipe2.put(this.troupesEquipe2.size() + 1, etudiant);
+			this.troupesEquipe2.add(etudiant);
 		}
 	}
 
@@ -142,8 +142,8 @@ public class Zone implements Runnable {
 	 */
 	private List<Etudiant> getTroupesParInitiative() {
 		List<Etudiant> troupes = new ArrayList<>();
-		troupes.addAll(this.troupesEquipe1.values());
-		troupes.addAll(this.troupesEquipe2.values());
+		troupes.addAll(this.troupesEquipe1);
+		troupes.addAll(this.troupesEquipe2);
 		troupes.sort(Comparator.comparingInt(Etudiant::getInitiative).reversed());
 		return troupes;
 	}
@@ -159,10 +159,10 @@ public class Zone implements Runnable {
 		List<Etudiant> troupes = new ArrayList<>();
 		switch (equipe) {
 			case UNE:
-				troupes = new ArrayList<>(this.troupesEquipe1.values());
+				troupes = new ArrayList<>(this.troupesEquipe1);
 				break;
 			case DEUX:
-				troupes = new ArrayList<>(this.troupesEquipe2.values());
+				troupes = new ArrayList<>(this.troupesEquipe2);
 				break;
 			default:
 				throw new IllegalArgumentException("Équipe incorrecte.");
@@ -179,7 +179,7 @@ public class Zone implements Runnable {
 	 */
 	public int getCreditsEquipeUne() {
 		int credits = 0;
-		for (Etudiant e : this.troupesEquipe1.values()) {
+		for (Etudiant e : this.troupesEquipe1) {
 			credits += e.getCreditsTotal();
 		}
 		return credits;
@@ -193,7 +193,7 @@ public class Zone implements Runnable {
 	 */
 	public int getCreditsEquipeDeux() {
 		int credits = 0;
-		for (Etudiant e : this.troupesEquipe2.values()) {
+		for (Etudiant e : this.troupesEquipe2) {
 			credits += e.getCreditsTotal();
 		}
 		return credits;
@@ -204,8 +204,8 @@ public class Zone implements Runnable {
 	 * de chaque équipe.
 	 */
 	private void clearCombattantsElimines() {
-		this.troupesEquipe1.values().removeIf(e -> e.isElimine());
-		this.troupesEquipe2.values().removeIf(e -> e.isElimine());
+		this.troupesEquipe1.removeIf(e -> e.isElimine());
+		this.troupesEquipe2.removeIf(e -> e.isElimine());
 	}
 
 	/**
@@ -213,29 +213,23 @@ public class Zone implements Runnable {
 	 * offensive ou aléatoire sur cette zone, afin que le combat ne soit pas bloqué.
 	 */
 	private void verifierStrategies() {
-		List<Etudiant> tempEquipe1 = new ArrayList<>(this.troupesEquipe1.values());
-		List<Etudiant> tempEquipe2 = new ArrayList<>(this.troupesEquipe2.values());
+		List<Etudiant> tempEquipe1 = new ArrayList<>(this.troupesEquipe1);
+		List<Etudiant> tempEquipe2 = new ArrayList<>(this.troupesEquipe2);
 
 		// On enlève les étudiants qui ont une stratégie offensive ou aléatoire
-		tempEquipe1.stream().filter(e -> e.getStrategie() instanceof StrategieDefensive);
-		tempEquipe2.stream().filter(e -> e.getStrategie() instanceof StrategieDefensive);
+		tempEquipe1.removeIf(e -> e.getStrategie() instanceof StrategieDefensive);
+		tempEquipe2.removeIf(e -> e.getStrategie() instanceof StrategieDefensive);
 
 		// Si il n'y a plus assez d'étudiants avec une stratégie offensive ou aléatoire
 		if (!this.troupesEquipe1.isEmpty() && (tempEquipe1.size() == Math.floor(this.troupesEquipe1.size() - 1)
 				|| tempEquipe1.size() == this.troupesEquipe1.size())) {
 			// On choisit un étudiant au hasard et on lui donne une stratégie offensive
 			Random r = new Random();
-			int randomKey = (int) this.troupesEquipe1.keySet().toArray()[r.nextInt(this.troupesEquipe1.size())];
-			this.troupesEquipe1.get(randomKey).setStrategie(new StrategieOffensive());
+			Etudiant etudiantRandom = this.troupesEquipe1.get(r.nextInt(this.troupesEquipe1.size()));
+			etudiantRandom.setStrategie(new StrategieOffensive());
 		}
 
 		// Même principe pour l'équipe 2
-		if (!this.troupesEquipe2.isEmpty() && (tempEquipe2.size() == Math.floor(this.troupesEquipe2.size() - 1)
-				|| tempEquipe2.size() == this.troupesEquipe2.size())) {
-			Random r = new Random();
-			int randomKey = (int) this.troupesEquipe2.keySet().toArray()[r.nextInt(this.troupesEquipe2.size())];
-			this.troupesEquipe2.get(randomKey).setStrategie(new StrategieOffensive());
-		}
 	}
 
 	/**
@@ -256,14 +250,14 @@ public class Zone implements Runnable {
 	/**
 	 * @return les troupes du Joueur 1 présentes sur cette zone
 	 */
-	public Map<Integer, Etudiant> getTroupesEquipe1() {
+	public List<Etudiant> getTroupesEquipe1() {
 		return troupesEquipe1;
 	}
 
 	/**
 	 * @return les troupes du Joueur 2 présentes sur cette zone
 	 */
-	public Map<Integer, Etudiant> getTroupesEquipe2() {
+	public List<Etudiant> getTroupesEquipe2() {
 		return troupesEquipe2;
 	}
 
@@ -277,28 +271,16 @@ public class Zone implements Runnable {
 	 * @param joueur le joueur dont on veut les troupes
 	 * @return la liste des étudiants présents sur cette zone pour le joueur
 	 */
-	public Map<Integer, Etudiant> getTroupes(Joueur joueur) {
+	public List<Etudiant> getTroupes(Joueur joueur) {
 		if (joueur == null) {
 			throw new IllegalArgumentException("Joueur incorrect.");
 		}
 		if (joueur.getEquipe() == Equipe.UNE) {
-			return new Hashtable<Integer, Etudiant>(this.troupesEquipe1);
+			return new ArrayList<Etudiant>(this.troupesEquipe1);
 		} else if (joueur.getEquipe() == Equipe.DEUX) {
-			return new Hashtable<Integer, Etudiant>(this.troupesEquipe2);
+			return new ArrayList<Etudiant>(this.troupesEquipe2);
 		}
 		return null;
-	}
-
-	/**
-	 * Affiche toutes les troupes présentes sur cette zone dans la console.
-	 */
-	public void afficherTroupes() {
-		Map<Integer, Etudiant> troupes = new Hashtable<Integer, Etudiant>();
-		troupes.putAll(this.troupesEquipe1);
-		troupes.putAll(this.troupesEquipe2);
-		System.out.println("\nVos troupes sur la zone " + Couleurs.CYAN + this.nom + Couleurs.RESET + " :");
-		troupes.forEach((key, etudiant) -> System.out.println(
-				Couleurs.BLEU + "Combattant " + key + Couleurs.RESET + " " + etudiant.toString()));
 	}
 
 	/**

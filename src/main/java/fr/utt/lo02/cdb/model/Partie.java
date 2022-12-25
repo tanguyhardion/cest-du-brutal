@@ -1,7 +1,7 @@
 package fr.utt.lo02.cdb.model;
 
-import fr.utt.lo02.cdb.controller.ConfigController;
-import fr.utt.lo02.cdb.view.Configuration;
+import fr.utt.lo02.cdb.controller.*;
+import fr.utt.lo02.cdb.view.*;
 
 import java.util.List;
 import java.util.Random;
@@ -70,18 +70,11 @@ public class Partie {
 		joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 
 		Configuration configuration = new Configuration();
-		ConfigController configController = new ConfigController(configuration, this.joueur1);
-		ConfigController configController2 = new ConfigController(configuration, this.joueur2);
-		configController.loadTroupes();
-		configController2.loadTroupes();
 		configuration.setVisible(true);
 
 		// On demande à chaque joueur de choisir sa filière
 		joueur1.demanderFiliere(Filiere.NONE);
 		joueur2.demanderFiliere(joueur1.getFiliere());
-
-		System.out.println(Couleurs.JAUNE
-				+ "\nVoulez-vous jouer avec des étudiants paramétrés aléatoirement ? [oui, non]" + Couleurs.RESET);
 
 		boolean parametrageManuel = false;
 
@@ -190,7 +183,6 @@ public class Partie {
 
 		executor.shutdownNow();
 		this.scanner.close();
-		Joueur.closeScanner();
 	}
 
 	/**
@@ -207,7 +199,7 @@ public class Partie {
 		final Random random = new Random();
 
 		// Valeurs aléatoires pour les caractéristiques des troupes du joueur 1
-		for (Etudiant etudiant : this.joueur1.getTroupes().values()) {
+		for (Etudiant etudiant : this.joueur1.getTroupes()) {
 			// On choisit une stratégie aléatoirement (0, 1 ou 2)
 			etudiant.setStrategie(strategie.get(random.nextInt(3)));
 
@@ -223,7 +215,7 @@ public class Partie {
 		}
 
 		// Même principe pour les troupes du joueur 2
-		for (Etudiant etudiant : this.joueur2.getTroupes().values()) {
+		for (Etudiant etudiant : this.joueur2.getTroupes()) {
 			etudiant.setStrategie(strategie.get(random.nextInt(3)));
 
 			etudiant.setDexterite(random.nextInt(9));

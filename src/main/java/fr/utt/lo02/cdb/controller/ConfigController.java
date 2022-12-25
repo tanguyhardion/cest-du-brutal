@@ -14,6 +14,9 @@ public class ConfigController {
     }
 
     public void loadTroupes() {
-        joueur.getTroupes().forEach((key, etudiant) -> configuration.getTroupesComboBox().addItem("Etudiant" + " (" + key + ")"));
+        configuration.getTroupesComboBox().removeAllItems();
+        for (Etudiant e : joueur.getTroupes()) {
+            configuration.getTroupesComboBox().addItem(e);
+        }
     }
 }
