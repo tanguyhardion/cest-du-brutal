@@ -9,8 +9,8 @@
 
 # IntelliJ files
 .idea/
-.classes/
-.target/
+classes/
+target/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
