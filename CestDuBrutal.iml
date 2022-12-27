@@ -7,8 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="18" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="19" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="io.github.vincenzopalazzo.material.ui.swing" level="project" />
+    <orderEntry type="library" name="io.github.material.ui.swing.DarkStackOverflowTheme" level="project" />
   </component>
 </module>

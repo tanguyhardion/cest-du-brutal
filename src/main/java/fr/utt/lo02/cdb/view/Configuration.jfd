@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:17:p, par l {comp label2:::p::p, comp troupesComboBox:::p::p, seq {comp label1:::p::p, space u:::p, comp joueurComboBox:::p::p}}, space ::532:x}}"
-			"$verticalGroup": "par l {seq l {space :p:22:p, par b {comp joueurComboBox::b:p::p, comp label1::b:p::p}, space :p:80:p, comp label2:::p::p, space u:::p, comp troupesComboBox:::p::p, space ::286:x}}"
+			"$horizontalGroup": "par l {seq l {space :p:17:p, par l {seq {comp reservisteLabel:::p::p, space :::p, comp reservisteToggle:::p::p}, comp strategieComboBox:::p::p, comp strategieLabel:::p::p, comp combattantLabel:::p::p, comp troupesComboBox:::p::p, seq {comp joueurLabel:::p::p, space u:::p, comp joueurComboBox:::p::p}, seq l {par l {comp dexteriteLabel::l:p::p, comp dexteriteSpinner::l:p::p}, space :p:49:p, par l {comp forceLabel::l:p::p, comp forceSpinner::l:p::p}, space :p:55:p, par l {comp resistanceLabel:::p::p, comp resistanceSpinner:::p::p}, space :p:49:p, par l {comp constitutionLabel::l:p::p, comp constitutionSpinner::l:p::p}, space :p:58:p, par l {comp initiativeSpinner:::p::p, comp initiativeLabel:::p::p}}}, space ::162:x}}"
+			"$verticalGroup": "par l {seq l {space :p:22:p, par b {comp joueurComboBox::b:p::p, comp joueurLabel::b:p::p}, space :p:80:p, comp combattantLabel:::p::p, space u:::p, comp troupesComboBox:::p::p, space :p:52:p, par b {comp dexteriteLabel::b:p::p, comp forceLabel::b:p::p, comp constitutionLabel::b:p::p, comp initiativeLabel::b:p::p, comp resistanceLabel::b:p::p}, space :::p, par l {comp dexteriteSpinner:::p::p, comp forceSpinner:::p::p, par b {comp constitutionSpinner::b:p::p, comp resistanceSpinner::b:p::p}, comp initiativeSpinner:::p::p}, space s:::p, comp strategieLabel:::p::p, space :::p, comp strategieComboBox:::p::p, space s:::p, par b {comp reservisteLabel::b:p::p, comp reservisteToggle::b:p:20:p}, space ::52:x}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JComboBox" ) {
@@ -16,16 +16,70 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "joueurComboBoxItemStateChanged", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label1"
+				name: "joueurLabel"
 				"text": "Joueur :"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label2"
+				name: "combattantLabel"
 				"text": "Combattant :"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "dexteriteLabel"
+				"text": "Dextérité :"
+			} )
+			add( new FormComponent( "javax.swing.JSpinner" ) {
+				name: "dexteriteSpinner"
+				"model": new javax.swing.SpinnerNumberModel( 0, 0, 10, 1 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "forceLabel"
+				"text": "Force :"
+			} )
+			add( new FormComponent( "javax.swing.JSpinner" ) {
+				name: "forceSpinner"
+				"model": new javax.swing.SpinnerNumberModel( 0, 0, 10, 1 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "resistanceLabel"
+				"text": "Résistance :"
+			} )
+			add( new FormComponent( "javax.swing.JSpinner" ) {
+				name: "resistanceSpinner"
+				"model": new javax.swing.SpinnerNumberModel( 0, 0, 10, 1 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "constitutionLabel"
+				"text": "Constitution :"
+			} )
+			add( new FormComponent( "javax.swing.JSpinner" ) {
+				name: "constitutionSpinner"
+				"model": new javax.swing.SpinnerNumberModel( 0, 0, 10, 1 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "initiativeLabel"
+				"text": "Initiative :"
+			} )
+			add( new FormComponent( "javax.swing.JSpinner" ) {
+				name: "initiativeSpinner"
+				"model": new javax.swing.SpinnerNumberModel( 0, 0, 10, 1 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "strategieLabel"
+				"text": "Stratégie :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "strategieComboBox"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "reservisteLabel"
+				"text": "Réserviste"
+			} )
+			add( new FormComponent( "javax.swing.JToggleButton" ) {
+				name: "reservisteToggle"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 700, 500 )
+			"size": new java.awt.Dimension( 750, 500 )
 		} )
 	}
 }

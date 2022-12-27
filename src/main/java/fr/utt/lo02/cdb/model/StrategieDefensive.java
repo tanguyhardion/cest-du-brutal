@@ -33,4 +33,9 @@ public class StrategieDefensive implements StrategieEtudiant {
 		this.soigner(origine, origine.getEquipe() == Equipe.UNE ? cibleEquipeUne : cibleEquipeDeux);
 	}
 
+	@Override
+	public String toString() {
+		return "Défensive";
+	}
+
 }

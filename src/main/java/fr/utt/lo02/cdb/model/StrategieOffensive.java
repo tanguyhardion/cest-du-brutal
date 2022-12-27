@@ -30,4 +30,9 @@ public class StrategieOffensive implements StrategieEtudiant {
 		this.attaquer(origine, origine.getEquipe() == Equipe.UNE ? cibleEquipeDeux : cibleEquipeUne);
 	}
 
+	@Override
+	public String toString() {
+		return "Offensive";
+	}
+
 }

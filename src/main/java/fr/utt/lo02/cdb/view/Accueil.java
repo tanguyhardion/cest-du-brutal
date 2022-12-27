@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Sun Dec 25 20:04:09 CET 2022
- */
-
 package fr.utt.lo02.cdb.view;
 
 import fr.utt.lo02.cdb.controller.AccueilController;
@@ -10,13 +6,11 @@ import fr.utt.lo02.cdb.model.*;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
-import mdlaf.MaterialLookAndFeel;
-import mdlaf.themes.JMarsDarkTheme;
+import mdlaf.shadows.RoundedCornerBorder;
 
 /**
  * @author Tanguy HARDION
@@ -28,27 +22,21 @@ public class Accueil extends JPanel {
     private JComboBox filieres2ComboBox;
     private JLabel filieres1Label;
     private JLabel filieres2Label;
+    private JButton suivantButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
-    static {
-        try {
-            UIManager.setLookAndFeel(new MaterialLookAndFeel(new JMarsDarkTheme()));
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Accueil(Joueur joueur1, Joueur joueur2) {
+    public Accueil(Joueur joueur1, Joueur joueur2, MainWindow mainWindow) {
         initComponents();
-        AccueilController accueilController = new AccueilController(this, joueur1, joueur2);
+        AccueilController accueilController = new AccueilController(this, joueur1, joueur2, mainWindow);
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        filieres1ComboBox = new JComboBox<Filiere>();
-        filieres2ComboBox = new JComboBox<Filiere>();
+        filieres1ComboBox = new JComboBox();
+        filieres2ComboBox = new JComboBox();
         filieres1Label = new JLabel();
         filieres2Label = new JLabel();
+        suivantButton = new JButton();
 
         //======== this ========
 
@@ -57,6 +45,11 @@ public class Accueil extends JPanel {
 
         //---- filieres2Label ----
         filieres2Label.setText("Fili\u00e8re Joueur 2 :");
+
+        //---- suivantButton ----
+        suivantButton.setText("SUIVANT");
+        suivantButton.setFocusPainted(false);
+        suivantButton.setBorder(new RoundedCornerBorder());
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
@@ -67,16 +60,20 @@ public class Accueil extends JPanel {
                     .addGroup(layout.createParallelGroup()
                         .addComponent(filieres1Label)
                         .addComponent(filieres1ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 262, Short.MAX_VALUE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 340, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup()
                         .addComponent(filieres2Label)
                         .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addGap(120, 120, 120))
+                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(609, Short.MAX_VALUE)
+                    .addComponent(suivantButton)
+                    .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(271, Short.MAX_VALUE)
+                    .addContainerGap(269, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(filieres1Label)
                         .addComponent(filieres2Label))
@@ -84,7 +81,9 @@ public class Accueil extends JPanel {
                     .addGroup(layout.createParallelGroup()
                         .addComponent(filieres1ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGap(159, 159, 159))
+                    .addGap(114, 114, 114)
+                    .addComponent(suivantButton)
+                    .addGap(25, 25, 25))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
@@ -95,5 +94,9 @@ public class Accueil extends JPanel {
 
     public JComboBox<Filiere> getFilieres2ComboBox() {
         return filieres2ComboBox;
+    }
+
+    public JButton getSuivantButton() {
+        return suivantButton;
     }
 }

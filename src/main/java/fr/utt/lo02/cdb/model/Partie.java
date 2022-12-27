@@ -1,9 +1,14 @@
 package fr.utt.lo02.cdb.model;
 
-import fr.utt.lo02.cdb.controller.*;
 import fr.utt.lo02.cdb.view.*;
 
-import java.awt.*;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.EventQueue;
+
+import io.materialtheme.darkstackoverflow.DarkStackOverflowTheme;
+import mdlaf.MaterialLookAndFeel;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -71,11 +76,16 @@ public class Partie {
         joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 
         EventQueue.invokeLater(() -> {
-            Accueil accueil = new Accueil(joueur1, joueur2);
+            try {
+                UIManager.setLookAndFeel(new MaterialLookAndFeel(new DarkStackOverflowTheme()));
+            } catch (UnsupportedLookAndFeelException e) {
+                throw new RuntimeException(e);
+            }
+
             MainWindow mainWindow = new MainWindow();
+            Accueil accueil = new Accueil(joueur1, joueur2, mainWindow);
             mainWindow.switchPanel(accueil);
             mainWindow.setVisible(true);
-            Configuration configuration = new Configuration(this.joueur1, this.joueur2);
         });
 
         // On demande à chaque joueur de choisir sa filière
@@ -116,7 +126,7 @@ public class Partie {
         // Setup effectué, on lance la partie
         try {
             this.gerer();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 

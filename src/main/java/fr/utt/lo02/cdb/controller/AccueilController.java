@@ -1,10 +1,14 @@
 package fr.utt.lo02.cdb.controller;
 
-import fr.utt.lo02.cdb.model.*;
+import fr.utt.lo02.cdb.model.Filiere;
+import fr.utt.lo02.cdb.model.Joueur;
 import fr.utt.lo02.cdb.view.Accueil;
+import fr.utt.lo02.cdb.view.Configuration;
+import fr.utt.lo02.cdb.view.MainWindow;
+import fr.utt.lo02.cdb.view.SystemDialog;
 
-import java.util.Set;
 import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * Contrôle les actions de l'accueil.
@@ -15,7 +19,7 @@ public class AccueilController {
 
     private Accueil accueil;
 
-    public AccueilController(Accueil accueil, Joueur joueur1, Joueur joueur2) {
+    public AccueilController(Accueil accueil, Joueur joueur1, Joueur joueur2, MainWindow mainWindow) {
         this.accueil = accueil;
 
         Set<Filiere> filieres = EnumSet.allOf(Filiere.class);
@@ -37,6 +41,15 @@ public class AccueilController {
 
         this.accueil.getFilieres1ComboBox().setSelectedIndex(0);
         this.accueil.getFilieres2ComboBox().setSelectedIndex(1);
+
+        this.accueil.getSuivantButton().addActionListener(e -> {
+            if (this.isReady()) {
+                Configuration configuration = new Configuration(joueur1, joueur2);
+                mainWindow.switchPanel(configuration);
+            } else {
+                new SystemDialog("Erreur !", "Les joueurs ne peuvent pas avoir la même filière !", "src/main/resources/images/error.png");
+            }
+        });
     }
 
     public boolean isReady() {

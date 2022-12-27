@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Sun Dec 25 15:01:35 CET 2022
- */
-
 package fr.utt.lo02.cdb.view;
 
 import javax.swing.JFrame;
@@ -21,14 +17,8 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         super("C'est du brutal !");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initComponents();
-        // Termine le programme lorsqu'on ferme la fenêtre
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
-                System.exit(0);
-            }
-        });
     }
 
     private void initComponents() {
@@ -40,12 +30,12 @@ public class MainWindow extends JFrame {
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGap(0, 698, Short.MAX_VALUE)
+            contentPaneLayout.createParallelGroup()
+                .addGap(0, 748, Short.MAX_VALUE)
         );
         contentPaneLayout.setVerticalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGap(0, 469, Short.MAX_VALUE)
+            contentPaneLayout.createParallelGroup()
+                .addGap(0, 469, Short.MAX_VALUE)
         );
         pack();
         setLocationRelativeTo(getOwner());

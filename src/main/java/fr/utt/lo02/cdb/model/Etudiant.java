@@ -17,6 +17,7 @@ public class Etudiant {
     private int initiative;
     private int id;
     private boolean elimine;
+    private boolean reserviste;
     private StrategieEtudiant strategie;
 
     /**
@@ -38,7 +39,7 @@ public class Etudiant {
      * Initialise les caractéristiques de cet étudiant avec les valeurs passées en
      * paramètres.
      *
-     * @param dexterite    la dexterité à attribuer
+     * @param dexterite    la dextérité à attribuer
      * @param force        la force à attribuer
      * @param resistance   la résistance à attribuer
      * @param constitution la constitution à attribuer
@@ -57,7 +58,7 @@ public class Etudiant {
     }
 
     /**
-     * Fait agir cet étudiant sur l'étudiant passe en parametre.
+     * Fait agir cet étudiant sur l'étudiant passe en paramètre.
      * <p>
      * Selon la stratégie de cet étudiant, il va attaquer un adversaire ou soigner
      * un allié.
@@ -105,9 +106,9 @@ public class Etudiant {
     }
 
     /**
-     * Enlève le nombre de crédits specifié à cet étudiant.
+     * Enlève le nombre de crédits spécifié à cet étudiant.
      * <p>
-     * Un étudiant devient eliminé si ses credits ajoutés à sa constitution sont
+     * Un étudiant devient éliminé si ses credits ajoutés à sa constitution sont
      * inférieurs ou égaux à 0.
      *
      * @param credits le nombre de crédits à enlever
@@ -120,7 +121,7 @@ public class Etudiant {
     }
 
     /**
-     * @return la dexterité de cet étudiant
+     * @return la dextérité de cet étudiant
      */
     public int getDexterite() {
         return this.dexterite;
@@ -129,13 +130,13 @@ public class Etudiant {
     /**
      * Définit la dextérité de cet étudiant.
      *
-     * @param dexterite la dexterité à affecter à cet étudiant
-     * @throws IllegalArgumentException si la dexterite specifiée est inférieure à 0
+     * @param dexterite la dextérité à affecter à cet étudiant
+     * @throws IllegalArgumentException si la dextérité spécifiée est inférieure à 0
      *                                  ou supérieure à 10
      */
     public void setDexterite(int dexterite) {
         if (dexterite < 0 || dexterite > 10) {
-            throw new IllegalArgumentException("La dexterite doit être comprise entre 0 et 10.");
+            throw new IllegalArgumentException("La dextérité doit être comprise entre 0 et 10.");
         }
         this.dexterite += dexterite;
     }
@@ -177,7 +178,7 @@ public class Etudiant {
      */
     public void setResistance(int resistance) {
         if (resistance < 0 || resistance > 10) {
-            throw new IllegalArgumentException("La resistance doit être comprise entre 0 et 10.");
+            throw new IllegalArgumentException("La résistance doit être comprise entre 0 et 10.");
         }
         this.resistance += resistance;
     }
@@ -240,6 +241,10 @@ public class Etudiant {
         return this.elimine;
     }
 
+    public boolean isReserviste() {
+        return this.reserviste;
+    }
+
     /**
      * @return l'équipe de cet étudiant
      */
@@ -260,11 +265,11 @@ public class Etudiant {
      * La stratégie peut être offensive, défensive ou aléatoire.
      *
      * @param strategie la stratégie à affecter à cet étudiant
-     * @throws IllegalArgumentException si la strategie est nulle
+     * @throws IllegalArgumentException si la stratégie est nulle
      */
     public void setStrategie(StrategieEtudiant strategie) {
         if (strategie == null) {
-            throw new IllegalArgumentException("Strategie non reconnue.");
+            throw new IllegalArgumentException("Stratégie non reconnue.");
         }
         this.strategie = strategie;
     }
