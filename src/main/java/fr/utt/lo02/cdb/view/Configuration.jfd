@@ -4,12 +4,12 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:17:p, par l {seq {comp reservisteLabel:::p::p, space :::p, comp reservisteToggle:::p::p}, comp strategieComboBox:::p::p, comp strategieLabel:::p::p, comp combattantLabel:::p::p, comp troupesComboBox:::p::p, seq {comp joueurLabel:::p::p, space u:::p, comp joueurComboBox:::p::p}, seq l {par l {comp dexteriteLabel::l:p::p, comp dexteriteSpinner::l:p::p}, space :p:49:p, par l {comp forceLabel::l:p::p, comp forceSpinner::l:p::p}, space :p:55:p, par l {comp resistanceLabel:::p::p, comp resistanceSpinner:::p::p}, space :p:49:p, par l {comp constitutionLabel::l:p::p, comp constitutionSpinner::l:p::p}, space :p:58:p, par l {comp initiativeSpinner:::p::p, comp initiativeLabel:::p::p}}}, space ::162:x}}"
-			"$verticalGroup": "par l {seq l {space :p:22:p, par b {comp joueurComboBox::b:p::p, comp joueurLabel::b:p::p}, space :p:80:p, comp combattantLabel:::p::p, space u:::p, comp troupesComboBox:::p::p, space :p:52:p, par b {comp dexteriteLabel::b:p::p, comp forceLabel::b:p::p, comp constitutionLabel::b:p::p, comp initiativeLabel::b:p::p, comp resistanceLabel::b:p::p}, space :::p, par l {comp dexteriteSpinner:::p::p, comp forceSpinner:::p::p, par b {comp constitutionSpinner::b:p::p, comp resistanceSpinner::b:p::p}, comp initiativeSpinner:::p::p}, space s:::p, comp strategieLabel:::p::p, space :::p, comp strategieComboBox:::p::p, space s:::p, par b {comp reservisteLabel::b:p::p, comp reservisteToggle::b:p:20:p}, space ::52:x}}"
+			"$horizontalGroup": "par l {seq l {space :p:17:p, par l {seq l {par l {comp strategieComboBox:::p::p, comp strategieLabel:::p::p, comp combattantLabel:::p::p, comp combattantsComboBox:::p::p, seq l {par l {comp dexteriteLabel::l:p::p, comp dexteriteSpinner::l:p::p}, space :p:49:p, par l {comp forceLabel::l:p::p, comp forceSpinner::l:p::p}, space :p:55:p, par l {comp resistanceLabel:::p::p, comp resistanceSpinner:::p::p}, space :p:49:p, par l {comp constitutionLabel::l:p::p, comp constitutionSpinner::l:p::p}, space :p:58:p, par l {comp initiativeSpinner:::p::p, comp initiativeLabel:::p::p}}, seq l {comp joueurLabel:::p::p, space u:::p, comp joueurComboBox:::p::p}}, space ::162:x}, seq l {comp reservisteLabel:::p::p, space :::p, comp reservisteToggle:::p:25:p, space ::510:x, comp suivantButton:::p::p, space :p:30:p}}}, seq l {space :p:224:p, comp titreLabel:::p::p, space :0:225:x}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp titreLabel:::p::p, space s:::p, par b {comp joueurComboBox::b:p::p, comp joueurLabel::b:p::p}, space :p:35:p, comp combattantLabel:::p::p, space u:::p, comp combattantsComboBox:::p::p, space :p:52:p, par b {comp dexteriteLabel::b:p::p, comp forceLabel::b:p::p, comp constitutionLabel::b:p::p, comp initiativeLabel::b:p::p, comp resistanceLabel::b:p::p}, space :::p, par l {comp dexteriteSpinner:::p::p, comp forceSpinner:::p::p, par b {comp constitutionSpinner::b:p::p, comp resistanceSpinner::b:p::p}, comp initiativeSpinner:::p::p}, space s:::p, comp strategieLabel:::p::p, space :::p, comp strategieComboBox:::p::p, par l {seq t {space ::40:x, comp suivantButton:::p::p, space :p:25:p}, seq l {space s:::p, par l {comp reservisteLabel:::p::p, comp reservisteToggle:::p:20:p}, space ::59:x}}}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JComboBox" ) {
-				name: "troupesComboBox"
+				name: "combattantsComboBox"
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "joueurComboBox"
@@ -53,7 +53,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JSpinner" ) {
 				name: "constitutionSpinner"
-				"model": new javax.swing.SpinnerNumberModel( 0, 0, 10, 1 )
+				"model": new javax.swing.SpinnerNumberModel( 0, 0, 30, 1 )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "initiativeLabel"
@@ -76,6 +76,18 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JToggleButton" ) {
 				name: "reservisteToggle"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "suivantButton"
+				"text": "SUIVANT"
+				"focusPainted": false
+				"border": new mdlaf.shadows.RoundedCornerBorder
+				"borderPainted": false
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "titreLabel"
+				"text": "Paramétrage des troupes"
+				"font": new java.awt.Font( "Segoe UI", 1, 26 )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

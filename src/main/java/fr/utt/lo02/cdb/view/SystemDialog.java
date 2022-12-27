@@ -15,11 +15,11 @@ import java.awt.FlowLayout;
  */
 public class SystemDialog extends JDialog {
 
-    public SystemDialog(String title, String message, String icon) {
+    public SystemDialog(String message, Type type) {
         // Définition du titre du dialog
-        this.setTitle(title);
+        this.setTitle(type.getTitre());
         // Définition de l'icône du dialog
-        this.setIconImage(new ImageIcon(icon).getImage());
+        this.setIconImage(type.getIcone().getImage());
 
         // Création d'un panel pour contenir le label du message
         JPanel messagePanel = new JPanel();
@@ -47,5 +47,26 @@ public class SystemDialog extends JDialog {
         // Centrage et affichage du dialog
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public enum Type {
+        ERROR("Erreur", new ImageIcon("src/main/resources/images/error.png")),
+        INFO("Information", new ImageIcon("src/main/resources/images/information.png"));
+
+        private final String titre;
+        private final ImageIcon icone;
+
+        Type(String title, ImageIcon icone) {
+            this.titre = title;
+            this.icone = icone;
+        }
+
+        private String getTitre() {
+            return this.titre;
+        }
+
+        private ImageIcon getIcone() {
+            return this.icone;
+        }
     }
 }

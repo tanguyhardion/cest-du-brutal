@@ -3,8 +3,6 @@ package fr.utt.lo02.cdb.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 
 /**
@@ -18,7 +16,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         super("C'est du brutal !");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        initComponents();
+        this.initComponents();
     }
 
     private void initComponents() {

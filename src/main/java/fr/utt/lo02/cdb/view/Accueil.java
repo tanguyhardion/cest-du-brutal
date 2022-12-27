@@ -27,7 +27,7 @@ public class Accueil extends JPanel {
 
     public Accueil(Joueur joueur1, Joueur joueur2, MainWindow mainWindow) {
         initComponents();
-        AccueilController accueilController = new AccueilController(this, joueur1, joueur2, mainWindow);
+        AccueilController accueilController = new AccueilController(this, mainWindow, joueur1, joueur2);
     }
 
     private void initComponents() {
@@ -50,6 +50,7 @@ public class Accueil extends JPanel {
         suivantButton.setText("SUIVANT");
         suivantButton.setFocusPainted(false);
         suivantButton.setBorder(new RoundedCornerBorder());
+        suivantButton.setBorderPainted(false);
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
@@ -60,20 +61,20 @@ public class Accueil extends JPanel {
                     .addGroup(layout.createParallelGroup()
                         .addComponent(filieres1Label)
                         .addComponent(filieres1ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 340, Short.MAX_VALUE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup()
                         .addComponent(filieres2Label)
                         .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addGap(120, 120, 120))
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(609, Short.MAX_VALUE)
+                    .addContainerGap(611, Short.MAX_VALUE)
                     .addComponent(suivantButton)
-                    .addGap(32, 32, 32))
+                    .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(269, Short.MAX_VALUE)
+                    .addContainerGap(268, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(filieres1Label)
                         .addComponent(filieres2Label))
@@ -81,7 +82,7 @@ public class Accueil extends JPanel {
                     .addGroup(layout.createParallelGroup()
                         .addComponent(filieres1ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGap(114, 114, 114)
+                    .addGap(115, 115, 115)
                     .addComponent(suivantButton)
                     .addGap(25, 25, 25))
         );

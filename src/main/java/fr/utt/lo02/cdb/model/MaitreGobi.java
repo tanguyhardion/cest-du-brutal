@@ -12,8 +12,8 @@ public class MaitreGobi extends Etudiant {
     /**
      * Constructeur de la classe MaitreGobi.
      * <p>
-     * Initialise les crédits de ce Maître du gobi à 30 et ses caractéristiques à
-     * leurs valeurs augmentées.
+     * Initialise les crédits de ce Maître du gobi à 30, son équipe, son ID
+     * et ses caractéristiques à leurs valeurs augmentées.
      *
      * @param equipe l'équipe à laquelle appartient ce Maître du gobi
      * @param id     l'id de l'étudiant
@@ -22,22 +22,29 @@ public class MaitreGobi extends Etudiant {
         super(2, 2, 2, 10, 2, equipe, id);
     }
 
-    /**
-     * Autre constructeur de la classe MaitreGobi.
-     * <p>
-     * Initialise les caractéristiques de ce Maître du gobi avec les valeurs passées
-     * en paramètres, augmentées de 10 pour la constitution et de 2 pour le reste.
-     *
-     * @param dexterite    la dexterité à attribuer
-     * @param force        la force à attribuer
-     * @param resistance   la résistance à attribuer
-     * @param constitution la constitution à attribuer
-     * @param initiative   l'initiative à attribuer
-     * @param equipe       l'équipe à laquelle appartient ce Maître du gobi
-     * @param id           l'id de l'étudiant
-     */
-    public MaitreGobi(int dexterite, int force, int resistance, int constitution, int initiative, Equipe equipe, int id) {
-        super(dexterite + 2, force + 2, resistance + 2, constitution + 10, initiative + 2, equipe, id);
+    @Override
+    public void setDexterite(int dexterite) {
+        super.setDexterite(dexterite + 2);
+    }
+
+    @Override
+    public void setForce(int force) {
+        super.setForce(force + 2);
+    }
+
+    @Override
+    public void setResistance(int resistance) {
+        super.setResistance(resistance + 2);
+    }
+
+    @Override
+    public void setConstitution(int constitution) {
+        super.setConstitution(constitution + 10);
+    }
+
+    @Override
+    public void setInitiative(int initiative) {
+        super.setInitiative(initiative + 2);
     }
 
 }

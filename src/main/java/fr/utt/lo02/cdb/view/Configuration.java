@@ -1,5 +1,6 @@
 package fr.utt.lo02.cdb.view;
 
+import java.awt.*;
 import fr.utt.lo02.cdb.controller.ConfigController;
 import fr.utt.lo02.cdb.model.Etudiant;
 import fr.utt.lo02.cdb.model.Joueur;
@@ -7,6 +8,7 @@ import fr.utt.lo02.cdb.model.StrategieEtudiant;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
+import mdlaf.shadows.*;
 
 /**
  * @author Tanguy HARDION
@@ -14,7 +16,7 @@ import java.awt.event.ItemEvent;
 public class Configuration extends JPanel {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    private JComboBox troupesComboBox;
+    private JComboBox combattantsComboBox;
     private JComboBox joueurComboBox;
     private JLabel joueurLabel;
     private JLabel combattantLabel;
@@ -32,25 +34,27 @@ public class Configuration extends JPanel {
     private JComboBox strategieComboBox;
     private JLabel reservisteLabel;
     private JToggleButton reservisteToggle;
+    private JButton suivantButton;
+    private JLabel titreLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
-    public Configuration(Joueur joueur1, Joueur joueur2) {
+    public Configuration(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         initComponents();
-        ConfigController configController = new ConfigController(this, joueur1, joueur2);
+        ConfigController configController = new ConfigController(this, mainWindow, joueur1, joueur2);
     }
 
     private void joueurComboBoxItemStateChanged(ItemEvent e) {
         // update troupesComboBox with the selected player's troops
         Joueur joueur = (Joueur) joueurComboBox.getSelectedItem();
-        troupesComboBox.removeAllItems();
+        this.combattantsComboBox.removeAllItems();
         for (Etudiant etudiant : joueur.getTroupes()) {
-            troupesComboBox.addItem(etudiant);
+            this.combattantsComboBox.addItem(etudiant);
         }
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        troupesComboBox = new JComboBox();
+        combattantsComboBox = new JComboBox();
         joueurComboBox = new JComboBox();
         joueurLabel = new JLabel();
         combattantLabel = new JLabel();
@@ -68,6 +72,8 @@ public class Configuration extends JPanel {
         strategieComboBox = new JComboBox();
         reservisteLabel = new JLabel();
         reservisteToggle = new JToggleButton();
+        suivantButton = new JButton();
+        titreLabel = new JLabel();
 
         //======== this ========
 
@@ -102,7 +108,7 @@ public class Configuration extends JPanel {
         constitutionLabel.setText("Constitution :");
 
         //---- constitutionSpinner ----
-        constitutionSpinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
+        constitutionSpinner.setModel(new SpinnerNumberModel(0, 0, 30, 1));
 
         //---- initiativeLabel ----
         initiativeLabel.setText("Initiative :");
@@ -116,6 +122,16 @@ public class Configuration extends JPanel {
         //---- reservisteLabel ----
         reservisteLabel.setText("R\u00e9serviste");
 
+        //---- suivantButton ----
+        suivantButton.setText("SUIVANT");
+        suivantButton.setFocusPainted(false);
+        suivantButton.setBorder(new RoundedCornerBorder());
+        suivantButton.setBorderPainted(false);
+
+        //---- titreLabel ----
+        titreLabel.setText("Param\u00e9trage des troupes");
+        titreLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
+
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,50 +140,61 @@ public class Configuration extends JPanel {
                     .addGap(17, 17, 17)
                     .addGroup(layout.createParallelGroup()
                         .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup()
+                                .addComponent(strategieComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(strategieLabel)
+                                .addComponent(combattantLabel)
+                                .addComponent(combattantsComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(dexteriteLabel)
+                                        .addComponent(dexteriteSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(49, 49, 49)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(forceLabel)
+                                        .addComponent(forceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(55, 55, 55)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(resistanceLabel)
+                                        .addComponent(resistanceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(49, 49, 49)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(constitutionLabel)
+                                        .addComponent(constitutionSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(58, 58, 58)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(initiativeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(initiativeLabel)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(joueurLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(joueurComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                            .addContainerGap(162, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(reservisteLabel)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(reservisteToggle))
-                        .addComponent(strategieComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(strategieLabel)
-                        .addComponent(combattantLabel)
-                        .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(joueurLabel)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(joueurComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(dexteriteLabel)
-                                .addComponent(dexteriteSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGap(49, 49, 49)
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(forceLabel)
-                                .addComponent(forceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGap(55, 55, 55)
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(resistanceLabel)
-                                .addComponent(resistanceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGap(49, 49, 49)
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(constitutionLabel)
-                                .addComponent(constitutionSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGap(58, 58, 58)
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(initiativeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(initiativeLabel))))
-                    .addContainerGap(162, Short.MAX_VALUE))
+                            .addComponent(reservisteToggle, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 510, Short.MAX_VALUE)
+                            .addComponent(suivantButton)
+                            .addGap(30, 30, 30))))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(224, 224, 224)
+                    .addComponent(titreLabel)
+                    .addGap(0, 225, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(22, 22, 22)
+                    .addContainerGap()
+                    .addComponent(titreLabel)
+                    .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(joueurComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(joueurLabel))
-                    .addGap(80, 80, 80)
+                    .addGap(35, 35, 35)
                     .addComponent(combattantLabel)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combattantsComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(52, 52, 52)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(dexteriteLabel)
@@ -187,49 +214,59 @@ public class Configuration extends JPanel {
                     .addComponent(strategieLabel)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(strategieComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(reservisteLabel)
-                        .addComponent(reservisteToggle, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(52, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup()
+                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                            .addComponent(suivantButton)
+                            .addGap(25, 25, 25))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup()
+                                .addComponent(reservisteLabel)
+                                .addComponent(reservisteToggle, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap(59, Short.MAX_VALUE))))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     public JComboBox<Joueur> getJoueurComboBox() {
-        return joueurComboBox;
+        return this.joueurComboBox;
     }
 
     public JComboBox<Etudiant> getTroupesComboBox() {
-        return this.troupesComboBox;
+        return this.combattantsComboBox;
     }
 
     public JSpinner getDexteriteSpinner() {
-        return dexteriteSpinner;
+        return this.dexteriteSpinner;
     }
 
     public JSpinner getForceSpinner() {
-        return forceSpinner;
+        return this.forceSpinner;
     }
 
     public JSpinner getResistanceSpinner() {
-        return resistanceSpinner;
+        return this.resistanceSpinner;
     }
 
     public JSpinner getConstitutionSpinner() {
-        return constitutionSpinner;
+        return this.constitutionSpinner;
     }
 
     public JSpinner getInitiativeSpinner() {
-        return initiativeSpinner;
+        return this.initiativeSpinner;
     }
 
     public JComboBox<StrategieEtudiant> getStrategieComboBox() {
-        return strategieComboBox;
+        return this.strategieComboBox;
     }
 
     public JToggleButton getReservisteToggle() {
-        return reservisteToggle;
+        return this.reservisteToggle;
+    }
+
+    public JButton getSuivantButton() {
+        return this.suivantButton;
     }
 
 }

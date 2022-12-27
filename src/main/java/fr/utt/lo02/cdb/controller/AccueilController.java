@@ -19,7 +19,7 @@ public class AccueilController {
 
     private Accueil accueil;
 
-    public AccueilController(Accueil accueil, Joueur joueur1, Joueur joueur2, MainWindow mainWindow) {
+    public AccueilController(Accueil accueil, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         this.accueil = accueil;
 
         Set<Filiere> filieres = EnumSet.allOf(Filiere.class);
@@ -44,10 +44,10 @@ public class AccueilController {
 
         this.accueil.getSuivantButton().addActionListener(e -> {
             if (this.isReady()) {
-                Configuration configuration = new Configuration(joueur1, joueur2);
+                Configuration configuration = new Configuration(mainWindow, joueur1, joueur2);
                 mainWindow.switchPanel(configuration);
             } else {
-                new SystemDialog("Erreur !", "Les joueurs ne peuvent pas avoir la même filière !", "src/main/resources/images/error.png");
+                new SystemDialog("Les joueurs ne peuvent pas avoir la même filière !", SystemDialog.Type.ERROR);
             }
         });
     }

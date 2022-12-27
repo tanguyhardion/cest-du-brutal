@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Scanner;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Représente un joueur du jeu, possédant des troupes.
@@ -13,7 +15,7 @@ import java.util.Scanner;
  * @author Tristan JAUSSAUD
  * @author Tanguy HARDION
  */
-public class Joueur {
+public class Joueur extends Observable {
 
     private static Scanner scanner;
     private int points;
@@ -580,6 +582,10 @@ public class Joueur {
 
     }
 
+    public int getPoints() {
+        return this.points;
+    }
+
     /**
      * @return l'équipe de ce joueur
      */
@@ -625,6 +631,9 @@ public class Joueur {
      */
     public void removeEtudiant(int id) {
         this.troupes.removeIf(etudiant -> etudiant.getId() == id);
+        this.setChanged();
+        this.notifyObservers();
+
     }
 
     /**

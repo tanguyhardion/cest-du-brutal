@@ -1,0 +1,49 @@
+JFDML JFormDesigner: "8.0.1.0.199" Java: "17.0.3" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :p:17:p, par l {seq {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space :0:0:x}, seq l {par l {comp zoneLabel::l:p::p, comp zonesComboBox::l:p::p}, space :p:168:p, par l {comp combattantLabel:::p::p, comp troupesComboBox::l:p::p, comp addButton:::p::p}, space ::356:x}}}, seq l {space :234:234:p, comp titreLabel:::p::p, space ::234:x}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp titreLabel:::p::p, space :p:44:p, par t {seq {par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p}, space :p:90:p, comp zoneLabel:::p::p, space :::p, comp zonesComboBox:::p::p}, seq {comp combattantLabel:::p::p, space :::p, comp troupesComboBox:::p::p}}, space s:::p, comp addButton:::p::p, space ::168:x}}"
+		} ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "titreLabel"
+				"text": "Répartition des troupes"
+				"font": new java.awt.Font( "Segoe UI", 1, 26 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "zoneLabel"
+				"text": "Zone :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "zonesComboBox"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "joueurLabel"
+				"text": "Joueur :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "joueursComboBox"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "combattantLabel"
+				"text": "Combattant :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "troupesComboBox"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "addButton"
+				"text": "AJOUTER"
+				"border": new mdlaf.shadows.RoundedCornerBorder
+				"focusPainted": false
+				"borderPainted": false
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 750, 500 )
+		} )
+	}
+}

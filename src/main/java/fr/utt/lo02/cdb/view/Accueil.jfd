@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:120:p, par l {comp filieres1Label:::p::p, comp filieres1ComboBox:::p::p}, space ::340:x, par l {comp filieres2Label:::p::p, comp filieres2ComboBox:::p::p}, space :p:120:p}, seq t {space ::609:x, comp suivantButton:::p::p, space :p:32:p}}"
-			"$verticalGroup": "par l {seq t {space ::269:x, par b {comp filieres1Label::b:p::p, comp filieres2Label::b:p::p}, space u:::p, par l {comp filieres1ComboBox:::p::p, comp filieres2ComboBox::l:p::p}, space :p:114:p, comp suivantButton:::p::p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq l {space :p:120:p, par l {comp filieres1Label:::p::p, comp filieres1ComboBox:::p::p}, space :::x, par l {comp filieres2Label:::p::p, comp filieres2ComboBox:::p::p}, space :p:120:p}, seq t {space ::611:x, comp suivantButton:::p::p, space :p:30:p}}"
+			"$verticalGroup": "par l {seq t {space ::268:x, par b {comp filieres1Label::b:p::p, comp filieres2Label::b:p::p}, space u:::p, par l {comp filieres1ComboBox:::p::p, comp filieres2ComboBox::l:p::p}, space :p:115:p, comp suivantButton:::p::p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JComboBox" ) {
@@ -27,6 +27,7 @@ new FormModel {
 				"text": "SUIVANT"
 				"focusPainted": false
 				"border": new mdlaf.shadows.RoundedCornerBorder
+				"borderPainted": false
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

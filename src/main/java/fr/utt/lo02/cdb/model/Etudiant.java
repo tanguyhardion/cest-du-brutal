@@ -26,6 +26,7 @@ public class Etudiant {
      * Initialise les crédits de cet étudiant à 30.
      *
      * @param equipe l'équipe à laquelle appartient cet étudiant
+     * @param id     l'id de l'étudiant
      */
     public Etudiant(Equipe equipe, int id) {
         this.credits = 30;
@@ -48,11 +49,11 @@ public class Etudiant {
      */
     public Etudiant(int dexterite, int force, int resistance, int constitution, int initiative, Equipe equipe, int id) {
         this.credits = 30;
-        this.setDexterite(dexterite);
-        this.setForce(force);
-        this.setResistance(resistance);
-        this.setConstitution(constitution);
-        this.setInitiative(initiative);
+        this.dexterite = dexterite;
+        this.force = force;
+        this.resistance = resistance;
+        this.constitution = constitution;
+        this.initiative = initiative;
         this.equipe = equipe;
         this.id = id;
     }
@@ -138,7 +139,7 @@ public class Etudiant {
         if (dexterite < 0 || dexterite > 10) {
             throw new IllegalArgumentException("La dextérité doit être comprise entre 0 et 10.");
         }
-        this.dexterite += dexterite;
+        this.dexterite = dexterite;
     }
 
     /**
@@ -152,14 +153,14 @@ public class Etudiant {
      * Définit la force de cet étudiant.
      *
      * @param force la force à affecter à cet étudiant
-     * @throws IllegalArgumentException si la force specifiée est inférieure à 0 ou
+     * @throws IllegalArgumentException si la force spécifiée est inférieure à 0 ou
      *                                  supérieure à 10
      */
     public void setForce(int force) {
         if (force < 0 || force > 10) {
             throw new IllegalArgumentException("La force doit être comprise entre 0 et 10.");
         }
-        this.force += force;
+        this.force = force;
     }
 
     /**
@@ -173,14 +174,14 @@ public class Etudiant {
      * Définit la résistance de cet étudiant.
      *
      * @param resistance la résistance à affecter à cet étudiant
-     * @throws IllegalArgumentException si la résistance specifiée est inférieure à
+     * @throws IllegalArgumentException si la résistance spécifiée est inférieure à
      *                                  0 ou supérieure à 10
      */
     public void setResistance(int resistance) {
         if (resistance < 0 || resistance > 10) {
             throw new IllegalArgumentException("La résistance doit être comprise entre 0 et 10.");
         }
-        this.resistance += resistance;
+        this.resistance = resistance;
     }
 
     /**
@@ -194,14 +195,14 @@ public class Etudiant {
      * Définit la constitution de cet étudiant.
      *
      * @param constitution la constitution à affecter à cet étudiant
-     * @throws IllegalArgumentException si la constitution specifiée est inférieure
+     * @throws IllegalArgumentException si la constitution spécifiée est inférieure
      *                                  à 0 ou supérieure à 30
      */
     public void setConstitution(int constitution) {
         if (constitution < 0 || constitution > 30) {
             throw new IllegalArgumentException("La constitution doit être comprise entre 0 et 30.");
         }
-        this.constitution += constitution;
+        this.constitution = constitution;
     }
 
     /**
@@ -215,14 +216,14 @@ public class Etudiant {
      * Définit l'initiative de cet étudiant.
      *
      * @param initiative l'initiative à affecter à cet étudiant
-     * @throws IllegalArgumentException si l'initiative specifiée est inférieure à 0
+     * @throws IllegalArgumentException si l'initiative spécifiée est inférieure à 0
      *                                  ou supérieure à 10
      */
     public void setInitiative(int initiative) {
         if (initiative < 0 || initiative > 10) {
             throw new IllegalArgumentException("L'initiative doit être comprise entre 0 et 10.");
         }
-        this.initiative += initiative;
+        this.initiative = initiative;
     }
 
     /**
@@ -243,6 +244,10 @@ public class Etudiant {
 
     public boolean isReserviste() {
         return this.reserviste;
+    }
+
+    public void setReserviste(boolean reserviste) {
+        this.reserviste = reserviste;
     }
 
     /**

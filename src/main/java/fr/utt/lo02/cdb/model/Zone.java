@@ -1,10 +1,8 @@
 package fr.utt.lo02.cdb.model;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Comparator;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
@@ -316,6 +314,11 @@ public class Zone implements Runnable {
 	 */
 	public static void finirTreve() {
 		treveDeclaree = false;
+	}
+
+	@Override
+	public String toString() {
+		return this.nom.toString();
 	}
 
 }

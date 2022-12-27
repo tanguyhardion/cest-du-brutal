@@ -3,6 +3,9 @@ package fr.utt.lo02.cdb.controller;
 
 import fr.utt.lo02.cdb.model.*;
 import fr.utt.lo02.cdb.view.Configuration;
+import fr.utt.lo02.cdb.view.MainWindow;
+import fr.utt.lo02.cdb.view.Repartition;
+import fr.utt.lo02.cdb.view.SystemDialog;
 
 /**
  * Contrôle les actions de la configuration.
@@ -12,9 +15,13 @@ import fr.utt.lo02.cdb.view.Configuration;
 public class ConfigController {
 
     private Configuration configuration;
+    private Joueur joueur1;
+    private Joueur joueur2;
 
-    public ConfigController(Configuration configuration, Joueur joueur1, Joueur joueur2) {
+    public ConfigController(Configuration configuration, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         this.configuration = configuration;
+        this.joueur1 = joueur1;
+        this.joueur2 = joueur2;
 
         this.configuration.getJoueurComboBox().addItem(joueur1);
         this.configuration.getJoueurComboBox().addItem(joueur2);
@@ -33,13 +40,15 @@ public class ConfigController {
 
         this.configuration.getTroupesComboBox().addActionListener(e -> {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
-            this.configuration.getDexteriteSpinner().setValue(etudiant.getDexterite());
-            this.configuration.getForceSpinner().setValue(etudiant.getForce());
-            this.configuration.getResistanceSpinner().setValue(etudiant.getResistance());
-            this.configuration.getConstitutionSpinner().setValue(etudiant.getConstitution());
-            this.configuration.getInitiativeSpinner().setValue(etudiant.getInitiative());
-            this.configuration.getStrategieComboBox().setSelectedItem(etudiant.getStrategie() != null ? etudiant.getStrategie() : new StrategieAleatoire());
-            this.configuration.getReservisteToggle().setSelected(etudiant.isReserviste());
+            if (etudiant != null) {
+                this.configuration.getDexteriteSpinner().setValue(etudiant.getDexterite());
+                this.configuration.getForceSpinner().setValue(etudiant.getForce());
+                this.configuration.getResistanceSpinner().setValue(etudiant.getResistance());
+                this.configuration.getConstitutionSpinner().setValue(etudiant.getConstitution());
+                this.configuration.getInitiativeSpinner().setValue(etudiant.getInitiative());
+                this.configuration.getStrategieComboBox().setSelectedItem(etudiant.getStrategie() != null ? etudiant.getStrategie() : new StrategieAleatoire());
+                this.configuration.getReservisteToggle().setSelected(etudiant.isReserviste());
+            }
         });
 
         this.configuration.getDexteriteSpinner().addChangeListener(e -> {
@@ -73,17 +82,36 @@ public class ConfigController {
         });
 
         this.configuration.getReservisteToggle().addActionListener(e -> {
+            Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
             if (this.configuration.getReservisteToggle().isSelected()) {
-                Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
-                joueur.getReservistes().add(etudiant);
-                joueur.getTroupes().remove(etudiant);
+                if (joueur.getReservistes().size() < 5) {
+                    etudiant.setReserviste(true);
+                    joueur.getReservistes().add(etudiant);
+                    joueur.getTroupes().remove(etudiant);
+                } else {
+                    this.configuration.getReservisteToggle().setSelected(false);
+                    new SystemDialog("Vous ne pouvez pas avoir plus de 5 réservistes !", SystemDialog.Type.ERROR);
+                }
             } else {
-                Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+                etudiant.setReserviste(true);
                 joueur.getTroupes().add(etudiant);
                 joueur.getReservistes().remove(etudiant);
             }
         });
+
+        this.configuration.getSuivantButton().addActionListener(e -> {
+            if (!this.isReady()) {
+                Repartition repartition = new Repartition(mainWindow, joueur1, joueur2);
+                 mainWindow.switchPanel(repartition);
+            } else {
+                new SystemDialog("Un des joueurs n'a pas choisi ses 5 réservistes !", SystemDialog.Type.ERROR);
+            }
+        });
+    }
+
+    public boolean isReady() {
+        return this.joueur1.getReservistes().size() == 5 && this.joueur2.getReservistes().size() == 5;
     }
 
 }

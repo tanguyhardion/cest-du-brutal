@@ -5,5 +5,5 @@ package fr.utt.lo02.cdb.model;
  */
 public enum Equipe {
     UNE,
-    DEUX
+    DEUX;
 }

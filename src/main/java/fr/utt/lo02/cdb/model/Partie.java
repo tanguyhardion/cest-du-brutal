@@ -1,24 +1,25 @@
 package fr.utt.lo02.cdb.model;
 
-import fr.utt.lo02.cdb.view.*;
+import fr.utt.lo02.cdb.view.Accueil;
+import fr.utt.lo02.cdb.view.MainWindow;
 
+import java.awt.EventQueue;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import java.awt.EventQueue;
-
-import io.materialtheme.darkstackoverflow.DarkStackOverflowTheme;
-import mdlaf.MaterialLookAndFeel;
-
-import java.util.List;
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.concurrent.Executors;
+
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import mdlaf.MaterialLookAndFeel;
+import mdlaf.themes.MaterialOceanicTheme;
 
 /**
  * Classe principale du jeu, implémentant un Singleton.
@@ -77,7 +78,7 @@ public class Partie {
 
         EventQueue.invokeLater(() -> {
             try {
-                UIManager.setLookAndFeel(new MaterialLookAndFeel(new DarkStackOverflowTheme()));
+                UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialOceanicTheme()));
             } catch (UnsupportedLookAndFeelException e) {
                 throw new RuntimeException(e);
             }
@@ -300,5 +301,12 @@ public class Partie {
      */
     public Joueur getJoueur2() {
         return this.joueur2;
+    }
+
+    /**
+     * @return les zones
+     */
+    public List<Zone> getZones() {
+        return this.zones;
     }
 }
