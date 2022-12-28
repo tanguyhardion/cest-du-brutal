@@ -289,8 +289,10 @@ public class Etudiant {
     public String toString() {
         // Type de l'étudiant
         String type = "(" + this.getClass().getSimpleName() + ")";
+        // Réserviste ou non
+        String reserviste = this.isReserviste() ? " (R)" : "";
 
-        return "Combattant " + this.id + " " + type;
+        return "Combattant " + this.id + " " + type + reserviste;
     }
 
 }

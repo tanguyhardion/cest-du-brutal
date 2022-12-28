@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :p:17:p, par l {seq {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space :0:0:x}, seq l {par l {comp zoneLabel::l:p::p, comp zonesComboBox::l:p::p}, space :p:168:p, par l {comp troupesLabel:::p::p, comp troupesComboBox::l:p::p, comp addButton:::p::p}, space ::356:x}}}, seq l {space :234:234:p, comp titreLabel:::p::p, space ::234:x}}"
-			"$verticalGroup": "par l {seq l {space :::p, comp titreLabel:::p::p, space :p:44:p, par t {seq {par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p}, space :p:90:p, comp zoneLabel:::p::p, space :::p, comp zonesComboBox:::p::p}, seq {comp troupesLabel:::p::p, space :::p, comp troupesComboBox:::p::p}}, space s:::p, comp addButton:::p::p, space ::168:x}}"
+			"$horizontalGroup": "par l {seq l {space :234:234:p, comp titreLabel:::p::p, space ::234:x}, seq t {par t {seq {space :p:17:p, par l {seq {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space :::x, comp aleatoireButton:::p::p}, seq l {par l {comp zoneLabel::l:p::p, comp zonesComboBox::l:p::p}, space :p:168:p, par l {comp troupesLabel:::p::p, comp troupesComboBox::l:p::p, comp addButton:::p:110:p}, space ::326:x}}}, seq {space ::570:x, comp suivantButton:::p:150:p}}, space :p:30:p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp titreLabel:::p::p, space :p:44:p, par t {seq {par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p, comp aleatoireButton::b:p::p}, space :p:90:p, comp zoneLabel:::p::p, space :::p, comp zonesComboBox:::p::p}, seq {comp troupesLabel:::p::p, space :::p, comp troupesComboBox:::p::p}}, space s:::p, comp addButton:::p:35:p, space ::100:x, comp suivantButton:::p:40:p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -40,6 +40,16 @@ new FormModel {
 				"border": new mdlaf.shadows.RoundedCornerBorder
 				"focusPainted": false
 				"borderPainted": false
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "suivantButton"
+				"text": "SUIVANT"
+				"focusPainted": false
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "aleatoireButton"
+				"text": "ALÉATOIRE"
+				"focusPainted": false
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

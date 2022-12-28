@@ -1,13 +1,6 @@
 package fr.utt.lo02.cdb.model;
 
-import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.EnumSet;
-import java.util.Scanner;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Représente un joueur du jeu, possédant des troupes.
@@ -44,34 +37,6 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Demande au joueur la filière à laquelle il appartient.
-     *
-     * @param filiereInterdite la filière déjà prise par l'autre joueur
-     */
-    public void demanderFiliere(Filiere filiereInterdite) {
-        String nomJoueur = this.getEquipe() == Equipe.UNE ? "Joueur 1" : "Joueur 2";
-        Set<Filiere> filieres = EnumSet.allOf(Filiere.class);
-        System.out.println(nomJoueur + ", à quelle filière appartenez vous ? " + filieres.toString());
-
-        // Tant que le joueur n'a pas défini sa filière.
-        while (this.filiere == null) {
-            try {
-                System.out.print("Filière : ");
-                Filiere filiere = Filiere.valueOf(scanner.next().toUpperCase());
-                if (filiere == filiereInterdite) {
-                    System.out.println("Cette filière n'est pas disponible.");
-                } else {
-                    this.filiere = filiere;
-                    System.out.println(nomJoueur + ", vous appartenez à la filière " + this.filiere + "\n");
-                    break;
-                }
-            } catch (IllegalArgumentException e) {
-                System.err.println("Veuillez entrer une filière valide.");
-            }
-        }
-    }
-
-    /**
      * Initialise les troupes de ce joueur en créeant et en lui attribuant le nombre
      * souhaité de chaque type d'étudiant.
      *
@@ -93,288 +58,12 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Permet à ce joueur de paramétrer ses troupes, en leur distrubuant ses points
-     * et en leur attribuant une stratégie.
-     */
-    public void parametrerTroupes() {
-        System.out.println();
-        System.out.println("Joueur " + this.getFiliere() + ", vous avez " + this.points
-                + " points à attribuer aux différentes compétences de vos troupes :");
-
-        // Compteur pour les combattants
-        int n = 1;
-
-        // Pour tous les étudiants du joueur
-        for (Etudiant etudiant : this.getTroupes()) {
-
-            // Affichage : "Étudiant n°..."
-            System.out.print("\nCombattant " + n++);
-
-            // Affichage du type de l'étudiant, s'il en a un
-            if (etudiant instanceof MaitreGobi) {
-                System.out.println(" (Maître du gobi) :");
-            } else if (etudiant instanceof EtudiantElite) {
-                System.out.println(" (étudiant d'élite) :");
-            } else {
-                System.out.println(" :");
-            }
-
-            // Tant que l'utilisateur n'a pas défini la dexterité de l'étudiant
-            while (this.points > 0) {
-                try {
-                    // S'il reste des points à attribuer
-                    System.out.print("Dextérité : ");
-                    int dexterite = Integer.parseInt(scanner.next());
-                    // Si l'utilisateur a entré un nombre supérieur à son nombre de points restants
-                    if (dexterite > this.points) {
-                        System.out.println("Vous n'avez pas assez de points. Points restants : "
-                                + this.points);
-                    } else {
-                        etudiant.setDexterite(dexterite);
-                        this.points -= dexterite;
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre entier.");
-                } catch (IllegalArgumentException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-
-            // Tant que l'utilisateur n'a pas défini la force de l'étudiant
-            while (this.points > 0) {
-                try {
-                    System.out.print("Force : ");
-                    int force = Integer.parseInt(scanner.next());
-                    if (force > this.points) {
-                        System.out.println("Vous n'avez pas assez de points. Points restants : "
-                                + this.points);
-                    } else {
-                        etudiant.setForce(force);
-                        this.points -= force;
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre entier.");
-                } catch (IllegalArgumentException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-
-            // Tant que l'utilisateur n'a pas défini la résistance de l'étudiant
-            while (this.points > 0) {
-                try {
-                    System.out.print("Résistance : ");
-                    int resistance = Integer.parseInt(scanner.next());
-                    if (resistance > this.points) {
-                        System.out.println("Vous n'avez pas assez de points. Points restants : "
-                                + this.points);
-                    } else {
-                        etudiant.setResistance(resistance);
-                        this.points -= resistance;
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre entier.");
-                } catch (IllegalArgumentException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-
-            // Tant que l'utilisateur n'a pas défini la constitution de l'étudiant
-            while (this.points > 0) {
-                try {
-                    System.out.print("Constitution : ");
-                    int constitution = Integer.parseInt(scanner.next());
-                    if (constitution > this.points) {
-                        System.out.println("Vous n'avez pas assez de points. Points restants : "
-                                + this.points);
-                    } else {
-                        etudiant.setConstitution(constitution);
-                        this.points -= constitution;
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre entier.");
-                } catch (IllegalArgumentException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-
-            // Tant que l'utilisateur n'a pas défini l'initiative de l'étudiant
-            while (this.points > 0) {
-                try {
-                    System.out.print("Initiative : ");
-                    int initiative = Integer.parseInt(scanner.next());
-                    if (initiative > this.points) {
-                        System.out.println("Vous n'avez pas assez de points. Points restants : "
-                                + this.points);
-                    } else {
-                        etudiant.setInitiative(initiative);
-                        this.points -= initiative;
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre entier.");
-                } catch (IllegalArgumentException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-
-            // Tant que l'utilisateur n'a pas défini la stratégie de l'étudiant
-            while (true) {
-                try {
-                    System.out.print("Stratégie (Offensive : o, Défensive : d, Aléatoire : a) : ");
-                    String s = scanner.next();
-                    switch (s.toUpperCase()) {
-                        case "O":
-                            etudiant.setStrategie(new StrategieOffensive());
-                            break;
-                        case "D":
-                            etudiant.setStrategie(new StrategieDefensive());
-                            break;
-                        case "A":
-                            etudiant.setStrategie(new StrategieAleatoire());
-                            break;
-                        default:
-                            etudiant.setStrategie(null);
-                    }
-                    break;
-                } catch (IllegalArgumentException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-
-            // Affichage du nombre de points restants
-            if (this.points == 1) {
-                System.out.println("\nIl vous reste " + this.points + " point à attribuer.");
-            } else if (this.points > 0) {
-                System.out.println("\nIl vous reste " + this.points + " points à attribuer.");
-            } else {
-                System.out.println("\n" + "Vous n'avez plus de points.");
-            }
-        }
-    }
-
-    /**
-     * Permet à ce joueur de choisir ses réservistes, des étudiants qui ne
-     * pourront seulement être déployés à partir de la première trêve.
-     */
-    public void choisirReservistes() {
-        // Compteur pour les réservistes
-        int n = 1;
-
-        System.out.println("\nJoueur " + this.getFiliere()
-                + ", choisissez vos réservistes (les troupes qui n'iront pas tout de suite sur les zones de combat).\n");
-        System.out.println("Pour afficher vos troupes, entrez t" + ".");
-        System.out.println("Pour afficher vos réservistes, entrez r" + ".");
-        System.out.println("Pour choisir un réserviste, entrez son numéro.");
-
-        // Tant que le joueur n'a pas choisi 5 réservistes
-        while (n <= 5) {
-            try {
-                String s = scanner.next().toLowerCase();
-
-                if (Integer.parseInt(s) > 0) {
-                    // Si la saisie est incorrecte, une exception sera levée à la ligne précédente
-                    int id = Integer.parseInt(s);
-                    // On récupère l'étudiant dont l'id est égal à la saisie
-                    Etudiant etudiant = this.getEtudiant(id);
-                    // On l'ajoute aux réservistes
-                    this.addReserviste(etudiant);
-                    // La ligne précédente n'a pas levé d'exception, on continue
-                    n++;
-                    // On enlève l'étudiant des troupes
-                    this.removeEtudiant(id);
-                    System.out.println("Réserviste ajouté.");
-                } else {
-                    System.out.println("Combattant incorrect.");
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("Veuillez entrer un nombre entier valide.");
-            } catch (NullPointerException e) {
-                System.err.println("Ce combattant est déjà un réserviste.");
-            } catch (IllegalArgumentException e) {
-                System.err.println(e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Permet à ce joueur de répartir ses troupes sur les différentes zones du jeu.
-     * <p>
-     * Au moins un combattant doit être déployé sur chaque zone.
-     *
-     * @param zones La liste des zones du jeu
-     */
-    public void repartirTroupes(List<Zone> zones) {
-        // Le nombre de zones, que l'on décrémentera
-        int zonesRestantes = zones.size();
-
-        System.out.println();
-        System.out.println("Joueur " + this.getFiliere() + ", répartissez vos troupes.\n");
-        System.out.println("Pour choisir un combattant, entrez son numéro.");
-        System.out.println("Vous devez déployer au moins 1 combattant par zone.");
-        System.out.println("Pour passer à la zone suivante, entrez s.");
-        System.out.println("Vous pouvez à tout moment entrer aleatoire pour répartir vos troupes aléatoirement.");
-
-        for (Zone zone : zones) {
-            System.out.println("\n" + zone.getNom() + " :");
-
-            // Tant qu'il reste des combattants à déployer et qu'il reste assez de
-            // combattants au joueur pour en déployer au moins un sur chaque zone
-            while (this.getTroupes().size() != 0 && this.getTroupes().size() >= zonesRestantes) {
-                try {
-                    String s = scanner.next().toLowerCase();
-
-                    if (s.equals("s")) {
-                        // Si le joueur entre "s" mais qu'il n'a déployé aucun combattant
-                        if (zone.getTroupesEquipe1().isEmpty() && this.equipe == Equipe.UNE
-                                || zone.getTroupesEquipe2().isEmpty() && this.equipe == Equipe.DEUX) {
-                            System.out.println("Vous devez déployer au moins 1 combattant par zone."
-                                   );
-                        } else {
-                            // Si le joueur a déployé au moins un combattant, on passe à la zone suivante
-                            zonesRestantes--;
-                            break;
-                        }
-                    } else if (s.equals("aleatoire")) {
-                        this.repartirTroupesRestantes(zones);
-                        return;
-                    } else if (Integer.parseInt(s) > 0) {
-                        int key = Integer.parseInt(s);
-                        Etudiant etudiant = this.getTroupes().get(key);
-                        // On ajoute le combattant choisi à la zone en cours
-                        zone.addCombattant(etudiant);
-                        // On enlève le combattant des troupes du joueur
-                        this.removeEtudiant(key);
-                        System.out.println("Combattant ajouté.");
-                    } else {
-                        System.out.println("Combattant invalide.");
-                    }
-                } catch (NumberFormatException e) {
-                    System.err.println("Veuillez entrer un nombre entier valide.");
-                } catch (IllegalArgumentException e) {
-                    System.err.println("Ce combattant a déjà été déployé.");
-                }
-            }
-
-            zonesRestantes--;
-        }
-
-        // S'il reste des combattants à déployer, on les répartit aléatoirement
-        if (this.getTroupes().size() > 0) {
-            this.repartirTroupesRestantes(zones);
-        }
-    }
-
-    /**
      * Répartit aléatoirement les combattants restants du joueur
      * sur les zones du jeu.
      *
      * @param zones la liste des zones du jeu
      */
-    private void repartirTroupesRestantes(List<Zone> zones) {
+    public void repartirTroupesAleatoirement(List<Zone> zones) {
         // Tant qu'il reste des combattants à déployer
         while (this.getTroupes().size() > 0) {
             // On récupère les troupes restantes du joueur
@@ -392,7 +81,7 @@ public class Joueur extends Observable {
                 // On ajoute le combattant choisi à la zone en cours
                 zone.addCombattant(etudiant);
                 // On enlève le combattant des troupes du joueur
-                this.removeEtudiant(index);
+                this.removeEtudiant(etudiant);
                 // On enlève le combattant des troupes restantes
                 troupes.remove(index);
             }
@@ -443,8 +132,7 @@ public class Joueur extends Observable {
                         System.out.println("Réserviste invalide.");
                     }
                 } catch (NumberFormatException e) {
-                    System.err.println("Veuillez entrer un nombre entier valide."
-                           );
+                    System.err.println("Veuillez entrer un nombre entier valide.");
                 } catch (IllegalArgumentException e) {
                     System.err.println("Ce réserviste a déjà été déployé.");
                 }
@@ -452,8 +140,7 @@ public class Joueur extends Observable {
 
             // Si le joueur n'a plus de réservistes à affecter, on sort de la boucle
             if (this.getReservistes().isEmpty()) {
-                System.out.println("\n" + "Vous n'avez plus de réservistes à affecter."
-                       );
+                System.out.println("\n" + "Vous n'avez plus de réservistes à affecter.");
                 break;
             }
         }
@@ -521,7 +208,7 @@ public class Joueur extends Observable {
                         }
                     } catch (NumberFormatException e) {
                         System.err.println("Veuillez entrer un nombre entier valide."
-                               );
+                        );
                     } catch (NullPointerException e) {
                         System.err.println("Combattant invalide.");
                     }
@@ -535,6 +222,51 @@ public class Joueur extends Observable {
                 break;
             }
         }
+    }
+
+    /**
+     * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une
+     * valeur aléatoire pour chacune de leur caractéristiques.
+     * <p>
+     * Cette méthode choisit aussi 5 réservistes aléatoirement parmi les étudiants.
+     */
+    public void parametrerTroupesAleatoirement() {
+        // List dans laquelle on va choisir une stratégie aléatoirement
+        List<StrategieEtudiant> strategies = new ArrayList<>();
+        strategies.add(new StrategieAleatoire());
+        strategies.add(new StrategieOffensive());
+        strategies.add(new StrategieDefensive());
+
+        final Random random = new Random();
+
+        // Pour toutes les troupes de ce joueur
+        for (Etudiant etudiant : this.getTroupes()) {
+            // On choisit une stratégie aléatoirement (0, 1 ou 2)
+            etudiant.setStrategie(strategies.get(random.nextInt(3)));
+
+            // Pour chaque caractéristique, on attribue une valeur aléatoire entre 0 et 8.
+            // De cette manière, en moyenne, la somme des valeurs sera égale à 400.
+            // Sachant qu'on choisit un nombre aléatoire entre 0 et 8 : valeurMoyenne = 4
+            // donc 20 combattants * 5 caractéristiques * valeurMoyenne = 400 points
+            etudiant.setDexterite(random.nextInt(9));
+            etudiant.setForce(random.nextInt(9));
+            etudiant.setResistance(random.nextInt(9));
+            etudiant.setConstitution(random.nextInt(9));
+            etudiant.setInitiative(random.nextInt(9));
+        }
+
+        // Pour les réservistes restant à choisir, on les choisit aléatoirement
+        int reservistes = this.getTroupes().size() - 15;
+        for (int i = 0; i < reservistes; i++) {
+            Etudiant etudiant = this.troupes.get(random.nextInt(this.troupes.size()));
+            etudiant.setReserviste(true);
+            this.addReserviste(etudiant);
+            this.removeEtudiant(etudiant);
+        }
+
+        // On notifie les observateurs que les troupes ont été paramétrées
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -625,12 +357,13 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Supprime un étudiant de la liste des troupes de ce joueur.
+     * Supprime un étudiant de la liste des troupes de ce joueur
+     * et notifie les observateurs.
      *
-     * @param id la clé de l'étudiant à supprimer
+     * @param etudiant l'étudiant à supprimer
      */
-    public void removeEtudiant(int id) {
-        this.troupes.removeIf(etudiant -> etudiant.getId() == id);
+    public void removeEtudiant(Etudiant etudiant) {
+        this.troupes.remove(etudiant);
         this.setChanged();
         this.notifyObservers();
     }

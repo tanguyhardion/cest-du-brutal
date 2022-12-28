@@ -28,11 +28,15 @@ public class Repartition extends JPanel implements Observer {
     private JLabel troupesLabel;
     private JComboBox troupesComboBox;
     private JButton addButton;
+    private JButton suivantButton;
+    private JButton aleatoireButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
     public Repartition(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         initComponents();
         RepartitionController repartitionController = new RepartitionController(this, mainWindow, joueur1, joueur2);
+        joueur1.deleteObservers();
+        joueur2.deleteObservers();
         joueur1.addObserver(this);
         joueur2.addObserver(this);
     }
@@ -56,6 +60,8 @@ public class Repartition extends JPanel implements Observer {
         troupesLabel = new JLabel();
         troupesComboBox = new JComboBox();
         addButton = new JButton();
+        suivantButton = new JButton();
+        aleatoireButton = new JButton();
 
         //======== this ========
 
@@ -78,32 +84,47 @@ public class Repartition extends JPanel implements Observer {
         addButton.setFocusPainted(false);
         addButton.setBorderPainted(false);
 
+        //---- suivantButton ----
+        suivantButton.setText("SUIVANT");
+        suivantButton.setFocusPainted(false);
+
+        //---- aleatoireButton ----
+        aleatoireButton.setText("AL\u00c9ATOIRE");
+        aleatoireButton.setFocusPainted(false);
+
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup()
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(17, 17, 17)
-                    .addGroup(layout.createParallelGroup()
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(joueurLabel)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(zoneLabel)
-                                .addComponent(zonesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGap(168, 168, 168)
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(troupesLabel)
-                                .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(addButton))
-                            .addContainerGap(356, Short.MAX_VALUE))))
-                .addGroup(layout.createSequentialGroup()
                     .addGap(234, 234, 234)
                     .addComponent(titreLabel)
                     .addContainerGap(234, Short.MAX_VALUE))
+                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addGroup(layout.createParallelGroup()
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(joueurLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(aleatoireButton))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(zoneLabel)
+                                        .addComponent(zonesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(168, 168, 168)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(troupesLabel)
+                                        .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap(570, Short.MAX_VALUE)
+                            .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+                    .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
@@ -115,7 +136,8 @@ public class Repartition extends JPanel implements Observer {
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                 .addComponent(joueurLabel)
-                                .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(aleatoireButton))
                             .addGap(90, 90, 90)
                             .addComponent(zoneLabel)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -125,8 +147,10 @@ public class Repartition extends JPanel implements Observer {
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                     .addGap(18, 18, 18)
-                    .addComponent(addButton)
-                    .addContainerGap(168, Short.MAX_VALUE))
+                    .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                    .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addGap(25, 25, 25))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
@@ -145,5 +169,13 @@ public class Repartition extends JPanel implements Observer {
 
     public JButton getAddButton() {
         return this.addButton;
+    }
+
+    public JButton getAleatoireButton() {
+        return this.aleatoireButton;
+    }
+
+    public JButton getSuivantButton() {
+        return this.suivantButton;
     }
 }

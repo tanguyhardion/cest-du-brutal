@@ -1,11 +1,7 @@
 package fr.utt.lo02.cdb.controller;
 
-import fr.utt.lo02.cdb.model.Filiere;
-import fr.utt.lo02.cdb.model.Joueur;
-import fr.utt.lo02.cdb.view.Accueil;
-import fr.utt.lo02.cdb.view.Configuration;
-import fr.utt.lo02.cdb.view.MainWindow;
-import fr.utt.lo02.cdb.view.SystemDialog;
+import fr.utt.lo02.cdb.model.*;
+import fr.utt.lo02.cdb.view.*;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -44,8 +40,7 @@ public class AccueilController {
 
         this.accueil.getSuivantButton().addActionListener(e -> {
             if (this.isReady()) {
-                Configuration configuration = new Configuration(mainWindow, joueur1, joueur2);
-                mainWindow.switchPanel(configuration);
+                mainWindow.switchPanel(new Configuration(mainWindow, joueur1, joueur2));
             } else {
                 SystemDialog.showDialog("Les joueurs ne peuvent pas avoir la même filière !", SystemDialog.Type.ERROR);
             }

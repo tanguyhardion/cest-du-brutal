@@ -2,41 +2,43 @@ package fr.utt.lo02.cdb.controller;
 
 
 import fr.utt.lo02.cdb.model.*;
-import fr.utt.lo02.cdb.view.Configuration;
-import fr.utt.lo02.cdb.view.MainWindow;
-import fr.utt.lo02.cdb.view.Repartition;
-import fr.utt.lo02.cdb.view.SystemDialog;
+import fr.utt.lo02.cdb.view.*;
 
 /**
- * Contrôle les actions de la configuration.
+ * Contrôle les actions de la configuration des troupes.
  *
  * @author Tanguy HARDION
  */
-public class ConfigController {
+public class ConfigurationController {
 
     private Configuration configuration;
     private Joueur joueur1;
     private Joueur joueur2;
 
-    public ConfigController(Configuration configuration, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
+    public ConfigurationController(Configuration configuration, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         this.configuration = configuration;
         this.joueur1 = joueur1;
         this.joueur2 = joueur2;
 
-        this.configuration.getJoueurComboBox().addItem(joueur1);
-        this.configuration.getJoueurComboBox().addItem(joueur2);
+        this.configuration.getJoueurComboBox().addActionListener(e -> {
+            Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+            this.configuration.getTroupesComboBox().removeAllItems();
+            for (Etudiant etudiant : joueur.getTroupes()) {
+                this.configuration.getTroupesComboBox().addItem(etudiant);
+            }
+            for (Etudiant reserviste : joueur.getReservistes()) {
+                this.configuration.getTroupesComboBox().addItem(reserviste);
+            }
+        });
 
+        // Ajout des stratégies
         this.configuration.getStrategieComboBox().addItem(new StrategieAleatoire());
         this.configuration.getStrategieComboBox().addItem(new StrategieDefensive());
         this.configuration.getStrategieComboBox().addItem(new StrategieOffensive());
 
-        this.configuration.getJoueurComboBox().addActionListener(e -> {
-            Joueur j = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
-            this.configuration.getTroupesComboBox().removeAllItems();
-            for (Etudiant etudiant : j.getTroupes()) {
-                this.configuration.getTroupesComboBox().addItem(etudiant);
-            }
-        });
+        // Ajout des joueurs
+        this.configuration.getJoueurComboBox().addItem(joueur1);
+        this.configuration.getJoueurComboBox().addItem(joueur2);
 
         this.configuration.getTroupesComboBox().addActionListener(e -> {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
@@ -87,23 +89,27 @@ public class ConfigController {
             if (this.configuration.getReservisteToggle().isSelected()) {
                 if (joueur.getReservistes().size() < 5) {
                     etudiant.setReserviste(true);
-                    joueur.getReservistes().add(etudiant);
-                    joueur.getTroupes().remove(etudiant);
+                    joueur.addReserviste(etudiant);
+                    joueur.removeEtudiant(etudiant);
                 } else {
                     this.configuration.getReservisteToggle().setSelected(false);
                     SystemDialog.showDialog("Vous ne pouvez pas avoir plus de 5 réservistes !", SystemDialog.Type.ERROR);
                 }
             } else {
-                etudiant.setReserviste(true);
+                etudiant.setReserviste(false);
                 joueur.getTroupes().add(etudiant);
                 joueur.getReservistes().remove(etudiant);
             }
         });
 
+        this.configuration.getAleatoireButton().addActionListener(e -> {
+            Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+            joueur.parametrerTroupesAleatoirement();
+        });
+
         this.configuration.getSuivantButton().addActionListener(e -> {
-            if (!this.isReady()) {
-                Repartition repartition = new Repartition(mainWindow, joueur1, joueur2);
-                 mainWindow.switchPanel(repartition);
+            if (this.isReady()) {
+                mainWindow.switchPanel(new Repartition(mainWindow, joueur1, joueur2));
             } else {
                 SystemDialog.showDialog("Un des joueurs n'a pas choisi ses 5 réservistes !", SystemDialog.Type.ERROR);
             }

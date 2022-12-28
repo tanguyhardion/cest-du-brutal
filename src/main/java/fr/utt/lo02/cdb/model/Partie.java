@@ -2,25 +2,15 @@ package fr.utt.lo02.cdb.model;
 
 import fr.utt.lo02.cdb.view.Accueil;
 import fr.utt.lo02.cdb.view.MainWindow;
-
-import java.awt.*;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.tools.Tool;
-import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Hashtable;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import mdlaf.MaterialLookAndFeel;
 import mdlaf.themes.MaterialOceanicTheme;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Classe principale du jeu, implémentant un Singleton.
@@ -168,47 +158,6 @@ public class Partie {
     }
 
     /**
-     * Paramètre aléatoirement les troupes de chaque joueur, en leur attribuant une
-     * valeur aléatoire pour chacune de leur caractéristiques.
-     */
-    private void parametrerTroupesAleatoirement() {
-        // Hashtable dans laquelle on va choisir une stratégie aléatoirement
-        Hashtable<Integer, StrategieEtudiant> strategie = new Hashtable<>();
-        strategie.put(0, new StrategieAleatoire());
-        strategie.put(1, new StrategieOffensive());
-        strategie.put(2, new StrategieDefensive());
-
-        final Random random = new Random();
-
-        // Valeurs aléatoires pour les caractéristiques des troupes du joueur 1
-        for (Etudiant etudiant : this.joueur1.getTroupes()) {
-            // On choisit une stratégie aléatoirement (0, 1 ou 2)
-            etudiant.setStrategie(strategie.get(random.nextInt(3)));
-
-            // Pour chaque caractéristique, on attribue une valeur aléatoire entre 0 et 8.
-            // De cette manière, en moyenne, la somme des valeurs sera égale à 400.
-            // Sachant qu'on choisit un nombre aléatoire entre 0 et 8 : valeurMoyenne = 4
-            // donc 20 combattants * 5 caractéristiques * valeurMoyenne = 400 points
-            etudiant.setDexterite(random.nextInt(9));
-            etudiant.setForce(random.nextInt(9));
-            etudiant.setResistance(random.nextInt(9));
-            etudiant.setConstitution(random.nextInt(9));
-            etudiant.setInitiative(random.nextInt(9));
-        }
-
-        // Même principe pour les troupes du joueur 2
-        for (Etudiant etudiant : this.joueur2.getTroupes()) {
-            etudiant.setStrategie(strategie.get(random.nextInt(3)));
-
-            etudiant.setDexterite(random.nextInt(9));
-            etudiant.setForce(random.nextInt(9));
-            etudiant.setResistance(random.nextInt(9));
-            etudiant.setConstitution(random.nextInt(9));
-            etudiant.setInitiative(random.nextInt(9));
-        }
-    }
-
-    /**
      * Affiche le nombre de crédits sur chaque zone.
      */
     private void afficherCreditsZones() {
@@ -274,5 +223,40 @@ public class Partie {
      */
     public List<Zone> getZones() {
         return this.zones;
+    }
+
+    /**
+     * @return la zone BDE
+     */
+    public Zone getBDE() {
+        return this.zones.stream().filter(zone -> zone.getNom() == NomZone.BDE).findFirst().orElse(null);
+    }
+
+    /**
+     * @return la zone Bibliotheque
+     */
+    public Zone getBibliotheque() {
+        return this.zones.stream().filter(zone -> zone.getNom() == NomZone.BIBLIOTHEQUE).findFirst().orElse(null);
+    }
+
+    /**
+     * @return la zone Halles Industrielles
+     */
+    public Zone getHallesIndustrielles() {
+        return this.zones.stream().filter(zone -> zone.getNom() == NomZone.HALLESINDUSTRIELLES).findFirst().orElse(null);
+    }
+
+    /**
+     * @return la zone Halle Sportive
+     */
+    public Zone getHalleSportive() {
+        return this.zones.stream().filter(zone -> zone.getNom() == NomZone.HALLESPORTIVE).findFirst().orElse(null);
+    }
+
+    /**
+     * @return la zone Quartier Administratif
+     */
+    public Zone getQuartierAdministratif() {
+        return this.zones.stream().filter(zone -> zone.getNom() == NomZone.QUARTIERADMINISTRATIF).findFirst().orElse(null);
     }
 }

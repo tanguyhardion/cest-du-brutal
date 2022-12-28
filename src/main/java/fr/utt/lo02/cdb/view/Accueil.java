@@ -1,5 +1,7 @@
 package fr.utt.lo02.cdb.view;
 
+import java.awt.*;
+import javax.swing.border.*;
 import fr.utt.lo02.cdb.controller.AccueilController;
 import fr.utt.lo02.cdb.model.*;
 
@@ -9,8 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
-
-import mdlaf.shadows.RoundedCornerBorder;
 
 /**
  * @author Tanguy HARDION
@@ -49,8 +49,6 @@ public class Accueil extends JPanel {
         //---- suivantButton ----
         suivantButton.setText("SUIVANT");
         suivantButton.setFocusPainted(false);
-        suivantButton.setBorder(new RoundedCornerBorder());
-        suivantButton.setBorderPainted(false);
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
@@ -67,14 +65,14 @@ public class Accueil extends JPanel {
                         .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addGap(120, 120, 120))
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(611, Short.MAX_VALUE)
-                    .addComponent(suivantButton)
+                    .addContainerGap(570, Short.MAX_VALUE)
+                    .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                     .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(268, Short.MAX_VALUE)
+                    .addContainerGap(260, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(filieres1Label)
                         .addComponent(filieres2Label))
@@ -83,7 +81,7 @@ public class Accueil extends JPanel {
                         .addComponent(filieres1ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addGap(115, 115, 115)
-                    .addComponent(suivantButton)
+                    .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                     .addGap(25, 25, 25))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
