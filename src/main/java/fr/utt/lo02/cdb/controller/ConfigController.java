@@ -91,7 +91,7 @@ public class ConfigController {
                     joueur.getTroupes().remove(etudiant);
                 } else {
                     this.configuration.getReservisteToggle().setSelected(false);
-                    new SystemDialog("Vous ne pouvez pas avoir plus de 5 réservistes !", SystemDialog.Type.ERROR);
+                    SystemDialog.showDialog("Vous ne pouvez pas avoir plus de 5 réservistes !", SystemDialog.Type.ERROR);
                 }
             } else {
                 etudiant.setReserviste(true);
@@ -105,7 +105,7 @@ public class ConfigController {
                 Repartition repartition = new Repartition(mainWindow, joueur1, joueur2);
                  mainWindow.switchPanel(repartition);
             } else {
-                new SystemDialog("Un des joueurs n'a pas choisi ses 5 réservistes !", SystemDialog.Type.ERROR);
+                SystemDialog.showDialog("Un des joueurs n'a pas choisi ses 5 réservistes !", SystemDialog.Type.ERROR);
             }
         });
     }

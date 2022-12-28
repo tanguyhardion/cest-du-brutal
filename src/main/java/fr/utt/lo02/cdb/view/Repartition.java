@@ -25,7 +25,7 @@ public class Repartition extends JPanel implements Observer {
     private JComboBox zonesComboBox;
     private JLabel joueurLabel;
     private JComboBox joueursComboBox;
-    private JLabel combattantLabel;
+    private JLabel troupesLabel;
     private JComboBox troupesComboBox;
     private JButton addButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
@@ -53,7 +53,7 @@ public class Repartition extends JPanel implements Observer {
         zonesComboBox = new JComboBox();
         joueurLabel = new JLabel();
         joueursComboBox = new JComboBox();
-        combattantLabel = new JLabel();
+        troupesLabel = new JLabel();
         troupesComboBox = new JComboBox();
         addButton = new JButton();
 
@@ -69,8 +69,8 @@ public class Repartition extends JPanel implements Observer {
         //---- joueurLabel ----
         joueurLabel.setText("Joueur :");
 
-        //---- combattantLabel ----
-        combattantLabel.setText("Combattant :");
+        //---- troupesLabel ----
+        troupesLabel.setText("Vos troupes :");
 
         //---- addButton ----
         addButton.setText("AJOUTER");
@@ -96,7 +96,7 @@ public class Repartition extends JPanel implements Observer {
                                 .addComponent(zonesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                             .addGap(168, 168, 168)
                             .addGroup(layout.createParallelGroup()
-                                .addComponent(combattantLabel)
+                                .addComponent(troupesLabel)
                                 .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(addButton))
                             .addContainerGap(356, Short.MAX_VALUE))))
@@ -121,7 +121,7 @@ public class Repartition extends JPanel implements Observer {
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(zonesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(combattantLabel)
+                            .addComponent(troupesLabel)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                     .addGap(18, 18, 18)

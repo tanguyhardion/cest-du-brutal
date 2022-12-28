@@ -633,7 +633,6 @@ public class Joueur extends Observable {
         this.troupes.removeIf(etudiant -> etudiant.getId() == id);
         this.setChanged();
         this.notifyObservers();
-
     }
 
     /**

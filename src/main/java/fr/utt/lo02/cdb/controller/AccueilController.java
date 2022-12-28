@@ -47,7 +47,7 @@ public class AccueilController {
                 Configuration configuration = new Configuration(mainWindow, joueur1, joueur2);
                 mainWindow.switchPanel(configuration);
             } else {
-                new SystemDialog("Les joueurs ne peuvent pas avoir la même filière !", SystemDialog.Type.ERROR);
+                SystemDialog.showDialog("Les joueurs ne peuvent pas avoir la même filière !", SystemDialog.Type.ERROR);
             }
         });
     }

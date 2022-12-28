@@ -1,12 +1,7 @@
 package fr.utt.lo02.cdb.view;
 
-import javax.swing.JDialog;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Affiche une fenêtre de dialogue.
@@ -21,32 +16,35 @@ public class SystemDialog extends JDialog {
         // Définition de l'icône du dialog
         this.setIconImage(type.getIcone().getImage());
 
-        // Création d'un panel pour contenir le label du message
-        JPanel messagePanel = new JPanel();
-        messagePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel messageLabel = new JLabel(message);
-        messagePanel.add(messageLabel);
+        this.setLayout(new BorderLayout());
 
-        // Création un panel pour contenir le bouton OK
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        // Création d'un label pour le message
+        JLabel label = new JLabel(message);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Ajout du label au dialog
+        this.add(label, BorderLayout.CENTER);
+
+        // Création d'un bouton pour fermer la fenêtre
         JButton okButton = new JButton("OK");
+        okButton.addActionListener(event -> dispose());
+        okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        okButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         okButton.setFocusPainted(false);
-        okButton.addActionListener(e -> {
-            this.setVisible(false);
-        });
-        buttonPanel.add(okButton);
 
-        // Ajout des panels au dialog
-        this.getContentPane().add(messagePanel, BorderLayout.CENTER);
-        this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        // Ajout du bouton au dialog
+        this.add(okButton, BorderLayout.SOUTH);
 
-        // Adaptation de la taille du dialog
+        // Paramétrage de la fenêtre (taille, position, affichage)
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.pack();
-
-        // Centrage et affichage du dialog
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public static void showDialog(String message, Type type) {
+        new SystemDialog(message, type);
     }
 
     public enum Type {

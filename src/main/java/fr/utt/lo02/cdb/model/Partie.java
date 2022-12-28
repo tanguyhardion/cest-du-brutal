@@ -3,9 +3,10 @@ package fr.utt.lo02.cdb.model;
 import fr.utt.lo02.cdb.view.Accueil;
 import fr.utt.lo02.cdb.view.MainWindow;
 
-import java.awt.EventQueue;
+import java.awt.*;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.tools.Tool;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
@@ -71,64 +72,29 @@ public class Partie {
      * Commence et gère la partie.
      */
     public void commencer() {
-        // On initialise les troupes de chaque joueur
+        // Initialisation des troupes de chaque joueur
         // (15 étudiants, 4 étudiants d'élite, 1 Maître du gobi)
         joueur1.initialiserTroupes(15, 4, 1, Equipe.UNE);
         joueur2.initialiserTroupes(15, 4, 1, Equipe.DEUX);
 
+        // Lancement de l'interface graphique
         EventQueue.invokeLater(() -> {
+            // Définition du thème Material Design
             try {
                 UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialOceanicTheme()));
             } catch (UnsupportedLookAndFeelException e) {
                 throw new RuntimeException(e);
             }
 
+            // Création de la fenêtre principale
             MainWindow mainWindow = new MainWindow();
+            // Création de la page d'accueil
             Accueil accueil = new Accueil(joueur1, joueur2, mainWindow);
+            // Ajout de la page d'accueil à la fenêtre principale
             mainWindow.switchPanel(accueil);
+            // Affichage de la fenêtre principale
             mainWindow.setVisible(true);
         });
-
-        // On demande à chaque joueur de choisir sa filière
-        joueur1.demanderFiliere(null);
-        joueur2.demanderFiliere(joueur1.getFiliere());
-
-        boolean parametrageManuel = false;
-
-        // On vérifie que le choix est "oui" ou "non"
-        String choix = this.verifierChoix(this.scanner.next().toLowerCase(), "oui", "non");
-
-        // Si le choix est "oui", on paramètre les troupes aléatoirement
-        if (choix.equals("oui")) {
-            this.parametrerTroupesAleatoirement();
-        } else {
-            // Sinon, on se souvient que le paramétrage est manuel
-            parametrageManuel = true;
-        }
-
-        /* Joueur 1 */
-        // Si le paramétrage est manuel
-        if (parametrageManuel) {
-            this.joueur1.parametrerTroupes();
-        }
-        // Choix des réservistes
-        joueur1.choisirReservistes();
-        // Répartition des troupes
-        joueur1.repartirTroupes(this.zones);
-
-        /* Joueur 2 */
-        // On répète les mêmes étapes
-        if (parametrageManuel) {
-            this.joueur2.parametrerTroupes();
-        }
-        joueur2.choisirReservistes();
-        joueur2.repartirTroupes(this.zones);
-
-        // Setup effectué, on lance la partie
-        try {
-            this.gerer();
-        } catch (InterruptedException ignored) {
-        }
     }
 
     /**

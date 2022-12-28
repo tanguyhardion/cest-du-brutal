@@ -6,6 +6,7 @@ import fr.utt.lo02.cdb.model.Partie;
 import fr.utt.lo02.cdb.model.Zone;
 import fr.utt.lo02.cdb.view.MainWindow;
 import fr.utt.lo02.cdb.view.Repartition;
+import fr.utt.lo02.cdb.view.SystemDialog;
 
 import java.util.List;
 
@@ -40,11 +41,24 @@ public class RepartitionController {
 
         this.repartition.getAddButton().addActionListener(e -> {
             Joueur joueur = (Joueur) this.repartition.getJoueursComboBox().getSelectedItem();
-            Zone zone = (Zone) this.repartition.getZonesComboBox().getSelectedItem();
-            Etudiant etudiant = (Etudiant) this.repartition.getTroupesComboBox().getSelectedItem();
-            zone.addCombattant(etudiant);
-            joueur.removeEtudiant(etudiant.getId());
+            if (joueur.getTroupes().size() > 0) {
+                Zone zone = (Zone) this.repartition.getZonesComboBox().getSelectedItem();
+                if (zones.stream().filter(z -> z.getTroupes(joueur).isEmpty()).count() == joueur.getTroupes().size()
+                        && !zone.getTroupes(joueur).isEmpty()) {
+                    SystemDialog.showDialog("Vous ne pouvez plus déployer de troupes dans cette zone !", SystemDialog.Type.ERROR);
+                } else {
+                    Etudiant etudiant = (Etudiant) this.repartition.getTroupesComboBox().getSelectedItem();
+                    zone.addCombattant(etudiant);
+                    joueur.removeEtudiant(etudiant.getId());
+                }
+            } else {
+                SystemDialog.showDialog("Vous avez déployé toutes vos troupes !", SystemDialog.Type.ERROR);
+            }
         });
+
+//        if (zones.stream().anyMatch(z -> z.getTroupes(joueur1).isEmpty() || z.getTroupes(joueur2).isEmpty())) {
+//            SystemDialog.showDialog("Chaque joueur doit placer au moins un combattant dans chaque zone !", SystemDialog.Type.ERROR);
+//        }
     }
 
 }

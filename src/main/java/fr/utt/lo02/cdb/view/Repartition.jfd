@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :p:17:p, par l {seq {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space :0:0:x}, seq l {par l {comp zoneLabel::l:p::p, comp zonesComboBox::l:p::p}, space :p:168:p, par l {comp combattantLabel:::p::p, comp troupesComboBox::l:p::p, comp addButton:::p::p}, space ::356:x}}}, seq l {space :234:234:p, comp titreLabel:::p::p, space ::234:x}}"
-			"$verticalGroup": "par l {seq l {space :::p, comp titreLabel:::p::p, space :p:44:p, par t {seq {par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p}, space :p:90:p, comp zoneLabel:::p::p, space :::p, comp zonesComboBox:::p::p}, seq {comp combattantLabel:::p::p, space :::p, comp troupesComboBox:::p::p}}, space s:::p, comp addButton:::p::p, space ::168:x}}"
+			"$horizontalGroup": "par l {seq {space :p:17:p, par l {seq {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space :0:0:x}, seq l {par l {comp zoneLabel::l:p::p, comp zonesComboBox::l:p::p}, space :p:168:p, par l {comp troupesLabel:::p::p, comp troupesComboBox::l:p::p, comp addButton:::p::p}, space ::356:x}}}, seq l {space :234:234:p, comp titreLabel:::p::p, space ::234:x}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp titreLabel:::p::p, space :p:44:p, par t {seq {par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p}, space :p:90:p, comp zoneLabel:::p::p, space :::p, comp zonesComboBox:::p::p}, seq {comp troupesLabel:::p::p, space :::p, comp troupesComboBox:::p::p}}, space s:::p, comp addButton:::p::p, space ::168:x}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -28,8 +28,8 @@ new FormModel {
 				name: "joueursComboBox"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "combattantLabel"
-				"text": "Combattant :"
+				name: "troupesLabel"
+				"text": "Vos troupes :"
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "troupesComboBox"
