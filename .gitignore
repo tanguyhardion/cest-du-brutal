@@ -9,7 +9,6 @@
 
 # IntelliJ files
 .idea/
-classes/
 target/
 
 # Mobile Tools for Java (J2ME)

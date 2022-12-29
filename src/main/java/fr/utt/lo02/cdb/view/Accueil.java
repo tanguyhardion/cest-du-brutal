@@ -22,9 +22,9 @@ public class Accueil extends JPanel {
     private JComboBox themeComboBox;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
-    public Accueil(MainWindow mainWindow, Joueur joueur1, Joueur joueur2, MaterialLookAndFeel materialLookAndFeel) {
+    public Accueil(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         initComponents();
-        new AccueilController(this, mainWindow, joueur1, joueur2, materialLookAndFeel);
+        new AccueilController(this, mainWindow, joueur1, joueur2);
     }
 
     private void initComponents() {

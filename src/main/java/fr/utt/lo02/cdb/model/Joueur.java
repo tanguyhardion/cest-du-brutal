@@ -126,7 +126,7 @@ public class Joueur extends Observable {
                         // On ajoute le réserviste choisi à la zone en cours correspondante
                         zones.get(zones.indexOf(zone)).addCombattant(etudiant);
                         // On enlève le réserviste des réservistes du joueur
-                        this.removeReserviste(key);
+                        this.removeReserviste(etudiant);
                         System.out.println("Réserviste affecté.");
                     } else {
                         System.out.println("Réserviste invalide.");
@@ -256,7 +256,8 @@ public class Joueur extends Observable {
         }
 
         // Pour les réservistes restant à choisir, on les choisit aléatoirement
-        int reservistes = this.getTroupes().size() - 15;
+        // On part du principe qu'un quart des troupes doivent être des réservistes
+        int reservistes = this.getReservistes().size() / 4;
         for (int i = 0; i < reservistes; i++) {
             Etudiant etudiant = this.troupes.get(random.nextInt(this.troupes.size()));
             etudiant.setReserviste(true);
@@ -264,9 +265,12 @@ public class Joueur extends Observable {
             this.removeEtudiant(etudiant);
         }
 
+        // On met les points de ce joueur à 0
+        this.setPoints(0);
+
         // On notifie les observateurs que les troupes ont été paramétrées
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(new Etudiant(null, 0));
     }
 
     /**
@@ -311,11 +315,36 @@ public class Joueur extends Observable {
                 System.out.println("Saisie non reconnue.");
             }
         }
+    }
 
+    private void trierTroupes() {
+        this.troupes.sort(Comparator.comparingInt(Etudiant::getId));
+    }
+
+    private void trierReservistes() {
+        this.reservistes.sort(Comparator.comparingInt(Etudiant::getId));
     }
 
     public int getPoints() {
         return this.points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+        this.setChanged();
+        this.notifyObservers(this.points);
+    }
+
+    public void incrementerPoints() {
+        this.points++;
+        this.setChanged();
+        this.notifyObservers(this.points);
+    }
+
+    public void decrementerPoints() {
+        this.points--;
+        this.setChanged();
+        this.notifyObservers(this.points);
     }
 
     /**
@@ -348,24 +377,33 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Ajoute un étudiant à la liste des troupes de ce joueur.
+     * Ajoute un étudiant à la liste des troupes de ce joueur
+     * et notifie les observateurs.
+     * <p>
+     * Cette méthode trie également les troupes par ID.
      *
      * @param etudiant l'étudiant à ajouter
      */
     public void addEtudiant(Etudiant etudiant) {
         this.troupes.add(etudiant);
+        this.trierTroupes();
+        this.setChanged();
+        this.notifyObservers(etudiant);
     }
 
     /**
      * Supprime un étudiant de la liste des troupes de ce joueur
      * et notifie les observateurs.
+     * <p>
+     * Cette méthode trie également les troupes par ID.
      *
      * @param etudiant l'étudiant à supprimer
      */
     public void removeEtudiant(Etudiant etudiant) {
         this.troupes.remove(etudiant);
+        this.trierTroupes();
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(etudiant);
     }
 
     /**
@@ -376,21 +414,25 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Ajoute un étudiant à la liste des réservistes de ce joueur.
+     * Ajoute un étudiant à la liste des réservistes de ce joueur
+     * et les trie par ID.
      *
      * @param etudiant l'étudiant à ajouter
      */
     public void addReserviste(Etudiant etudiant) {
         this.reservistes.add(etudiant);
+        this.trierReservistes();
     }
 
     /**
-     * Supprime un étudiant de la liste des réservistes de ce joueur.
+     * Retire un étudiant de la liste des réservistes de ce joueur
+     * et les trie par ID.
      *
-     * @param id l'index de l'étudiant à supprimer
+     * @param etudiant l'étudiant à retirer
      */
-    public void removeReserviste(int id) {
-        this.reservistes.removeIf(etudiant -> etudiant.getId() == id);
+    public void removeReserviste(Etudiant etudiant) {
+        this.reservistes.remove(etudiant);
+        this.trierReservistes();
     }
 
     /**

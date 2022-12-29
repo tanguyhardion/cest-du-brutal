@@ -20,7 +20,7 @@ public class AccueilController {
 
     private Accueil accueil;
 
-    public AccueilController(Accueil accueil, MainWindow mainWindow, Joueur joueur1, Joueur joueur2, MaterialLookAndFeel materialLookAndFeel) {
+    public AccueilController(Accueil accueil, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         this.accueil = accueil;
 
         this.accueil.getThemeComboBox().addItem(new JMars());

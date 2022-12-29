@@ -69,10 +69,9 @@ public class Partie {
 
         // Lancement de l'interface graphique
         EventQueue.invokeLater(() -> {
-            // Définition du thème Material Design
-            MaterialLookAndFeel materialLookAndFeel = new MaterialLookAndFeel(new JMars());
+            // Définition du thème Material
             try {
-                UIManager.setLookAndFeel(materialLookAndFeel);
+                UIManager.setLookAndFeel(new MaterialLookAndFeel(new JMars()));
             } catch (UnsupportedLookAndFeelException e) {
                 throw new RuntimeException(e);
             }
@@ -80,7 +79,7 @@ public class Partie {
             // Création de la fenêtre principale
             MainWindow mainWindow = new MainWindow();
             // Création de la page d'accueil
-            Accueil accueil = new Accueil(mainWindow, joueur1, joueur2, materialLookAndFeel);
+            Accueil accueil = new Accueil(mainWindow, joueur1, joueur2);
             // Ajout de la page d'accueil à la fenêtre principale
             mainWindow.switchPanel(accueil);
             // Affichage de la fenêtre principale

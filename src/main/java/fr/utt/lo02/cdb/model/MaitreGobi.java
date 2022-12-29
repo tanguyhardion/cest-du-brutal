@@ -22,29 +22,4 @@ public class MaitreGobi extends Etudiant {
         super(2, 2, 2, 10, 2, equipe, id);
     }
 
-    @Override
-    public void setDexterite(int dexterite) {
-        super.setDexterite(dexterite + 2);
-    }
-
-    @Override
-    public void setForce(int force) {
-        super.setForce(force + 2);
-    }
-
-    @Override
-    public void setResistance(int resistance) {
-        super.setResistance(resistance + 2);
-    }
-
-    @Override
-    public void setConstitution(int constitution) {
-        super.setConstitution(constitution + 10);
-    }
-
-    @Override
-    public void setInitiative(int initiative) {
-        super.setInitiative(initiative + 2);
-    }
-
 }

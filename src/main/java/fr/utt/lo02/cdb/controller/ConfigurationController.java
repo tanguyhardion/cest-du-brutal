@@ -2,7 +2,13 @@ package fr.utt.lo02.cdb.controller;
 
 
 import fr.utt.lo02.cdb.model.*;
-import fr.utt.lo02.cdb.view.*;
+import fr.utt.lo02.cdb.view.Configuration;
+import fr.utt.lo02.cdb.view.MainWindow;
+import fr.utt.lo02.cdb.view.Repartition;
+import fr.utt.lo02.cdb.view.SystemDialog;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 
 /**
  * Contrôle les actions de la configuration des troupes.
@@ -11,9 +17,16 @@ import fr.utt.lo02.cdb.view.*;
  */
 public class ConfigurationController {
 
+    private int previousDexteriteSpinnerValue;
+    private int previousForceSpinnerValue;
+    private int previousResistanceSpinnerValue;
+    private int previousConstitutionSpinnerValue;
+    private int previousInitiativeSpinnerValue;
+    private boolean codeChange;
     private Configuration configuration;
     private Joueur joueur1;
     private Joueur joueur2;
+
 
     public ConfigurationController(Configuration configuration, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         this.configuration = configuration;
@@ -21,28 +34,39 @@ public class ConfigurationController {
         this.joueur2 = joueur2;
 
         this.configuration.getJoueurComboBox().addActionListener(e -> {
+            // Récupération du joueur sélectionné
             Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+            // On enlève toutes les troupes
             this.configuration.getTroupesComboBox().removeAllItems();
+
+            // On ajoute les troupes du joueur sélectionné
             for (Etudiant etudiant : joueur.getTroupes()) {
                 this.configuration.getTroupesComboBox().addItem(etudiant);
             }
+
+            // Et ses réservistes
             for (Etudiant reserviste : joueur.getReservistes()) {
                 this.configuration.getTroupesComboBox().addItem(reserviste);
             }
+
+            // Nombre de points du joueur sélectionné
+            this.configuration.getPointsLabel().setText(String.valueOf(joueur.getPoints()));
         });
+
+        // Ajout des joueurs
+        this.configuration.getJoueurComboBox().addItem(joueur1);
+        this.configuration.getJoueurComboBox().addItem(joueur2);
 
         // Ajout des stratégies
         this.configuration.getStrategieComboBox().addItem(new StrategieAleatoire());
         this.configuration.getStrategieComboBox().addItem(new StrategieDefensive());
         this.configuration.getStrategieComboBox().addItem(new StrategieOffensive());
 
-        // Ajout des joueurs
-        this.configuration.getJoueurComboBox().addItem(joueur1);
-        this.configuration.getJoueurComboBox().addItem(joueur2);
-
         this.configuration.getTroupesComboBox().addActionListener(e -> {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
             if (etudiant != null) {
+                codeChange = true;
+
                 this.configuration.getDexteriteSpinner().setValue(etudiant.getDexterite());
                 this.configuration.getForceSpinner().setValue(etudiant.getForce());
                 this.configuration.getResistanceSpinner().setValue(etudiant.getResistance());
@@ -50,37 +74,84 @@ public class ConfigurationController {
                 this.configuration.getInitiativeSpinner().setValue(etudiant.getInitiative());
                 this.configuration.getStrategieComboBox().setSelectedItem(etudiant.getStrategie() != null ? etudiant.getStrategie() : new StrategieAleatoire());
                 this.configuration.getReservisteToggle().setSelected(etudiant.isReserviste());
+
+                codeChange = false;
             }
         });
 
         this.configuration.getDexteriteSpinner().addChangeListener(e -> {
-            Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
-            etudiant.setDexterite((int) this.configuration.getDexteriteSpinner().getValue());
+            if (!codeChange) {
+                Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+                int value = (int) this.configuration.getDexteriteSpinner().getValue();
+
+                if (joueur.getPoints() > 0) {
+                    Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
+                    etudiant.setDexterite(value);
+                }
+
+                this.updatePoints(e, joueur, this.previousDexteriteSpinnerValue);
+                this.previousDexteriteSpinnerValue = value;
+            }
         });
 
         this.configuration.getForceSpinner().addChangeListener(e -> {
-            Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
-            etudiant.setForce((int) this.configuration.getForceSpinner().getValue());
+            if (!codeChange) {
+                Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+                int value = (int) this.configuration.getForceSpinner().getValue();
+
+                if (joueur.getPoints() > 0) {
+                    Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
+                    etudiant.setForce(value);
+                }
+
+                this.updatePoints(e, joueur, this.previousForceSpinnerValue);
+                this.previousForceSpinnerValue = value;
+            }
         });
 
         this.configuration.getResistanceSpinner().addChangeListener(e -> {
-            Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
-            etudiant.setResistance((int) this.configuration.getResistanceSpinner().getValue());
+            if (!codeChange) {
+                Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+                int value = (int) this.configuration.getResistanceSpinner().getValue();
+
+                if (joueur.getPoints() > 0) {
+                    Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
+                    etudiant.setResistance(value);
+                }
+
+                this.updatePoints(e, joueur, this.previousResistanceSpinnerValue);
+                this.previousResistanceSpinnerValue = value;
+            }
         });
 
         this.configuration.getConstitutionSpinner().addChangeListener(e -> {
-            Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
-            etudiant.setConstitution((int) this.configuration.getConstitutionSpinner().getValue());
+            if (!codeChange) {
+                Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+                int value = (int) this.configuration.getConstitutionSpinner().getValue();
+
+                if (joueur.getPoints() > 0) {
+                    Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
+                    etudiant.setConstitution(value);
+                }
+
+                this.updatePoints(e, joueur, this.previousConstitutionSpinnerValue);
+                this.previousConstitutionSpinnerValue = value;
+            }
         });
 
         this.configuration.getInitiativeSpinner().addChangeListener(e -> {
-            Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
-            etudiant.setInitiative((int) this.configuration.getInitiativeSpinner().getValue());
-        });
+            if (!codeChange) {
+                Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
+                int value = (int) this.configuration.getInitiativeSpinner().getValue();
 
-        this.configuration.getStrategieComboBox().addActionListener(e -> {
-            Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
-            etudiant.setStrategie((StrategieEtudiant) this.configuration.getStrategieComboBox().getSelectedItem());
+                if (joueur.getPoints() > 0) {
+                    Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
+                    etudiant.setInitiative(value);
+                }
+
+                this.updatePoints(e, joueur, this.previousInitiativeSpinnerValue);
+                this.previousInitiativeSpinnerValue = value;
+            }
         });
 
         this.configuration.getReservisteToggle().addActionListener(e -> {
@@ -102,8 +173,10 @@ public class ConfigurationController {
             } else {
                 // Retrait du réserviste
                 etudiant.setReserviste(false);
-                joueur.getTroupes().add(etudiant);
-                joueur.getReservistes().remove(etudiant);
+                joueur.removeReserviste(etudiant);
+                joueur.addEtudiant(etudiant);
+                // Sélection de l'étudiant choisi dans la ComboBox
+                this.configuration.getTroupesComboBox().setSelectedItem(etudiant);
             }
         });
 
@@ -121,7 +194,24 @@ public class ConfigurationController {
         });
     }
 
-    public boolean isReady() {
+    private void updatePoints(ChangeEvent e, Joueur joueur, int previousValue) {
+        if (this.changementPositif(e, previousValue)) {
+            if (joueur.getPoints() > 0) {
+                joueur.decrementerPoints();
+            } else {
+                SystemDialog.showDialog("Vous n'avez plus de points !", SystemDialog.Type.ERROR);
+            }
+        } else {
+            joueur.incrementerPoints();
+        }
+    }
+
+    private boolean changementPositif(ChangeEvent e, int previousValue) {
+        JSpinner spinner = (JSpinner) e.getSource();
+        return (int) spinner.getValue() > previousValue;
+    }
+
+    private boolean isReady() {
         return this.joueur1.getReservistes().size() == 5 && this.joueur2.getReservistes().size() == 5;
     }
 

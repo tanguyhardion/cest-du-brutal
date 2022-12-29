@@ -22,29 +22,4 @@ public class EtudiantElite extends Etudiant {
         super(1, 1, 1, 5, 1, equipe, id);
     }
 
-    @Override
-    public void setDexterite(int dexterite) {
-        super.setDexterite(dexterite + 1);
-    }
-
-    @Override
-    public void setForce(int force) {
-        super.setForce(force + 1);
-    }
-
-    @Override
-    public void setResistance(int resistance) {
-        super.setResistance(resistance + 1);
-    }
-
-    @Override
-    public void setConstitution(int constitution) {
-        super.setConstitution(constitution + 5);
-    }
-
-    @Override
-    public void setInitiative(int initiative) {
-        super.setInitiative(initiative + 1);
-    }
-
 }
