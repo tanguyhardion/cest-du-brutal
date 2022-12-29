@@ -1,5 +1,8 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.enums.Equipe;
+import fr.utt.lo02.cdb.model.enums.Filiere;
+
 import java.util.*;
 
 /**
@@ -256,8 +259,7 @@ public class Joueur extends Observable {
         }
 
         // Pour les réservistes restant à choisir, on les choisit aléatoirement
-        // On part du principe qu'un quart des troupes doivent être des réservistes
-        int reservistes = this.getReservistes().size() / 4;
+        int reservistes = this.getTroupes().size() / 4;
         for (int i = 0; i < reservistes; i++) {
             Etudiant etudiant = this.troupes.get(random.nextInt(this.troupes.size()));
             etudiant.setReserviste(true);

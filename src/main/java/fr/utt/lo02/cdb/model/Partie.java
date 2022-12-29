@@ -1,5 +1,8 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.enums.Equipe;
+import fr.utt.lo02.cdb.model.enums.Filiere;
+import fr.utt.lo02.cdb.model.enums.NomZone;
 import fr.utt.lo02.cdb.model.themes.JMars;
 import fr.utt.lo02.cdb.view.Accueil;
 import fr.utt.lo02.cdb.view.MainWindow;

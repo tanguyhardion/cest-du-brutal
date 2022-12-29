@@ -1,5 +1,8 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.enums.Equipe;
+import fr.utt.lo02.cdb.model.enums.NomZone;
+
 import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;

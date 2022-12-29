@@ -1,5 +1,7 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.enums.Equipe;
+
 /**
  * Représente l'action réalisée par un étudiant dont la stratégie est offensive.
  * 

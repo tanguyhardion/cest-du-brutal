@@ -1,6 +1,7 @@
 package fr.utt.lo02.cdb.controller;
 
 import fr.utt.lo02.cdb.model.*;
+import fr.utt.lo02.cdb.model.enums.Filiere;
 import fr.utt.lo02.cdb.model.themes.*;
 import fr.utt.lo02.cdb.view.*;
 
@@ -23,8 +24,8 @@ public class AccueilController {
     public AccueilController(Accueil accueil, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         this.accueil = accueil;
 
-        this.accueil.getThemeComboBox().addItem(new JMars());
         this.accueil.getThemeComboBox().addItem(new Light());
+        this.accueil.getThemeComboBox().addItem(new JMars());
         this.accueil.getThemeComboBox().addItem(new Oceanic());
         this.accueil.getThemeComboBox().addItem(new StackOverflow());
 
@@ -32,6 +33,9 @@ public class AccueilController {
             MaterialLookAndFeel.changeTheme((MaterialTheme) this.accueil.getThemeComboBox().getSelectedItem());
             SwingUtilities.updateComponentTreeUI(mainWindow);
         });
+
+        // Sélection du thème par défaut (JMars)
+        this.accueil.getThemeComboBox().setSelectedIndex(1);
 
         Set<Filiere> filieres = EnumSet.allOf(Filiere.class);
 

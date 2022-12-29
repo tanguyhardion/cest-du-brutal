@@ -3,7 +3,7 @@ package fr.utt.lo02.cdb.view;
 import fr.utt.lo02.cdb.model.*;
 import fr.utt.lo02.cdb.controller.AccueilController;
 
-import mdlaf.MaterialLookAndFeel;
+import fr.utt.lo02.cdb.model.enums.Filiere;
 
 import javax.swing.*;
 

@@ -2,7 +2,6 @@ package fr.utt.lo02.cdb.view;
 
 import fr.utt.lo02.cdb.controller.CombatController;
 import fr.utt.lo02.cdb.model.Joueur;
-import fr.utt.lo02.cdb.model.NomZone;
 
 import javax.swing.*;
 

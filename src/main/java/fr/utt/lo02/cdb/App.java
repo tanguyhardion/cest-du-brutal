@@ -1,8 +1,5 @@
 package fr.utt.lo02.cdb;
 
-import fr.utt.lo02.cdb.model.Equipe;
-import fr.utt.lo02.cdb.model.Etudiant;
-import fr.utt.lo02.cdb.model.MaitreGobi;
 import fr.utt.lo02.cdb.model.Partie;
 
 /**

@@ -1,6 +1,7 @@
 package fr.utt.lo02.cdb.controller;
 
 import fr.utt.lo02.cdb.model.*;
+import fr.utt.lo02.cdb.model.enums.NomZone;
 import fr.utt.lo02.cdb.view.MainWindow;
 import fr.utt.lo02.cdb.view.Combat;
 import fr.utt.lo02.cdb.view.ZonePanel;

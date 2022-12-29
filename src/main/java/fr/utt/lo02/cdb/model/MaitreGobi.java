@@ -1,5 +1,7 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.enums.Equipe;
+
 /**
  * Représente un Maître du gobi, un type d'étudiant dont les caractéristiques
  * initiales sont augmentées (+10 en constitution, +2 pour le reste).

@@ -4,17 +4,24 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:15:p, comp label1:::p::p, space :::p, comp label2:::p::p, space ::571:x}}"
-			"$verticalGroup": "par l {seq l {space :p:11:p, par b {comp label2::b:p::p, comp label1::b:p::p}, space ::423:x}}"
+			"$horizontalGroup": "par l {seq t {space :::p, comp joueurLabel:::p::p, space :12:12:p, comp joueursComboBox:::p::p, space :p:408:p, comp creditsSurZoneLabel:::p::p, space :::p, comp creditsLabel:::p::p, space :p:15:p}}"
+			"$verticalGroup": "par l {seq l {space :p:13:p, par l {seq {space :13:13:p, comp joueurLabel:::p::p}, comp joueursComboBox:::p::p, seq l {space :p:6:p, par b {comp creditsLabel::b:p::p, comp creditsSurZoneLabel::b:p::p}}}, space :p:396:p}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label1"
-				"text": "Crédits sur cette zone :"
+				name: "creditsSurZoneLabel"
+				"text": "Crédits sur cette zone : "
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label2"
-				"text": "465"
+				name: "creditsLabel"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "joueurLabel"
+				"text": "Joueur :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "joueursComboBox"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

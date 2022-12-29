@@ -1,5 +1,7 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.enums.Equipe;
+
 import java.util.Random;
 
 /**

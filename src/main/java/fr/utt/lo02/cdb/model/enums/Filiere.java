@@ -1,4 +1,4 @@
-package fr.utt.lo02.cdb.model;
+package fr.utt.lo02.cdb.model.enums;
 
 /**
  * Énumération des différentes filières parmi lesquelles un joueur peut choisir.

@@ -1,5 +1,7 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.enums.Equipe;
+
 /**
  * Représente un étudiant d'élite, un type d'étudiant dont les caractéristiques
  * initiales sont augmentées (+5 en constitution, +1 pour le reste).
