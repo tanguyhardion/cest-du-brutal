@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Wed Dec 28 21:48:24 CET 2022
- */
-
 package fr.utt.lo02.cdb.view;
 
 import fr.utt.lo02.cdb.model.*;
@@ -10,7 +6,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout;
 
 /**
- * @author tangu
+ * Panel d'une zone.
+ *
+ * @author Tanguy HARDION
  */
 public class ZonePanel extends JPanel {
 
@@ -45,10 +43,10 @@ public class ZonePanel extends JPanel {
             layout.createParallelGroup()
                 .addGroup(layout.createSequentialGroup()
                     .addGap(15, 15, 15)
-                    .addComponent(label1, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label1)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(label2)
-                    .addContainerGap(520, Short.MAX_VALUE))
+                    .addContainerGap(571, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()

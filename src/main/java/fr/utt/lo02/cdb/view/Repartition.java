@@ -1,12 +1,8 @@
-/*
- * Created by JFormDesigner on Tue Dec 27 22:04:11 CET 2022
- */
-
 package fr.utt.lo02.cdb.view;
 
+import fr.utt.lo02.cdb.model.*;
 import fr.utt.lo02.cdb.controller.RepartitionController;
-import fr.utt.lo02.cdb.model.Joueur;
-import fr.utt.lo02.cdb.model.Etudiant;
+
 import mdlaf.shadows.RoundedCornerBorder;
 
 import javax.swing.*;
@@ -15,7 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * @author tangu
+ * @author Tanguy HARDION
  */
 public class Repartition extends JPanel implements Observer {
 
@@ -34,7 +30,7 @@ public class Repartition extends JPanel implements Observer {
 
     public Repartition(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         initComponents();
-        RepartitionController repartitionController = new RepartitionController(this, mainWindow, joueur1, joueur2);
+        new RepartitionController(this, mainWindow, joueur1, joueur2);
         joueur1.deleteObservers();
         joueur2.deleteObservers();
         joueur1.addObserver(this);

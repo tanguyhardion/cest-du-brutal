@@ -1,8 +1,13 @@
 package fr.utt.lo02.cdb.controller;
 
 import fr.utt.lo02.cdb.model.*;
+import fr.utt.lo02.cdb.model.themes.*;
 import fr.utt.lo02.cdb.view.*;
 
+import mdlaf.MaterialLookAndFeel;
+import mdlaf.themes.MaterialTheme;
+
+import javax.swing.*;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -15,8 +20,18 @@ public class AccueilController {
 
     private Accueil accueil;
 
-    public AccueilController(Accueil accueil, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
+    public AccueilController(Accueil accueil, MainWindow mainWindow, Joueur joueur1, Joueur joueur2, MaterialLookAndFeel materialLookAndFeel) {
         this.accueil = accueil;
+
+        this.accueil.getThemeComboBox().addItem(new JMars());
+        this.accueil.getThemeComboBox().addItem(new Light());
+        this.accueil.getThemeComboBox().addItem(new Oceanic());
+        this.accueil.getThemeComboBox().addItem(new StackOverflow());
+
+        this.accueil.getThemeComboBox().addActionListener(e -> {
+            MaterialLookAndFeel.changeTheme((MaterialTheme) this.accueil.getThemeComboBox().getSelectedItem());
+            SwingUtilities.updateComponentTreeUI(mainWindow);
+        });
 
         Set<Filiere> filieres = EnumSet.allOf(Filiere.class);
 

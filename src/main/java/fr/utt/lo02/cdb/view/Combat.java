@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Wed Dec 28 21:15:07 CET 2022
- */
-
 package fr.utt.lo02.cdb.view;
 
 import fr.utt.lo02.cdb.controller.CombatController;
@@ -11,7 +7,7 @@ import fr.utt.lo02.cdb.model.NomZone;
 import javax.swing.*;
 
 /**
- * @author tangu
+ * @author Tanguy HARDION
  */
 public class Combat extends JPanel {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
@@ -20,7 +16,7 @@ public class Combat extends JPanel {
 
     public Combat(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         initComponents();
-        CombatController combatController = new CombatController(this, mainWindow, joueur1, joueur2);
+        new CombatController(this, mainWindow, joueur1, joueur2);
     }
 
     private void initComponents() {

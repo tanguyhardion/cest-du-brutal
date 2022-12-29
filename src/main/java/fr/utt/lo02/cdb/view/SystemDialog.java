@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Affiche une fenêtre de dialogue.
+ * Boîte de dialogue système.
  *
  * @author Tanguy HARDION
  */

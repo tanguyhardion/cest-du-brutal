@@ -1,16 +1,11 @@
 package fr.utt.lo02.cdb.view;
 
-import java.awt.*;
-import javax.swing.border.*;
-import fr.utt.lo02.cdb.controller.AccueilController;
 import fr.utt.lo02.cdb.model.*;
+import fr.utt.lo02.cdb.controller.AccueilController;
 
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
+import mdlaf.MaterialLookAndFeel;
+
+import javax.swing.*;
 
 /**
  * @author Tanguy HARDION
@@ -23,11 +18,13 @@ public class Accueil extends JPanel {
     private JLabel filieres1Label;
     private JLabel filieres2Label;
     private JButton suivantButton;
+    private JLabel themeLabel;
+    private JComboBox themeComboBox;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
-    public Accueil(Joueur joueur1, Joueur joueur2, MainWindow mainWindow) {
+    public Accueil(MainWindow mainWindow, Joueur joueur1, Joueur joueur2, MaterialLookAndFeel materialLookAndFeel) {
         initComponents();
-        AccueilController accueilController = new AccueilController(this, mainWindow, joueur1, joueur2);
+        new AccueilController(this, mainWindow, joueur1, joueur2, materialLookAndFeel);
     }
 
     private void initComponents() {
@@ -37,6 +34,8 @@ public class Accueil extends JPanel {
         filieres1Label = new JLabel();
         filieres2Label = new JLabel();
         suivantButton = new JButton();
+        themeLabel = new JLabel();
+        themeComboBox = new JComboBox();
 
         //======== this ========
 
@@ -50,6 +49,9 @@ public class Accueil extends JPanel {
         suivantButton.setText("SUIVANT");
         suivantButton.setFocusPainted(false);
 
+        //---- themeLabel ----
+        themeLabel.setText("Th\u00e8me :");
+
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
@@ -61,18 +63,27 @@ public class Accueil extends JPanel {
                         .addComponent(filieres1ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup()
-                        .addComponent(filieres2Label)
-                        .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGap(120, 120, 120))
+                        .addComponent(filieres2ComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filieres2Label))
+                    .addGap(179, 179, 179))
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(570, Short.MAX_VALUE)
-                    .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(561, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(themeLabel)
+                            .addGap(18, 18, 18)
+                            .addComponent(themeComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
                     .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(260, Short.MAX_VALUE)
+                    .addGap(14, 14, 14)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(themeLabel)
+                        .addComponent(themeComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(filieres1Label)
                         .addComponent(filieres2Label))
@@ -85,6 +96,10 @@ public class Accueil extends JPanel {
                     .addGap(25, 25, 25))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
+    }
+
+    public JComboBox getThemeComboBox() {
+        return this.themeComboBox;
     }
 
     public JComboBox<Filiere> getFilieres1ComboBox() {

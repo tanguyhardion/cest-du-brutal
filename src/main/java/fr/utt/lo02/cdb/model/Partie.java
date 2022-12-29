@@ -1,14 +1,14 @@
 package fr.utt.lo02.cdb.model;
 
+import fr.utt.lo02.cdb.model.themes.JMars;
 import fr.utt.lo02.cdb.view.Accueil;
 import fr.utt.lo02.cdb.view.MainWindow;
 import mdlaf.MaterialLookAndFeel;
-import mdlaf.themes.MaterialOceanicTheme;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -70,8 +70,9 @@ public class Partie {
         // Lancement de l'interface graphique
         EventQueue.invokeLater(() -> {
             // Définition du thème Material Design
+            MaterialLookAndFeel materialLookAndFeel = new MaterialLookAndFeel(new JMars());
             try {
-                UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialOceanicTheme()));
+                UIManager.setLookAndFeel(materialLookAndFeel);
             } catch (UnsupportedLookAndFeelException e) {
                 throw new RuntimeException(e);
             }
@@ -79,7 +80,7 @@ public class Partie {
             // Création de la fenêtre principale
             MainWindow mainWindow = new MainWindow();
             // Création de la page d'accueil
-            Accueil accueil = new Accueil(joueur1, joueur2, mainWindow);
+            Accueil accueil = new Accueil(mainWindow, joueur1, joueur2, materialLookAndFeel);
             // Ajout de la page d'accueil à la fenêtre principale
             mainWindow.switchPanel(accueil);
             // Affichage de la fenêtre principale

@@ -88,14 +88,19 @@ public class ConfigurationController {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
             if (this.configuration.getReservisteToggle().isSelected()) {
                 if (joueur.getReservistes().size() < 5) {
+                    // Ajout du réserviste
                     etudiant.setReserviste(true);
                     joueur.addReserviste(etudiant);
                     joueur.removeEtudiant(etudiant);
+                    // Sélection du réserviste choisi dans la ComboBox
+                    this.configuration.getTroupesComboBox().setSelectedItem(etudiant);
                 } else {
+                    // 5 réservistes déjà présents
                     this.configuration.getReservisteToggle().setSelected(false);
                     SystemDialog.showDialog("Vous ne pouvez pas avoir plus de 5 réservistes !", SystemDialog.Type.ERROR);
                 }
             } else {
+                // Retrait du réserviste
                 etudiant.setReserviste(false);
                 joueur.getTroupes().add(etudiant);
                 joueur.getReservistes().remove(etudiant);
