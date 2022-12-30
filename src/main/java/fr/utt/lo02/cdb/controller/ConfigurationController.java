@@ -2,12 +2,10 @@ package fr.utt.lo02.cdb.controller;
 
 
 import fr.utt.lo02.cdb.model.*;
-import fr.utt.lo02.cdb.view.Configuration;
-import fr.utt.lo02.cdb.view.MainWindow;
-import fr.utt.lo02.cdb.view.Repartition;
-import fr.utt.lo02.cdb.view.SystemDialog;
+import fr.utt.lo02.cdb.view.*;
 
-import javax.swing.*;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 
 /**
@@ -72,7 +70,8 @@ public class ConfigurationController {
                 this.configuration.getResistanceSpinner().setValue(etudiant.getResistance());
                 this.configuration.getConstitutionSpinner().setValue(etudiant.getConstitution());
                 this.configuration.getInitiativeSpinner().setValue(etudiant.getInitiative());
-                this.configuration.getStrategieComboBox().setSelectedItem(etudiant.getStrategie() != null ? etudiant.getStrategie() : new StrategieAleatoire());
+                this.configuration.getStrategieComboBox().setSelectedItem(etudiant.getStrategie() != null ?
+                        etudiant.getStrategie() : new StrategieAleatoire());
                 this.configuration.getReservisteToggle().setSelected(etudiant.isReserviste());
 
                 if (etudiant instanceof MaitreGobi) {
@@ -95,13 +94,13 @@ public class ConfigurationController {
                     ((SpinnerNumberModel) this.configuration.getInitiativeSpinner().getModel()).setMinimum(0);
                 }
 
+                codeChange = false;
+
                 this.previousDexteriteSpinnerValue = etudiant.getDexterite();
                 this.previousForceSpinnerValue = etudiant.getForce();
                 this.previousResistanceSpinnerValue = etudiant.getResistance();
                 this.previousConstitutionSpinnerValue = etudiant.getConstitution();
                 this.previousInitiativeSpinnerValue = etudiant.getInitiative();
-
-                codeChange = false;
             }
         });
 
@@ -194,7 +193,7 @@ public class ConfigurationController {
                 } else {
                     // 5 réservistes déjà présents
                     this.configuration.getReservisteToggle().setSelected(false);
-                    SystemDialog.showDialog("Vous ne pouvez pas avoir plus de 5 réservistes !", SystemDialog.Type.ERROR);
+                    SystemDialog.showDialog("Vous avez déjà 5 réservistes !", SystemDialog.Type.ERROR);
                 }
             } else {
                 // Retrait du réserviste
@@ -215,7 +214,7 @@ public class ConfigurationController {
             if (this.isReady()) {
                 mainWindow.switchPanel(new Repartition(mainWindow, joueur1, joueur2));
             } else {
-                SystemDialog.showDialog("Un des joueurs n'a pas choisi ses 5 réservistes !", SystemDialog.Type.ERROR);
+                SystemDialog.showDialog("Un joueur n'a pas choisi 5 réservistes !", SystemDialog.Type.ERROR);
             }
         });
     }

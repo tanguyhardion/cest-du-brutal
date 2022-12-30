@@ -1,11 +1,15 @@
 package fr.utt.lo02.cdb.view;
 
+import fr.utt.lo02.cdb.controller.*;
 import fr.utt.lo02.cdb.model.*;
-import fr.utt.lo02.cdb.controller.AccueilController;
+import fr.utt.lo02.cdb.model.enums.*;
 
-import fr.utt.lo02.cdb.model.enums.Filiere;
-
-import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
 
 /**
  * @author Tanguy HARDION

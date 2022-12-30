@@ -1,9 +1,13 @@
 package fr.utt.lo02.cdb.model;
 
-import fr.utt.lo02.cdb.model.enums.Equipe;
-import fr.utt.lo02.cdb.model.enums.Filiere;
+import fr.utt.lo02.cdb.model.enums.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Observable;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Représente un joueur du jeu, possédant des troupes.
@@ -40,8 +44,8 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Initialise les troupes de ce joueur en créeant et en lui attribuant le nombre
-     * souhaité de chaque type d'étudiant.
+     * Initialise les troupes de ce joueur en créeant et en lui attribuant le nombre souhaité de chaque type
+     * d'étudiant.
      *
      * @param etudiants      le nombre d'étudiants à créer
      * @param etudiantsElite le nombre d'étudiants d'élite à créer
@@ -61,8 +65,7 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Répartit aléatoirement les combattants restants du joueur
-     * sur les zones du jeu.
+     * Répartit aléatoirement les combattants restants du joueur sur les zones du jeu.
      *
      * @param zones la liste des zones du jeu
      */
@@ -150,8 +153,8 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Permet à ce joueur de redéployer ses troupes valides des zones qu'il contrôle
-     * sur les zones qui ne sont pas encore contrôlées.
+     * Permet à ce joueur de redéployer ses troupes valides des zones qu'il contrôle sur les zones qui ne sont pas
+     * encore contrôlées.
      * <p>
      * Au moins un combattant doit rester dans chaque zone contrôlée.
      *
@@ -161,7 +164,7 @@ public class Joueur extends Observable {
     public void redeployerTroupes(List<Zone> zonesNonControlees, List<Zone> zones) {
         // Zones contrôlées par le joueur qui ont au moins 2 combattants
         List<Zone> zonesControlees = new ArrayList<>(this.zonesControlees);
-        zonesControlees.removeIf(zone -> zone.getTroupes(this).size() <= 1);
+        zonesControlees.removeIf(zone -> zone.getTroupes(this).size() < 2);
 
         // Si le joueur n'a aucune zone contrôlée avec au moins 2 combattants
         if (zonesControlees.isEmpty()) {
@@ -203,9 +206,8 @@ public class Joueur extends Observable {
                             // On ajoute le combattant à la zone non contrôlée correspondante
                             zones.get(zones.indexOf(zoneNC)).addCombattant(etudiant);
                             // On retire le combattant de la zone contrôlée
-                            this.zonesControlees.get(this.zonesControlees.indexOf(zoneC)).removeCombattant(key,
-                                    etudiant);
-                            System.out.println("Combattant redeployé");
+                            this.zonesControlees.get(this.zonesControlees.indexOf(zoneC)).removeCombattant(etudiant);
+                            System.out.println("Combattant redéployé");
                         } else {
                             System.out.println("Combattant invalide.");
                         }
@@ -228,8 +230,8 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une
-     * valeur aléatoire pour chacune de leur caractéristiques.
+     * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une valeur aléatoire pour chacune de leur
+     * caractéristiques.
      * <p>
      * Cette méthode choisit aussi 5 réservistes aléatoirement parmi les étudiants.
      */
@@ -276,8 +278,7 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Permet au joueur d'attribuer une nouvelle stratégie à un étudiant
-     * lors du redéploiement.
+     * Permet au joueur d'attribuer une nouvelle stratégie à un étudiant lors du redéploiement.
      *
      * @param etudiant l'étudiant à qui on attribue une nouvelle stratégie
      */
@@ -379,8 +380,7 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Ajoute un étudiant à la liste des troupes de ce joueur
-     * et notifie les observateurs.
+     * Ajoute un étudiant à la liste des troupes de ce joueur et notifie les observateurs.
      * <p>
      * Cette méthode trie également les troupes par ID.
      *
@@ -394,8 +394,7 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Supprime un étudiant de la liste des troupes de ce joueur
-     * et notifie les observateurs.
+     * Supprime un étudiant de la liste des troupes de ce joueur et notifie les observateurs.
      * <p>
      * Cette méthode trie également les troupes par ID.
      *
@@ -416,8 +415,7 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Ajoute un étudiant à la liste des réservistes de ce joueur
-     * et les trie par ID.
+     * Ajoute un étudiant à la liste des réservistes de ce joueur et les trie par ID.
      *
      * @param etudiant l'étudiant à ajouter
      */
@@ -427,13 +425,12 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Retire un étudiant de la liste des réservistes de ce joueur
-     * et les trie par ID.
+     * Retire un étudiant de la liste des réservistes de ce joueur et les trie par ID.
      *
-     * @param etudiant l'étudiant à retirer
+     * @param reserviste le réserviste à retirer
      */
-    public void removeReserviste(Etudiant etudiant) {
-        this.reservistes.remove(etudiant);
+    public void removeReserviste(Etudiant reserviste) {
+        this.reservistes.remove(reserviste);
         this.trierReservistes();
     }
 

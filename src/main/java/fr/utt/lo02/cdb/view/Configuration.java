@@ -1,14 +1,20 @@
 package fr.utt.lo02.cdb.view;
 
-import fr.utt.lo02.cdb.controller.ConfigurationController;
-import fr.utt.lo02.cdb.model.Etudiant;
-import fr.utt.lo02.cdb.model.Joueur;
-import fr.utt.lo02.cdb.model.StrategieEtudiant;
+import fr.utt.lo02.cdb.controller.*;
+import fr.utt.lo02.cdb.model.*;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.Observable;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JToggleButton;
+import javax.swing.LayoutStyle;
+import javax.swing.SpinnerNumberModel;
+import java.awt.Font;
 import java.util.Observer;
+import java.util.Observable;
 
 /**
  * @author Tanguy HARDION
@@ -19,7 +25,7 @@ public class Configuration extends JPanel implements Observer {
     private JComboBox combattantsComboBox;
     private JComboBox joueurComboBox;
     private JLabel joueurLabel;
-    private JLabel combattantLabel;
+    private JLabel troupesLabel;
     private JLabel dexteriteLabel;
     private JSpinner dexteriteSpinner;
     private JLabel forceLabel;
@@ -73,7 +79,7 @@ public class Configuration extends JPanel implements Observer {
         combattantsComboBox = new JComboBox();
         joueurComboBox = new JComboBox();
         joueurLabel = new JLabel();
-        combattantLabel = new JLabel();
+        troupesLabel = new JLabel();
         dexteriteLabel = new JLabel();
         dexteriteSpinner = new JSpinner();
         forceLabel = new JLabel();
@@ -99,8 +105,8 @@ public class Configuration extends JPanel implements Observer {
         //---- joueurLabel ----
         joueurLabel.setText("Joueur :");
 
-        //---- combattantLabel ----
-        combattantLabel.setText("Combattant :");
+        //---- troupesLabel ----
+        troupesLabel.setText("Vos troupes :");
 
         //---- dexteriteLabel ----
         dexteriteLabel.setText("Dext\u00e9rit\u00e9 :");
@@ -161,39 +167,6 @@ public class Configuration extends JPanel implements Observer {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(17, 17, 17)
                     .addGroup(layout.createParallelGroup()
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup()
-                                .addComponent(strategieComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(strategieLabel)
-                                .addComponent(combattantsComboBox, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup()
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup()
-                                                .addComponent(dexteriteLabel)
-                                                .addComponent(dexteriteSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addGap(52, 52, 52)
-                                            .addGroup(layout.createParallelGroup()
-                                                .addComponent(forceLabel)
-                                                .addComponent(forceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addGap(52, 52, 52)
-                                            .addGroup(layout.createParallelGroup()
-                                                .addComponent(resistanceLabel)
-                                                .addComponent(resistanceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addGap(52, 52, 52)
-                                            .addGroup(layout.createParallelGroup()
-                                                .addComponent(constitutionSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(constitutionLabel)))
-                                        .addComponent(combattantLabel))
-                                    .addGap(53, 53, 53)
-                                    .addGroup(layout.createParallelGroup()
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(pointsRestantsLabel)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(pointsLabel))
-                                        .addComponent(initiativeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(initiativeLabel))))
-                            .addContainerGap(148, Short.MAX_VALUE))
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
@@ -208,7 +181,40 @@ public class Configuration extends JPanel implements Observer {
                                     .addComponent(reservisteToggle, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 466, Short.MAX_VALUE)
                                     .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-                            .addGap(30, 30, 30))))
+                            .addGap(30, 30, 30))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(troupesLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 471, Short.MAX_VALUE)
+                            .addComponent(pointsRestantsLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(pointsLabel)
+                            .addGap(106, 106, 106))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup()
+                                .addComponent(strategieComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(strategieLabel)
+                                .addComponent(combattantsComboBox, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(dexteriteLabel)
+                                        .addComponent(dexteriteSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(52, 52, 52)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(forceLabel)
+                                        .addComponent(forceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(52, 52, 52)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(resistanceLabel)
+                                        .addComponent(resistanceSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(52, 52, 52)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(constitutionSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(constitutionLabel))
+                                    .addGap(53, 53, 53)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(initiativeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(initiativeLabel))))
+                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(224, 224, 224)
                     .addComponent(titreLabel)
@@ -226,7 +232,7 @@ public class Configuration extends JPanel implements Observer {
                         .addComponent(aleatoireButton))
                     .addGap(31, 31, 31)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(combattantLabel)
+                        .addComponent(troupesLabel)
                         .addComponent(pointsRestantsLabel)
                         .addComponent(pointsLabel))
                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)

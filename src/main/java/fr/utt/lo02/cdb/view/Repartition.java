@@ -1,12 +1,17 @@
 package fr.utt.lo02.cdb.view;
 
 import fr.utt.lo02.cdb.model.*;
-import fr.utt.lo02.cdb.controller.RepartitionController;
+import fr.utt.lo02.cdb.controller.*;
 
 import mdlaf.shadows.RoundedCornerBorder;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
+import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 

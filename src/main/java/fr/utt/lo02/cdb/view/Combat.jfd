@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :::p, comp zonesPane:::::x, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :::p, comp zonesPane:::::x, space :::p}}"
+			"$horizontalGroup": "par l {seq l {space :::p, comp zonesPane::::738:x, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp zonesPane::::488:x, space :::p}}"
 		} ) {
 			name: "this"
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {

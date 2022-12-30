@@ -1,13 +1,7 @@
 package fr.utt.lo02.cdb.controller;
 
-import fr.utt.lo02.cdb.model.Etudiant;
-import fr.utt.lo02.cdb.model.Joueur;
-import fr.utt.lo02.cdb.model.Partie;
-import fr.utt.lo02.cdb.model.Zone;
-import fr.utt.lo02.cdb.view.Combat;
-import fr.utt.lo02.cdb.view.MainWindow;
-import fr.utt.lo02.cdb.view.Repartition;
-import fr.utt.lo02.cdb.view.SystemDialog;
+import fr.utt.lo02.cdb.model.*;
+import fr.utt.lo02.cdb.view.*;
 
 import java.util.List;
 
@@ -59,7 +53,8 @@ public class RepartitionController {
                 Zone zone = (Zone) this.repartition.getZonesComboBox().getSelectedItem();
                 if (zones.stream().filter(z -> z.getTroupes(joueur).isEmpty()).count() == joueur.getTroupes().size()
                         && !zone.getTroupes(joueur).isEmpty()) {
-                    SystemDialog.showDialog("Vous ne pouvez plus déployer de troupes dans cette zone !", SystemDialog.Type.ERROR);
+                    SystemDialog.showDialog("Vous ne pouvez plus déployer de troupes dans cette zone !",
+                            SystemDialog.Type.ERROR);
                 } else {
                     Etudiant etudiant = (Etudiant) this.repartition.getTroupesComboBox().getSelectedItem();
                     zone.addCombattant(etudiant);
@@ -80,8 +75,10 @@ public class RepartitionController {
         });
 
         this.repartition.getSuivantButton().addActionListener(e -> {
-            if (zones.stream().anyMatch(zone -> zone.getTroupes(this.joueur1).isEmpty() || zone.getTroupes(this.joueur2).isEmpty())) {
-                SystemDialog.showDialog("Chaque joueur doit placer au moins un combattant dans chaque zone !", SystemDialog.Type.ERROR);
+            if (zones.stream().anyMatch(zone -> zone.getTroupes(this.joueur1).isEmpty()
+                    || zone.getTroupes(this.joueur2).isEmpty())) {
+                SystemDialog.showDialog("Chaque joueur doit placer au moins un combattant dans chaque zone !",
+                        SystemDialog.Type.ERROR);
             } else {
                 mainWindow.switchPanel(new Combat(mainWindow, joueur1, joueur2));
             }
