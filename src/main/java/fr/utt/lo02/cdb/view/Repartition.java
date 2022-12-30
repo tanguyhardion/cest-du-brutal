@@ -2,17 +2,19 @@ package fr.utt.lo02.cdb.view;
 
 import fr.utt.lo02.cdb.controller.*;
 import fr.utt.lo02.cdb.model.*;
-import mdlaf.shadows.RoundedCornerBorder;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle;
 import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
+import mdlaf.shadows.*;
 
 /**
  * @author Tanguy HARDION
@@ -31,7 +33,8 @@ public class Repartition extends JPanel implements Observer {
     private JButton suivantButton;
     private JButton aleatoireButton;
     private JLabel surZoneLabel;
-    private JComboBox surZoneComboBox;
+    private JScrollPane scrollPane1;
+    private JList surZoneList;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
     public Repartition(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
@@ -56,13 +59,14 @@ public class Repartition extends JPanel implements Observer {
             for (Etudiant etudiant : joueur.getTroupes()) {
                 this.troupesComboBox.addItem(etudiant);
             }
+
+            Zone zone = (Zone) this.zonesComboBox.getSelectedItem();
+            this.surZoneList.setListData(zone.getTroupes(joueur).toArray());
         } else if (o instanceof Zone) {
             Zone zone = (Zone) o;
+            Joueur joueur = (Joueur) this.joueursComboBox.getSelectedItem();
 
-            this.surZoneComboBox.removeAllItems();
-            for (Etudiant etudiant : zone.getTroupes((Joueur) this.joueursComboBox.getSelectedItem())) {
-                this.surZoneComboBox.addItem(etudiant);
-            }
+            this.surZoneList.setListData(zone.getTroupes(joueur).toArray());
         }
     }
 
@@ -79,7 +83,8 @@ public class Repartition extends JPanel implements Observer {
         suivantButton = new JButton();
         aleatoireButton = new JButton();
         surZoneLabel = new JLabel();
-        surZoneComboBox = new JComboBox();
+        scrollPane1 = new JScrollPane();
+        surZoneList = new JList();
 
         //======== this ========
 
@@ -113,89 +118,81 @@ public class Repartition extends JPanel implements Observer {
         //---- surZoneLabel ----
         surZoneLabel.setText("Sur cette zone :");
 
+        //======== scrollPane1 ========
+        {
+            scrollPane1.setViewportView(surZoneList);
+        }
+
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup()
+            layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(234, 234, 234)
+                    .addComponent(titreLabel)
+                    .addContainerGap(234, Short.MAX_VALUE))
+                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(234, 234, 234)
-                                .addComponent(titreLabel)
-                                .addContainerGap(234, Short.MAX_VALUE))
-                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                            .addGap(17, 17, 17)
+                            .addGroup(layout.createParallelGroup()
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(joueurLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(aleatoireButton))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGap(17, 17, 17)
-                                                .addGroup(layout.createParallelGroup()
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(joueurLabel)
-                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(joueursComboBox,
-                                                                        GroupLayout.PREFERRED_SIZE,
-                                                                        GroupLayout.DEFAULT_SIZE,
-                                                                        GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(aleatoireButton))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup()
-                                                                        .addComponent(zoneLabel)
-                                                                        .addComponent(zonesComboBox,
-                                                                                GroupLayout.PREFERRED_SIZE,
-                                                                                GroupLayout.DEFAULT_SIZE,
-                                                                                GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(surZoneComboBox,
-                                                                                GroupLayout.PREFERRED_SIZE,
-                                                                                GroupLayout.DEFAULT_SIZE,
-                                                                                GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(surZoneLabel))
-                                                                .addGap(168, 168, 168)
-                                                                .addGroup(layout.createParallelGroup()
-                                                                        .addComponent(troupesLabel)
-                                                                        .addComponent(troupesComboBox,
-                                                                                GroupLayout.PREFERRED_SIZE,
-                                                                                GroupLayout.DEFAULT_SIZE,
-                                                                                GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(addButton,
-                                                                                GroupLayout.PREFERRED_SIZE, 110,
-                                                                                GroupLayout.PREFERRED_SIZE))
-                                                                .addGap(0, 326, Short.MAX_VALUE))))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150,
-                                                        GroupLayout.PREFERRED_SIZE)))
-                                .addGap(30, 30, 30))
+                                            .addGroup(layout.createParallelGroup()
+                                                .addComponent(zoneLabel)
+                                                .addComponent(zonesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(surZoneLabel))
+                                            .addGap(168, 168, 168)
+                                            .addGroup(layout.createParallelGroup()
+                                                .addComponent(troupesLabel)
+                                                .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(0, 326, Short.MAX_VALUE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+                    .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup()
+            layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(titreLabel)
+                    .addGap(44, 44, 44)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(joueurLabel)
+                        .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(aleatoireButton))
+                    .addGap(76, 76, 76)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(titreLabel)
-                                .addGap(44, 44, 44)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(joueurLabel)
-                                        .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE,
-                                                GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(aleatoireButton))
-                                .addGap(76, 76, 76)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(zoneLabel)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(zonesComboBox, GroupLayout.PREFERRED_SIZE,
-                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(troupesLabel)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE,
-                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                                .addComponent(surZoneLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(surZoneComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
-                                .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                .addGap(25, 25, 25))
+                            .addComponent(zoneLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(zonesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(troupesLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup()
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(33, 33, 33)
+                            .addComponent(surZoneLabel)))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                    .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addGap(25, 25, 25))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
@@ -216,8 +213,8 @@ public class Repartition extends JPanel implements Observer {
         return this.addButton;
     }
 
-    public JComboBox getSurZoneComboBox() {
-        return this.surZoneComboBox;
+    public JList getSurZoneList() {
+        return this.surZoneList;
     }
 
     public JButton getAleatoireButton() {

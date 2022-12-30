@@ -23,9 +23,15 @@ public class RepartitionController {
 
         this.repartition.getJoueursComboBox().addActionListener(e -> {
             Joueur joueur = (Joueur) this.repartition.getJoueursComboBox().getSelectedItem();
+
             this.repartition.getTroupesComboBox().removeAllItems();
             for (Etudiant etudiant : joueur.getTroupes()) {
                 this.repartition.getTroupesComboBox().addItem(etudiant);
+            }
+
+            Zone zone = (Zone) this.repartition.getZonesComboBox().getSelectedItem();
+            if (zone != null) {
+                this.repartition.getSurZoneList().setListData(zone.getTroupes(joueur).toArray());
             }
         });
 
@@ -37,10 +43,9 @@ public class RepartitionController {
                 this.repartition.getTroupesComboBox().addItem(etudiant);
             }
 
-            this.repartition.getSurZoneComboBox().removeAllItems();
             Zone zone = (Zone) this.repartition.getZonesComboBox().getSelectedItem();
-            for (Etudiant etudiant : zone.getTroupes(joueur)) {
-                this.repartition.getSurZoneComboBox().addItem(etudiant);
+            if (zone != null) {
+                this.repartition.getSurZoneList().setListData(zone.getTroupes(joueur).toArray());
             }
         });
 
