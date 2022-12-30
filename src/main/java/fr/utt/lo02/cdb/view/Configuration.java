@@ -57,6 +57,7 @@ public class Configuration extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         Joueur joueur = (Joueur) o;
+
         // Update combattantsComboBox
         if (arg instanceof Etudiant) {
             this.combattantsComboBox.removeAllItems();
@@ -68,8 +69,8 @@ public class Configuration extends JPanel implements Observer {
             }
         }
 
+        // Update pointsLabel
         if (arg instanceof Integer) {
-            // Update pointsLabel
             this.pointsLabel.setText(String.valueOf(joueur.getPoints()));
         }
     }

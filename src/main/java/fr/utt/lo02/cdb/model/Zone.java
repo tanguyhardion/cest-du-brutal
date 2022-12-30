@@ -5,6 +5,7 @@ import fr.utt.lo02.cdb.model.enums.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
@@ -17,7 +18,7 @@ import java.util.concurrent.CyclicBarrier;
  * @author Tristan JAUSSAUD
  * @version 1.0
  */
-public class Zone implements Runnable {
+public class Zone extends Observable implements Runnable {
 
     private static final CyclicBarrier barrier = new CyclicBarrier(NomZone.values().length);
     private static CountDownLatch partieLatch = new CountDownLatch(1);
@@ -136,7 +137,7 @@ public class Zone implements Runnable {
 
     /**
      * Ajoute un étudiant d'un joueur aux combattants du joueur correspondant
-     * sur cette zone.
+     * sur cette zone et notifie les observateurs.
      *
      * @param etudiant l'étudiant à ajouter
      */
@@ -149,6 +150,9 @@ public class Zone implements Runnable {
         } else if (etudiant.getEquipe() == Equipe.DEUX) {
             this.troupesEquipe2.add(etudiant);
         }
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**

@@ -1,8 +1,10 @@
 package fr.utt.lo02.cdb.view;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
+import java.io.InputStream;
 
 /**
  * @author Tanguy HARDION
@@ -13,7 +15,15 @@ public class MainWindow extends JFrame {
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
     public MainWindow() {
+        // Titre
         super("C'est du brutal !");
+        // Icône
+        try (InputStream is = getClass().getResourceAsStream("/images/logo.png")) {
+            this.setIconImage(ImageIO.read(is));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.initComponents();
     }

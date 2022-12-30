@@ -1,13 +1,14 @@
 package fr.utt.lo02.cdb.view;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.io.InputStream;
 
 /**
  * Boîte de dialogue système.
@@ -20,7 +21,11 @@ public class SystemDialog extends JDialog {
         // Définition du titre du dialog
         this.setTitle(type.getTitre());
         // Définition de l'icône du dialog
-        this.setIconImage(type.getIcone().getImage());
+        try (InputStream is = getClass().getResourceAsStream(type.getIconePath())) {
+            this.setIconImage(ImageIO.read(is));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.setLayout(new BorderLayout());
 
@@ -61,23 +66,24 @@ public class SystemDialog extends JDialog {
     }
 
     public enum Type {
-        ERROR("Erreur", new ImageIcon("src/main/resources/images/error.png")),
-        INFO("Information", new ImageIcon("src/main/resources/images/information.png"));
+        ERROR("Erreur", "/images/error.png"),
+        INFO("Information", "/images/info.png");
 
         private final String titre;
-        private final ImageIcon icone;
+        private final String iconePath;
 
-        Type(String title, ImageIcon icone) {
+        Type(String title, String iconePath) {
             this.titre = title;
-            this.icone = icone;
+            this.iconePath = iconePath;
         }
 
         private String getTitre() {
             return this.titre;
         }
 
-        private ImageIcon getIcone() {
-            return this.icone;
+        private String getIconePath() {
+            return this.iconePath;
         }
     }
+
 }

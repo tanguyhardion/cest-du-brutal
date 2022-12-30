@@ -21,24 +21,6 @@ public class RepartitionController {
         this.joueur1 = joueur1;
         this.joueur2 = joueur2;
 
-        this.repartition.getJoueursComboBox().addItem(joueur1);
-        this.repartition.getJoueursComboBox().addItem(joueur2);
-
-        List<Zone> zones = Partie.getInstance().getZones();
-        for (Zone zone : zones) {
-            this.repartition.getZonesComboBox().addItem(zone);
-        }
-
-        this.repartition.getZonesComboBox().addActionListener(e -> {
-            Joueur joueur = (Joueur) this.repartition.getJoueursComboBox().getSelectedItem();
-            this.repartition.getTroupesComboBox().removeAllItems();
-            for (Etudiant etudiant : joueur.getTroupes()) {
-                this.repartition.getTroupesComboBox().addItem(etudiant);
-            }
-        });
-
-        this.repartition.getZonesComboBox().setSelectedIndex(0);
-
         this.repartition.getJoueursComboBox().addActionListener(e -> {
             Joueur joueur = (Joueur) this.repartition.getJoueursComboBox().getSelectedItem();
             this.repartition.getTroupesComboBox().removeAllItems();
@@ -46,6 +28,32 @@ public class RepartitionController {
                 this.repartition.getTroupesComboBox().addItem(etudiant);
             }
         });
+
+        this.repartition.getZonesComboBox().addActionListener(e -> {
+            Joueur joueur = (Joueur) this.repartition.getJoueursComboBox().getSelectedItem();
+
+            this.repartition.getTroupesComboBox().removeAllItems();
+            for (Etudiant etudiant : joueur.getTroupes()) {
+                this.repartition.getTroupesComboBox().addItem(etudiant);
+            }
+
+            this.repartition.getSurZoneComboBox().removeAllItems();
+            Zone zone = (Zone) this.repartition.getZonesComboBox().getSelectedItem();
+            for (Etudiant etudiant : zone.getTroupes(joueur)) {
+                this.repartition.getSurZoneComboBox().addItem(etudiant);
+            }
+        });
+
+        this.repartition.getJoueursComboBox().addItem(joueur1);
+        this.repartition.getJoueursComboBox().addItem(joueur2);
+
+        List<Zone> zones = Partie.getInstance().getZones();
+
+        for (Zone zone : zones) {
+            this.repartition.getZonesComboBox().addItem(zone);
+        }
+
+        this.repartition.getZonesComboBox().setSelectedIndex(0);
 
         this.repartition.getAddButton().addActionListener(e -> {
             Joueur joueur = (Joueur) this.repartition.getJoueursComboBox().getSelectedItem();
