@@ -75,6 +75,32 @@ public class ConfigurationController {
                 this.configuration.getStrategieComboBox().setSelectedItem(etudiant.getStrategie() != null ? etudiant.getStrategie() : new StrategieAleatoire());
                 this.configuration.getReservisteToggle().setSelected(etudiant.isReserviste());
 
+                if (etudiant instanceof MaitreGobi) {
+                    ((SpinnerNumberModel) this.configuration.getDexteriteSpinner().getModel()).setMinimum(2);
+                    ((SpinnerNumberModel) this.configuration.getForceSpinner().getModel()).setMinimum(2);
+                    ((SpinnerNumberModel) this.configuration.getResistanceSpinner().getModel()).setMinimum(2);
+                    ((SpinnerNumberModel) this.configuration.getConstitutionSpinner().getModel()).setMinimum(10);
+                    ((SpinnerNumberModel) this.configuration.getInitiativeSpinner().getModel()).setMinimum(2);
+                } else if (etudiant instanceof EtudiantElite) {
+                    ((SpinnerNumberModel) this.configuration.getDexteriteSpinner().getModel()).setMinimum(1);
+                    ((SpinnerNumberModel) this.configuration.getForceSpinner().getModel()).setMinimum(1);
+                    ((SpinnerNumberModel) this.configuration.getResistanceSpinner().getModel()).setMinimum(1);
+                    ((SpinnerNumberModel) this.configuration.getConstitutionSpinner().getModel()).setMinimum(5);
+                    ((SpinnerNumberModel) this.configuration.getInitiativeSpinner().getModel()).setMinimum(1);
+                } else {
+                    ((SpinnerNumberModel) this.configuration.getDexteriteSpinner().getModel()).setMinimum(0);
+                    ((SpinnerNumberModel) this.configuration.getForceSpinner().getModel()).setMinimum(0);
+                    ((SpinnerNumberModel) this.configuration.getResistanceSpinner().getModel()).setMinimum(0);
+                    ((SpinnerNumberModel) this.configuration.getConstitutionSpinner().getModel()).setMinimum(0);
+                    ((SpinnerNumberModel) this.configuration.getInitiativeSpinner().getModel()).setMinimum(0);
+                }
+
+                this.previousDexteriteSpinnerValue = etudiant.getDexterite();
+                this.previousForceSpinnerValue = etudiant.getForce();
+                this.previousResistanceSpinnerValue = etudiant.getResistance();
+                this.previousConstitutionSpinnerValue = etudiant.getConstitution();
+                this.previousInitiativeSpinnerValue = etudiant.getInitiative();
+
                 codeChange = false;
             }
         });
@@ -208,6 +234,8 @@ public class ConfigurationController {
 
     private boolean changementPositif(ChangeEvent e, int previousValue) {
         JSpinner spinner = (JSpinner) e.getSource();
+        System.out.println("actuel : " + spinner.getValue());
+        System.out.println("previous : " + previousValue);
         return (int) spinner.getValue() > previousValue;
     }
 

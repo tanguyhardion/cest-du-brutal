@@ -82,4 +82,12 @@ public class ZonePanel extends JPanel {
     public Zone getZone() {
         return this.zone;
     }
+
+    public JLabel getCreditsLabel() {
+        return this.creditsLabel;
+    }
+
+    public JComboBox getJoueursComboBox() {
+        return this.joueursComboBox;
+    }
 }
