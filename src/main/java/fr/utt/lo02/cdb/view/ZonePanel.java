@@ -1,24 +1,24 @@
 package fr.utt.lo02.cdb.view;
 
-
-import javax.swing.*;
 import fr.utt.lo02.cdb.controller.*;
 import fr.utt.lo02.cdb.model.*;
 
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import java.awt.Font;
-import mdlaf.shadows.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Panel d'une zone.
  *
  * @author Tanguy HARDION
  */
-public class ZonePanel extends JPanel {
+public class ZonePanel extends JPanel implements Observer {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     private JLabel creditsSurZoneLabel;
@@ -31,13 +31,32 @@ public class ZonePanel extends JPanel {
     private JLabel redeployerLabel;
     private JComboBox troupesComboBox;
     private JButton redeployerButton;
-    private JButton relancerCombatButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
     public ZonePanel(Zone zone, Joueur joueur1, Joueur joueur2) {
         initComponents();
 
+        joueur1.deleteObservers();
+        joueur2.deleteObservers();
+        joueur1.addObserver(this);
+        joueur2.addObserver(this);
+        zone.deleteObservers();
+        zone.addObserver(this);
+
         new ZonePanelController(this, zone, joueur1, joueur2);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Zone) {
+            Zone zone = (Zone) o;
+            this.creditsLabel.setText(String.valueOf(zone.getCredits()));
+        } else if (o instanceof Joueur) {
+            Joueur joueur = (Joueur) o;
+            for (Etudiant reserviste : joueur.getReservistes()) {
+                this.reservistesComboBox.addItem(reserviste);
+            }
+        }
     }
 
     private void initComponents() {
@@ -52,7 +71,6 @@ public class ZonePanel extends JPanel {
         redeployerLabel = new JLabel();
         troupesComboBox = new JComboBox();
         redeployerButton = new JButton();
-        relancerCombatButton = new JButton();
 
         //======== this ========
 
@@ -70,7 +88,6 @@ public class ZonePanel extends JPanel {
 
         //---- addReservisteButton ----
         addReservisteButton.setText("AJOUTER");
-        addReservisteButton.setBorder(new RoundedCornerBorder());
         addReservisteButton.setFocusPainted(false);
         addReservisteButton.setBorderPainted(false);
 
@@ -79,9 +96,6 @@ public class ZonePanel extends JPanel {
 
         //---- redeployerButton ----
         redeployerButton.setText("RED\u00c9PLOYER");
-
-        //---- relancerCombatButton ----
-        relancerCombatButton.setText("RELANCER LE COMBAT");
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
@@ -101,19 +115,14 @@ public class ZonePanel extends JPanel {
                     .addGap(100, 100, 100))
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(layout.createParallelGroup()
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(joueurLabel)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 444, Short.MAX_VALUE)
-                            .addComponent(creditsSurZoneLabel))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(0, 540, Short.MAX_VALUE)
-                            .addComponent(relancerCombatButton)))
-                    .addGap(0, 0, 0)
+                    .addComponent(joueurLabel)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 411, Short.MAX_VALUE)
+                    .addComponent(creditsSurZoneLabel)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(creditsLabel)
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
@@ -138,9 +147,7 @@ public class ZonePanel extends JPanel {
                             .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(redeployerButton)))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-                    .addComponent(relancerCombatButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap())
+                    .addContainerGap(66, Short.MAX_VALUE))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
@@ -168,4 +175,5 @@ public class ZonePanel extends JPanel {
     public JButton getRedeployerButton() {
         return this.redeployerButton;
     }
+
 }

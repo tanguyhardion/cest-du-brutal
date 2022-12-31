@@ -24,11 +24,6 @@ public class ZonePanelController {
         zonePanel.getJoueursComboBox().addItem(joueur2);
 
         this.zonePanel.getCreditsLabel().setText(String.valueOf(zone.getCredits()));
-
-//        try {
-//            Partie.getInstance().gerer();
-//        } catch (InterruptedException ignored) {
-//        }
     }
 
     private void joueurChanged(ActionEvent e) {

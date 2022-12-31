@@ -58,7 +58,7 @@ public class Configuration extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         Joueur joueur = (Joueur) o;
 
-        // Update combattantsComboBox
+        // Update combattantsComboBox avec la nouvelle valeur
         if (arg instanceof Etudiant) {
             this.combattantsComboBox.removeAllItems();
             for (Etudiant etudiant : joueur.getTroupes()) {
@@ -69,7 +69,7 @@ public class Configuration extends JPanel implements Observer {
             }
         }
 
-        // Update pointsLabel
+        // Update pointsLabel avec la nouvelle valeur
         if (arg instanceof Integer) {
             this.pointsLabel.setText(String.valueOf(joueur.getPoints()));
         }

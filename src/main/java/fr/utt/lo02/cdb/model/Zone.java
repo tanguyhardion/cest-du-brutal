@@ -121,18 +121,14 @@ public class Zone extends Observable implements Runnable {
         treveDeclaree = true;
         this.controlee = true;
         if (this.getTroupesEquipe1().isEmpty()) {
-            System.out.println();
-            System.out.println("Le Joueur " + Partie.getInstance().getJoueur2().getFiliere()
-                    + " contrôle maintenant la zone " + this.nom + " !\n");
             Partie.getInstance().getJoueur2().addZoneControlee(this);
         } else if (this.getTroupesEquipe2().isEmpty()) {
-            System.out.println();
-            System.out.println("Le Joueur " + Partie.getInstance().getJoueur1().getFiliere()
-                    + " contrôle maintenant la zone " + this.nom + " !\n");
             Partie.getInstance().getJoueur1().addZoneControlee(this);
         }
         // On notifie la Partie qu'un thread est terminé
-        partieLatch.countDown();
+        // partieLatch.countDown();
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -249,8 +245,8 @@ public class Zone extends Observable implements Runnable {
      * de chaque équipe.
      */
     private void clearCombattantsElimines() {
-        this.troupesEquipe1.removeIf(e -> e.isElimine());
-        this.troupesEquipe2.removeIf(e -> e.isElimine());
+        this.troupesEquipe1.removeIf(Etudiant::isElimine);
+        this.troupesEquipe2.removeIf(Etudiant::isElimine);
     }
 
     /**

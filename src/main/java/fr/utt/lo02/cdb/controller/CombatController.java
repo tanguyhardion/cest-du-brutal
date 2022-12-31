@@ -24,6 +24,10 @@ public class CombatController {
             this.combat.getZonesPane().addTab(NomZone.values()[i].getNom(),
                     new ZonePanel(Partie.getInstance().getZones().get(i), joueur1, joueur2));
         }
+
+        this.combat.getRelancerCombatButton().addActionListener(e -> {
+            Zone.finirTreve();
+        });
     }
 
 }

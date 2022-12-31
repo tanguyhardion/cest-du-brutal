@@ -425,13 +425,17 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Retire un étudiant de la liste des réservistes de ce joueur et les trie par ID.
+     * Supprime un étudiant de la liste des réservistes de ce joueur et notifie les observateurs.
+     * <p>
+     * Cette méthode trie également les réservistes par ID.
      *
      * @param reserviste le réserviste à retirer
      */
     public void removeReserviste(Etudiant reserviste) {
         this.reservistes.remove(reserviste);
         this.trierReservistes();
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
