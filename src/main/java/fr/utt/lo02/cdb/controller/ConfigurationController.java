@@ -17,13 +17,14 @@ import java.util.List;
  */
 public class ConfigurationController {
 
+    private static List<StrategieEtudiant> strategies;
+    private final Configuration configuration;
     private int previousDexteriteSpinnerValue;
     private int previousForceSpinnerValue;
     private int previousResistanceSpinnerValue;
     private int previousConstitutionSpinnerValue;
     private int previousInitiativeSpinnerValue;
     private boolean codeChange;
-    private Configuration configuration;
     private Joueur joueur1;
     private Joueur joueur2;
 
@@ -65,6 +66,7 @@ public class ConfigurationController {
         for (StrategieEtudiant strat : strategies) {
             this.configuration.getStrategieComboBox().addItem(strat);
         }
+        this.strategies = strategies;
 
         this.configuration.getTroupesComboBox().addActionListener(e -> {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
@@ -261,6 +263,10 @@ public class ConfigurationController {
 
     private boolean isReady() {
         return this.joueur1.getReservistes().size() == 5 && this.joueur2.getReservistes().size() == 5;
+    }
+
+    public static List<StrategieEtudiant> getStrategies() {
+        return strategies;
     }
 
 }

@@ -21,9 +21,9 @@ public class Combat extends JPanel implements Observer {
     private JButton relancerCombatButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
-    public Combat(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
+    public Combat(Joueur joueur1, Joueur joueur2) {
         initComponents();
-        new CombatController(this, mainWindow, joueur1, joueur2);
+        new CombatController(this, joueur1, joueur2);
         joueur1.addObserver(this);
         joueur2.addObserver(this);
     }

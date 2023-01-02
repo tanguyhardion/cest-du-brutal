@@ -16,9 +16,9 @@ import java.util.concurrent.Executors;
  */
 public class CombatController {
 
-    private Combat combat;
+    private final Combat combat;
 
-    public CombatController(Combat combat, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
+    public CombatController(Combat combat, Joueur joueur1, Joueur joueur2) {
         this.combat = combat;
 
         List<Zone> zones = Partie.getInstance().getZones();

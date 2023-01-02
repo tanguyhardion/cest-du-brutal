@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class AccueilController {
 
-    private Accueil accueil;
+    private final Accueil accueil;
 
     public AccueilController(Accueil accueil, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         this.accueil = accueil;

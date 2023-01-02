@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class RepartitionController {
 
-    private Repartition repartition;
+    private final Repartition repartition;
     private Joueur joueur1;
     private Joueur joueur2;
 
@@ -94,7 +94,7 @@ public class RepartitionController {
                 SystemDialog.showDialog("Chaque joueur doit placer au moins un combattant dans chaque zone !",
                         SystemDialog.Type.ERROR);
             } else {
-                mainWindow.switchPanel(new Combat(mainWindow, joueur1, joueur2));
+                mainWindow.switchPanel(new Combat(joueur1, joueur2));
             }
         });
     }

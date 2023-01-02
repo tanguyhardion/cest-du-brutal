@@ -128,7 +128,7 @@ public class Repartition extends JPanel implements Observer {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(234, 234, 234)
                     .addComponent(titreLabel)
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap(234, Short.MAX_VALUE))
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(17, 17, 17)
                     .addGroup(layout.createParallelGroup()
@@ -147,7 +147,8 @@ public class Repartition extends JPanel implements Observer {
                             .addGroup(layout.createParallelGroup()
                                 .addComponent(troupesLabel)
                                 .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 283, Short.MAX_VALUE)
@@ -183,12 +184,12 @@ public class Repartition extends JPanel implements Observer {
                             .addComponent(surZoneLabel)))
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup()
-                        .addGroup(layout.createSequentialGroup()
+                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                             .addGap(73, 73, 73))
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                            .addGap(37, 37, 37))))
+                            .addGap(47, 47, 47))))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
