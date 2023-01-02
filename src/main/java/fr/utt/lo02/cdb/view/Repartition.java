@@ -32,7 +32,7 @@ public class Repartition extends JPanel implements Observer {
     private JButton suivantButton;
     private JButton aleatoireButton;
     private JLabel surZoneLabel;
-    private JScrollPane scrollPane1;
+    private JScrollPane troupesScrollPane;
     private JList surZoneList;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
@@ -82,14 +82,14 @@ public class Repartition extends JPanel implements Observer {
         suivantButton = new JButton();
         aleatoireButton = new JButton();
         surZoneLabel = new JLabel();
-        scrollPane1 = new JScrollPane();
+        troupesScrollPane = new JScrollPane();
         surZoneList = new JList();
 
         //======== this ========
 
         //---- titreLabel ----
         titreLabel.setText("R\u00e9partition des troupes");
-        titreLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        titreLabel.setFont(titreLabel.getFont().deriveFont(titreLabel.getFont().getStyle() | Font.BOLD, titreLabel.getFont().getSize() + 14f));
 
         //---- zoneLabel ----
         zoneLabel.setText("Zone :");
@@ -116,9 +116,9 @@ public class Repartition extends JPanel implements Observer {
         //---- surZoneLabel ----
         surZoneLabel.setText("Sur cette zone :");
 
-        //======== scrollPane1 ========
+        //======== troupesScrollPane ========
         {
-            scrollPane1.setViewportView(surZoneList);
+            troupesScrollPane.setViewportView(surZoneList);
         }
 
         GroupLayout layout = new GroupLayout(this);
@@ -150,7 +150,7 @@ public class Repartition extends JPanel implements Observer {
                                 .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
                             .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(troupesScrollPane, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 283, Short.MAX_VALUE)
                             .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
                     .addGap(30, 30, 30))
@@ -185,7 +185,7 @@ public class Repartition extends JPanel implements Observer {
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup()
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(troupesScrollPane, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                             .addGap(73, 73, 73))
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)

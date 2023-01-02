@@ -110,31 +110,31 @@ public class Configuration extends JPanel implements Observer {
         troupesLabel.setText("Vos troupes :");
 
         //---- dexteriteLabel ----
-        dexteriteLabel.setText("Dext\u00e9rit\u00e9 :");
+        dexteriteLabel.setText("Dext\u00e9rit\u00e9 : ");
 
         //---- dexteriteSpinner ----
         dexteriteSpinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 
         //---- forceLabel ----
-        forceLabel.setText("Force :");
+        forceLabel.setText("Force : ");
 
         //---- forceSpinner ----
         forceSpinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 
         //---- resistanceLabel ----
-        resistanceLabel.setText("R\u00e9sistance :");
+        resistanceLabel.setText("R\u00e9sistance : ");
 
         //---- resistanceSpinner ----
         resistanceSpinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 
         //---- constitutionLabel ----
-        constitutionLabel.setText("Constitution :");
+        constitutionLabel.setText("Constitution : ");
 
         //---- constitutionSpinner ----
         constitutionSpinner.setModel(new SpinnerNumberModel(0, 0, 30, 1));
 
         //---- initiativeLabel ----
-        initiativeLabel.setText("Initiative :");
+        initiativeLabel.setText("Initiative : ");
 
         //---- initiativeSpinner ----
         initiativeSpinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
@@ -152,7 +152,7 @@ public class Configuration extends JPanel implements Observer {
 
         //---- titreLabel ----
         titreLabel.setText("Param\u00e9trage des troupes");
-        titreLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        titreLabel.setFont(titreLabel.getFont().deriveFont(titreLabel.getFont().getStyle() | Font.BOLD, titreLabel.getFont().getSize() + 14f));
 
         //---- aleatoireButton ----
         aleatoireButton.setText("AL\u00c9ATOIRE");

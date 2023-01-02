@@ -24,7 +24,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "dexteriteLabel"
-				"text": "Dextérité :"
+				"text": "Dextérité : "
 			} )
 			add( new FormComponent( "javax.swing.JSpinner" ) {
 				name: "dexteriteSpinner"
@@ -32,7 +32,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "forceLabel"
-				"text": "Force :"
+				"text": "Force : "
 			} )
 			add( new FormComponent( "javax.swing.JSpinner" ) {
 				name: "forceSpinner"
@@ -40,7 +40,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "resistanceLabel"
-				"text": "Résistance :"
+				"text": "Résistance : "
 			} )
 			add( new FormComponent( "javax.swing.JSpinner" ) {
 				name: "resistanceSpinner"
@@ -48,7 +48,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "constitutionLabel"
-				"text": "Constitution :"
+				"text": "Constitution : "
 			} )
 			add( new FormComponent( "javax.swing.JSpinner" ) {
 				name: "constitutionSpinner"
@@ -56,7 +56,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "initiativeLabel"
-				"text": "Initiative :"
+				"text": "Initiative : "
 			} )
 			add( new FormComponent( "javax.swing.JSpinner" ) {
 				name: "initiativeSpinner"
@@ -85,7 +85,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "titreLabel"
 				"text": "Paramétrage des troupes"
-				"font": new java.awt.Font( "Segoe UI", 1, 26 )
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 14, false )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "aleatoireButton"

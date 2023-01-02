@@ -47,14 +47,17 @@ public class ZonePanelController {
     private void reservisteAdded(ActionEvent e) {
         Joueur joueur = (Joueur) this.zonePanel.getJoueursComboBox().getSelectedItem();
         Etudiant reserviste = (Etudiant) this.zonePanel.getReservistesComboBox().getSelectedItem();
-        this.zone.addCombattant(reserviste);
+        reserviste.setReserviste(false);
         joueur.removeReserviste(reserviste);
+        this.zone.addCombattant(reserviste);
+        this.zonePanel.updateJoueur();
     }
 
     private void combattantRedeploye(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
-        this.zone.addCombattant(etudiant);
         etudiant.getZone().removeCombattant(etudiant);
+        this.zone.addCombattant(etudiant);
+        this.zonePanel.updateJoueur();
     }
 
 }

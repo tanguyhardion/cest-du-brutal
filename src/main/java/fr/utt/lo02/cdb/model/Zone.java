@@ -161,8 +161,9 @@ public class Zone extends Observable implements Runnable {
             this.troupesEquipe2.add(etudiant);
         }
 
-        this.setChanged();
-        this.notifyObservers();
+        // On notifie les observateurs
+        // this.setChanged();
+        // this.notifyObservers();
     }
 
     /**

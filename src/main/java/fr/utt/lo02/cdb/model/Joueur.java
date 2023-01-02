@@ -76,6 +76,8 @@ public class Joueur extends Observable {
                 int index = r.nextInt(this.troupes.size());
                 // On récupère le combattant
                 Etudiant etudiant = this.getTroupes().get(index);
+                // On définit la zone sur laquelle est l'étudiant
+                etudiant.setZone(zone);
                 // On ajoute le combattant choisi à la zone en cours
                 zone.addCombattant(etudiant);
                 // On enlève le combattant des troupes du joueur
@@ -85,8 +87,8 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une valeur aléatoire
-     * pour chacune de leur caractéristiques.
+     * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une valeur aléatoire pour chacune de leur
+     * caractéristiques.
      * <p>
      * Cette méthode choisit aussi 5 réservistes aléatoirement parmi les étudiants.
      *
@@ -112,12 +114,14 @@ public class Joueur extends Observable {
         }
 
         // Pour les réservistes restant à choisir, on les choisit aléatoirement
-        int reservistes = this.getTroupes().size() / 4;
-        for (int i = 0; i < reservistes; i++) {
-            Etudiant etudiant = this.troupes.get(random.nextInt(this.troupes.size()));
-            etudiant.setReserviste(true);
-            this.addReserviste(etudiant);
-            this.removeEtudiant(etudiant);
+        int reservistes = 5;
+        if (this.reservistes.size() < reservistes) {
+            for (int i = 0; i < reservistes; i++) {
+                Etudiant etudiant = this.troupes.get(random.nextInt(this.troupes.size()));
+                etudiant.setReserviste(true);
+                this.addReserviste(etudiant);
+                this.removeEtudiant(etudiant);
+            }
         }
 
         // On met les points de ce joueur à 0
@@ -254,8 +258,7 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Ajoute une zone à la liste des zones contrôlées par ce joueur
-     * et notifie les observateurs.
+     * Ajoute une zone à la liste des zones contrôlées par ce joueur et notifie les observateurs.
      *
      * @param zone la zone à ajouter
      */
