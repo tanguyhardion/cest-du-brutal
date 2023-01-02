@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:120:p, par l {comp filieres1Label:::p::p, comp filieres1ComboBox:::p::p}, space :::x, par l {comp filieres2ComboBox::l:p::p, comp filieres2Label::l:p::p}, space :p:179:p}, seq t {space ::561:x, par t {seq {comp themeLabel:::p::p, space s:::p, comp themeComboBox:::p::p}, comp suivantButton:::p:150:p}, space :p:30:p}}"
-			"$verticalGroup": "par l {seq t {space :p:14:p, par b {comp themeLabel::b:p::p, comp themeComboBox::b:p::p}, space ::194:x, par b {comp filieres1Label::b:p::p, comp filieres2Label::b:p::p}, space u:::p, par l {comp filieres1ComboBox:::p::p, comp filieres2ComboBox::l:p::p}, space :p:115:p, comp suivantButton:::p:40:p, space :p:25:p}}"
+			"$horizontalGroup": "par l {seq t {space ::571:x, par t {comp suivantButton:::p:150:p, seq t {comp themeLabel:::p::p, space s:::p, comp themeComboBox:::p::p}}, space :p:30:p}, seq l {space :p:150:p, par l {seq {comp label2:::p::p, space ::308:x}, seq {par l {comp filieres1Label:::p::p, comp filieres1ComboBox:::p::p}, space ::253:x, par l {comp filieres2ComboBox::l:p::p, comp filieres2Label::l:p::p}, space :p:159:p}}}, seq l {space :p:226:p, comp label1:::p::p, space ::257:x}}"
+			"$verticalGroup": "par l {seq t {space :p:14:p, par b {comp themeLabel::b:p::p, comp themeComboBox::b:p::p}, space :p:28:p, comp label1:::p::p, space :p:88:p, comp label2:::p::p, space :p:41:p, par t {seq {comp filieres1Label:::p::p, space u:::p, comp filieres1ComboBox:::p::p}, seq {comp filieres2Label:::p::p, space u:::p, comp filieres2ComboBox:::p::p}}, space ::95:x, comp suivantButton:::p:40:p, space :p:25:p}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JComboBox" ) {
@@ -34,9 +34,19 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "themeComboBox"
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "C'EST DU BRUTAL ! "
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 3, 18, false )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "Pour commencer, choisissez vos filières respectives :   "
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 0, false )
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 750, 500 )
+			"size": new java.awt.Dimension( 760, 500 )
 		} )
 	}
 }

@@ -152,7 +152,7 @@ public class Configuration extends JPanel implements Observer {
 
         //---- titreLabel ----
         titreLabel.setText("Param\u00e9trage des troupes");
-        titreLabel.setFont(titreLabel.getFont().deriveFont(titreLabel.getFont().getStyle() | Font.BOLD, titreLabel.getFont().getSize() + 14f));
+        titreLabel.setFont(titreLabel.getFont().deriveFont(titreLabel.getFont().getStyle() | Font.BOLD, titreLabel.getFont().getSize() + 12f));
 
         //---- aleatoireButton ----
         aleatoireButton.setText("AL\u00c9ATOIRE");
@@ -216,9 +216,9 @@ public class Configuration extends JPanel implements Observer {
                                     .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
                             .addGap(30, 30, 30))))
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(224, 224, 224)
+                    .addContainerGap(221, Short.MAX_VALUE)
                     .addComponent(titreLabel)
-                    .addGap(0, 0, Short.MAX_VALUE))
+                    .addGap(0, 228, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()

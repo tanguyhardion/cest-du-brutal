@@ -53,22 +53,21 @@ public class Combat extends JPanel implements Observer {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup()
-                        .addComponent(zonesPane, GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
-                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(527, Short.MAX_VALUE)
-                                .addComponent(relancerCombatButton)
-                                .addGap(46, 46, 46))
+            layout.createParallelGroup()
+                .addComponent(zonesPane, GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(537, Short.MAX_VALUE)
+                    .addComponent(relancerCombatButton)
+                    .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup()
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(zonesPane, GroupLayout.PREFERRED_SIZE, 365, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                                .addComponent(relancerCombatButton, GroupLayout.PREFERRED_SIZE, 40,
-                                        GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28))
+            layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(zonesPane, GroupLayout.PREFERRED_SIZE, 365, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                    .addComponent(relancerCombatButton, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                    .addGap(28, 28, 28))
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }

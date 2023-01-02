@@ -89,7 +89,7 @@ public class Repartition extends JPanel implements Observer {
 
         //---- titreLabel ----
         titreLabel.setText("R\u00e9partition des troupes");
-        titreLabel.setFont(titreLabel.getFont().deriveFont(titreLabel.getFont().getStyle() | Font.BOLD, titreLabel.getFont().getSize() + 14f));
+        titreLabel.setFont(titreLabel.getFont().deriveFont(titreLabel.getFont().getStyle() | Font.BOLD, titreLabel.getFont().getSize() + 12f));
 
         //---- zoneLabel ----
         zoneLabel.setText("Zone :");
@@ -128,7 +128,7 @@ public class Repartition extends JPanel implements Observer {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(234, 234, 234)
                     .addComponent(titreLabel)
-                    .addContainerGap(234, Short.MAX_VALUE))
+                    .addContainerGap(260, Short.MAX_VALUE))
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(17, 17, 17)
                     .addGroup(layout.createParallelGroup()
@@ -151,7 +151,7 @@ public class Repartition extends JPanel implements Observer {
                             .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(troupesScrollPane, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 283, Short.MAX_VALUE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 293, Short.MAX_VALUE)
                             .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
                     .addGap(30, 30, 30))
         );
