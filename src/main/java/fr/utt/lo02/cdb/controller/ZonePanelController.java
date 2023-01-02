@@ -4,11 +4,14 @@ import fr.utt.lo02.cdb.model.*;
 import fr.utt.lo02.cdb.view.*;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ZonePanelController {
 
     private final ZonePanel zonePanel;
     private final Zone zone;
+    private List<StrategieEtudiant> strategies;
 
     public ZonePanelController(ZonePanel zonePanel, Zone zone, Joueur joueur1, Joueur joueur2) {
         this.zonePanel = zonePanel;
@@ -16,6 +19,7 @@ public class ZonePanelController {
 
         zonePanel.getJoueursComboBox().addActionListener(this::joueurChanged);
         zonePanel.getTroupesComboBox().addActionListener(this::combattantChanged);
+        zonePanel.getStrategieComboBox().addActionListener(this::strategieChanged);
         zonePanel.getAddReservisteButton().addActionListener(this::reservisteAdded);
         zonePanel.getRedeployerButton().addActionListener(this::combattantRedeploye);
 
@@ -24,8 +28,13 @@ public class ZonePanelController {
 
         zonePanel.getCreditsLabel().setText(String.valueOf(zone.getCredits()));
 
-        for (StrategieEtudiant strategie : ConfigurationController.getStrategies()) {
-            zonePanel.getStrategieComboBox().addItem(strategie);
+        // Ajout des stratégies
+        this.strategies = new ArrayList<>();
+        this.strategies.add(new StrategieAleatoire());
+        this.strategies.add(new StrategieDefensive());
+        this.strategies.add(new StrategieOffensive());
+        for (StrategieEtudiant strat : strategies) {
+            zonePanel.getStrategieComboBox().addItem(strat);
         }
     }
 
@@ -36,13 +45,21 @@ public class ZonePanelController {
     private void combattantChanged(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
         if (etudiant != null) {
-            for (StrategieEtudiant strategie : ConfigurationController.getStrategies()) {
+            for (StrategieEtudiant strategie : this.strategies) {
                 if (strategie.toString().equals(etudiant.getStrategie().toString())) {
                     this.zonePanel.getStrategieComboBox().setSelectedItem(strategie);
                 }
             }
         } else {
             this.zonePanel.getStrategieComboBox().setSelectedItem(null);
+        }
+    }
+
+    private void strategieChanged(ActionEvent e) {
+        Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
+        if (etudiant != null) {
+            StrategieEtudiant strategie = (StrategieEtudiant) this.zonePanel.getStrategieComboBox().getSelectedItem();
+            etudiant.setStrategie(strategie);
         }
     }
 
