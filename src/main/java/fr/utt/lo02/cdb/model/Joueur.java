@@ -437,12 +437,15 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Ajoute une zone à la liste des zones contrôlées par ce joueur.
+     * Ajoute une zone à la liste des zones contrôlées par ce joueur
+     * et notifie les observateurs.
      *
      * @param zone la zone à ajouter
      */
     public void addZoneControlee(Zone zone) {
         this.zonesControlees.add(zone);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     @Override

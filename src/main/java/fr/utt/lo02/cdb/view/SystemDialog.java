@@ -17,7 +17,7 @@ import java.io.InputStream;
  */
 public class SystemDialog extends JDialog {
 
-    private SystemDialog(String message, Type type) {
+    private SystemDialog(String message, Type type, boolean disposable) {
         // Définition du titre du dialog
         this.setTitle(type.getTitre());
         // Définition de l'icône du dialog
@@ -37,25 +37,34 @@ public class SystemDialog extends JDialog {
         // Ajout du label au dialog
         this.add(label, BorderLayout.CENTER);
 
-        // Création d'un bouton pour fermer la fenêtre
-        JButton okButton = new JButton("OK");
-        okButton.addActionListener(e -> dispose());
-        okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        okButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        okButton.setFocusPainted(false);
+        // Si la fenêtre peut être fermée
+        if (disposable) {
+            // Création d'un bouton pour fermer la fenêtre
+            JButton okButton = new JButton("OK");
+            okButton.addActionListener(e -> dispose());
+            okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            okButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            okButton.setFocusPainted(false);
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        // Ajout du bouton au dialog
-        this.add(okButton, BorderLayout.SOUTH);
+            // Ajout du bouton au dialog
+            this.add(okButton, BorderLayout.SOUTH);
+        } else {
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        }
 
         // Paramétrage de la fenêtre (taille, position, affichage)
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
     public static void showDialog(String message, Type type) {
-        new SystemDialog(message, type);
+        new SystemDialog(message, type, true);
+    }
+
+    public static void showDialog(String message, Type type, boolean disposable) {
+        new SystemDialog(message, type, disposable);
     }
 
     public enum Type {

@@ -24,7 +24,7 @@ public class MainWindow extends JFrame {
             e.printStackTrace();
         }
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.initComponents();
     }
 
