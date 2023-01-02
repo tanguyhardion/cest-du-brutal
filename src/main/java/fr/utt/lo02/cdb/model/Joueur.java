@@ -66,30 +66,25 @@ public class Joueur extends Observable {
 
     /**
      * Répartit aléatoirement les combattants restants du joueur sur les zones du jeu.
-     *
-     * @param zones la liste des zones du jeu
      */
-    public void repartirTroupesAleatoirement(List<Zone> zones) {
+    public void repartirTroupesAleatoirement() {
+        List<Zone> zones = Partie.getInstance().getZones();
         // Tant qu'il reste des combattants à déployer
         while (this.getTroupes().size() > 0) {
-            // On récupère les troupes restantes du joueur
-            List<Etudiant> troupes = new ArrayList<>(this.troupes);
-            Random r = new Random();
+            final Random r = new Random();
             for (Zone zone : zones) {
-                // Si le joueur n'a plus de combattants à déployer, on sort du while
+                // Si le joueur n'a plus de combattants à déployer, on sort du for
                 if (this.getTroupes().isEmpty()) {
                     break;
                 }
                 // Sinon, on choisit un combattant au hasard parmi ceux restants
-                int index = r.nextInt(troupes.size());
+                int index = r.nextInt(this.troupes.size());
                 // On récupère le combattant
                 Etudiant etudiant = this.getTroupes().get(index);
                 // On ajoute le combattant choisi à la zone en cours
                 zone.addCombattant(etudiant);
                 // On enlève le combattant des troupes du joueur
                 this.removeEtudiant(etudiant);
-                // On enlève le combattant des troupes restantes
-                troupes.remove(index);
             }
         }
     }
@@ -230,18 +225,14 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une valeur aléatoire pour chacune de leur
-     * caractéristiques.
+     * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une valeur aléatoire
+     * pour chacune de leur caractéristiques.
      * <p>
      * Cette méthode choisit aussi 5 réservistes aléatoirement parmi les étudiants.
+     *
+     * @param strategies liste dans laquelle on va choisir une stratégie aléatoirement
      */
-    public void parametrerTroupesAleatoirement() {
-        // List dans laquelle on va choisir une stratégie aléatoirement
-        List<StrategieEtudiant> strategies = new ArrayList<>();
-        strategies.add(new StrategieAleatoire());
-        strategies.add(new StrategieOffensive());
-        strategies.add(new StrategieDefensive());
-
+    public void parametrerTroupesAleatoirement(List<StrategieEtudiant> strategies) {
         final Random random = new Random();
 
         // Pour toutes les troupes de ce joueur

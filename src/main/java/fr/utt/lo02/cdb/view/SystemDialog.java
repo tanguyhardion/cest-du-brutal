@@ -17,7 +17,7 @@ import java.io.InputStream;
  */
 public class SystemDialog extends JDialog {
 
-    private SystemDialog(String message, Type type, boolean disposable) {
+    private SystemDialog(String message, Type type) {
         // Définition du titre du dialog
         this.setTitle(type.getTitre());
         // Définition de l'icône du dialog
@@ -37,18 +37,15 @@ public class SystemDialog extends JDialog {
         // Ajout du label au dialog
         this.add(label, BorderLayout.CENTER);
 
-        // Si la boîte de dialogue peut être fermée
-        if (disposable) {
-            // Création d'un bouton pour fermer la fenêtre
-            JButton okButton = new JButton("OK");
-            okButton.addActionListener(event -> dispose());
-            okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            okButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            okButton.setFocusPainted(false);
+        // Création d'un bouton pour fermer la fenêtre
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(e -> dispose());
+        okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        okButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        okButton.setFocusPainted(false);
 
-            // Ajout du bouton au dialog
-            this.add(okButton, BorderLayout.SOUTH);
-        }
+        // Ajout du bouton au dialog
+        this.add(okButton, BorderLayout.SOUTH);
 
         // Paramétrage de la fenêtre (taille, position, affichage)
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -58,11 +55,7 @@ public class SystemDialog extends JDialog {
     }
 
     public static void showDialog(String message, Type type) {
-        new SystemDialog(message, type, true);
-    }
-
-    public static void showDialog(String message, Type type, boolean disposable) {
-        new SystemDialog(message, type, disposable);
+        new SystemDialog(message, type);
     }
 
     public enum Type {

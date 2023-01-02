@@ -46,6 +46,9 @@ public class ZonePanelController {
                 this.zonePanel.getTroupesComboBox().addItem(etudiant);
             }
         }
+
+        // Affichage des troupes sur la zone
+        this.zonePanel.getSurZoneList().setListData(zone.getTroupes(joueur).toArray());
     }
 
     private void reservisteAdded(ActionEvent e) {
@@ -56,8 +59,9 @@ public class ZonePanelController {
     }
 
     private void combattantRedeploye(ActionEvent e) {
-        Joueur joueur = (Joueur) this.zonePanel.getJoueursComboBox().getSelectedItem();
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
+        this.zone.addCombattant(etudiant);
+        etudiant.getZone().removeCombattant(etudiant);
     }
 
 }

@@ -1,6 +1,6 @@
 package fr.utt.lo02.cdb.model;
 
-import fr.utt.lo02.cdb.model.enums.Equipe;
+import fr.utt.lo02.cdb.model.enums.*;
 
 /**
  * Représente un étudiant qui sera deployé sur une zone de combat.
@@ -21,6 +21,7 @@ public class Etudiant {
     private boolean elimine;
     private boolean reserviste;
     private StrategieEtudiant strategie;
+    private Zone zone;
 
     /**
      * Constructeur de la classe Etudiant.
@@ -39,8 +40,7 @@ public class Etudiant {
     /**
      * Autre constructeur de la classe Etudiant.
      * <p>
-     * Initialise les caractéristiques de cet étudiant avec les valeurs passées en
-     * paramètres.
+     * Initialise les caractéristiques de cet étudiant avec les valeurs passées en paramètres.
      *
      * @param dexterite    la dextérité à attribuer
      * @param force        la force à attribuer
@@ -63,8 +63,7 @@ public class Etudiant {
     /**
      * Fait agir cet étudiant sur l'étudiant passe en paramètre.
      * <p>
-     * Selon la stratégie de cet étudiant, il va attaquer un adversaire ou soigner
-     * un allié.
+     * Selon la stratégie de cet étudiant, il va attaquer un adversaire ou soigner un allié.
      *
      * @param cibleEquipeUne  l'étudiant de l'équipe 1 à attaquer ou soigner
      * @param cibleEquipeDeux l'étudiant de l'équipe 2 à attaquer ou soigner
@@ -92,12 +91,10 @@ public class Etudiant {
     /**
      * Ajoute des crédits à cet étudiant.
      * <p>
-     * Un étudiant ne peut gagner des crédits qu'en se faisant soigner par un
-     * étudiant allié.
+     * Un étudiant ne peut gagner des crédits qu'en se faisant soigner par un étudiant allié.
      * <p>
-     * Ces crédits ne peuvent pas dépasser 100, afin que le combat ne se bloque pas
-     * si les étudiants avec une stratégie offensive ne peuvent pas rivaliser contre
-     * les étudiants avec une stratégie défensive.
+     * Ces crédits ne peuvent pas dépasser 100, afin que le combat ne se bloque pas si les étudiants avec une stratégie
+     * offensive ne peuvent pas rivaliser contre les étudiants avec une stratégie défensive.
      *
      * @param credits le nombre de crédits à ajouter
      */
@@ -111,8 +108,7 @@ public class Etudiant {
     /**
      * Enlève le nombre de crédits spécifié à cet étudiant.
      * <p>
-     * Un étudiant devient éliminé si ses credits ajoutés à sa constitution sont
-     * inférieurs ou égaux à 0.
+     * Un étudiant devient éliminé si ses credits ajoutés à sa constitution sont inférieurs ou égaux à 0.
      *
      * @param credits le nombre de crédits à enlever
      */
@@ -134,8 +130,7 @@ public class Etudiant {
      * Définit la dextérité de cet étudiant.
      *
      * @param dexterite la dextérité à affecter à cet étudiant
-     * @throws IllegalArgumentException si la dextérité spécifiée est inférieure à 0
-     *                                  ou supérieure à 10
+     * @throws IllegalArgumentException si la dextérité spécifiée est inférieure à 0 ou supérieure à 10
      */
     public void setDexterite(int dexterite) {
         if (dexterite < 0 || dexterite > 10) {
@@ -155,8 +150,7 @@ public class Etudiant {
      * Définit la force de cet étudiant.
      *
      * @param force la force à affecter à cet étudiant
-     * @throws IllegalArgumentException si la force spécifiée est inférieure à 0 ou
-     *                                  supérieure à 10
+     * @throws IllegalArgumentException si la force spécifiée est inférieure à 0 ou supérieure à 10
      */
     public void setForce(int force) {
         if (force < 0 || force > 10) {
@@ -176,8 +170,7 @@ public class Etudiant {
      * Définit la résistance de cet étudiant.
      *
      * @param resistance la résistance à affecter à cet étudiant
-     * @throws IllegalArgumentException si la résistance spécifiée est inférieure à
-     *                                  0 ou supérieure à 10
+     * @throws IllegalArgumentException si la résistance spécifiée est inférieure à 0 ou supérieure à 10
      */
     public void setResistance(int resistance) {
         if (resistance < 0 || resistance > 10) {
@@ -197,8 +190,7 @@ public class Etudiant {
      * Définit la constitution de cet étudiant.
      *
      * @param constitution la constitution à affecter à cet étudiant
-     * @throws IllegalArgumentException si la constitution spécifiée est inférieure
-     *                                  à 0 ou supérieure à 30
+     * @throws IllegalArgumentException si la constitution spécifiée est inférieure à 0 ou supérieure à 30
      */
     public void setConstitution(int constitution) {
         if (constitution < 0 || constitution > 30) {
@@ -218,8 +210,7 @@ public class Etudiant {
      * Définit l'initiative de cet étudiant.
      *
      * @param initiative l'initiative à affecter à cet étudiant
-     * @throws IllegalArgumentException si l'initiative spécifiée est inférieure à 0
-     *                                  ou supérieure à 10
+     * @throws IllegalArgumentException si l'initiative spécifiée est inférieure à 0 ou supérieure à 10
      */
     public void setInitiative(int initiative) {
         if (initiative < 0 || initiative > 10) {
@@ -260,6 +251,25 @@ public class Etudiant {
     }
 
     /**
+     * @return la zone sur laquelle est cet étudiant
+     * @throws IllegalStateException si cet étudiant n'est pas sur une zone
+     */
+    public Zone getZone() {
+        if (this.zone == null) {
+            throw new IllegalStateException("Cet étudiant n'est pas encore sur une zone.");
+        }
+        return this.zone;
+    }
+
+    /**
+     * Définit la zone sur laquelle se trouve cet étudiant.
+     */
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+
+    /**
      * @return la stratégie de cet étudiant
      */
     public StrategieEtudiant getStrategie() {
@@ -282,8 +292,7 @@ public class Etudiant {
     }
 
     /**
-     * Renvoie une représentation textuelle de cet étudiant, composée de son type et
-     * de ses caractéristiques.
+     * Renvoie une représentation textuelle de cet étudiant, composée de son type et de ses caractéristiques.
      *
      * @return une représentation textuelle de cet étudiant
      */

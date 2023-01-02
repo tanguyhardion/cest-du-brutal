@@ -71,7 +71,7 @@ public class Configuration extends JPanel implements Observer {
 
         // Update pointsLabel avec la nouvelle valeur
         if (arg instanceof Integer) {
-            this.pointsLabel.setText(String.valueOf(joueur.getPoints()));
+            this.pointsLabel.setText(String.valueOf(arg) + " ");
         }
     }
 
@@ -159,7 +159,7 @@ public class Configuration extends JPanel implements Observer {
         aleatoireButton.setFocusPainted(false);
 
         //---- pointsRestantsLabel ----
-        pointsRestantsLabel.setText("Points restants :");
+        pointsRestantsLabel.setText("Points restants : ");
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
@@ -168,28 +168,6 @@ public class Configuration extends JPanel implements Observer {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(17, 17, 17)
                     .addGroup(layout.createParallelGroup()
-                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(joueurLabel)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(joueurComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(aleatoireButton))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(reservisteLabel)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(reservisteToggle, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 466, Short.MAX_VALUE)
-                                    .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-                            .addGap(30, 30, 30))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(troupesLabel)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 471, Short.MAX_VALUE)
-                            .addComponent(pointsRestantsLabel)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(pointsLabel)
-                            .addGap(106, 106, 106))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup()
                                 .addComponent(strategieComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -215,7 +193,28 @@ public class Configuration extends JPanel implements Observer {
                                     .addGroup(layout.createParallelGroup()
                                         .addComponent(initiativeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(initiativeLabel))))
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(troupesLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 544, Short.MAX_VALUE)
+                                    .addComponent(pointsRestantsLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(pointsLabel))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(joueurLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(joueurComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(aleatoireButton))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(reservisteLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(reservisteToggle, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 466, Short.MAX_VALUE)
+                                    .addComponent(suivantButton, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+                            .addGap(30, 30, 30))))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(224, 224, 224)
                     .addComponent(titreLabel)

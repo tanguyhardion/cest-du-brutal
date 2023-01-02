@@ -36,11 +36,11 @@ public class Combat extends JPanel {
         setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup()
-                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(540, Short.MAX_VALUE)
-                    .addComponent(relancerCombatButton)
-                    .addGap(33, 33, 33))
                 .addComponent(zonesPane, GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(527, Short.MAX_VALUE)
+                    .addComponent(relancerCombatButton)
+                    .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()

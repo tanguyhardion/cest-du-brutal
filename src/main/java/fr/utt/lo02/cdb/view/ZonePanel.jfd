@@ -4,12 +4,12 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :p:100:p, par l {comp reservistesComboBox::l:p::p, comp reservistesLabel::l:p::p, comp addReservisteButton::l:p::p}, space ::282:x, par l {comp troupesComboBox:::p::p, comp redeployerButton:::p::p, comp redeployerLabel::l:p::p}, space :p:100:p}, seq {space :::p, comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space ::411:x, comp creditsSurZoneLabel:::p::p, space :::p, comp creditsLabel:::p::p, space ::34:x}}"
-			"$verticalGroup": "par l {seq l {space :p:13:p, par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p, comp creditsSurZoneLabel::b:p::p, comp creditsLabel::b:p::p}, space :p:118:p, par t {seq {comp reservistesLabel:::p::p, space :::p, comp reservistesComboBox:::p::p, space u:::p, comp addReservisteButton:::p:35:p}, seq {comp redeployerLabel:::p::p, space :::p, comp troupesComboBox:::p::p, space u:::p, comp redeployerButton:::p::p}}, space ::66:x}}"
+			"$horizontalGroup": "par l {seq t {par t {seq {space :::p, comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space ::417:x, comp infoLabel:::p::p}, seq t {space :p:37:p, par l {comp reservistesLabel::l:p::p, comp reservistesComboBox::l:p::p, comp addReservisteButton::l:p::p, comp redeployerButton:::p::p, comp troupesComboBox::l:p::p, comp redeployerLabel::l:p::p}, space ::180:x, par l {comp surZoneLabel:::p::p, comp surZoneList:::p:268:p}, space :p:73:p}}, space :::p, comp creditsLabel:::p::p, space :p:28:p}}"
+			"$verticalGroup": "par l {seq l {space :p:13:p, par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p, comp infoLabel::b:p::p, comp creditsLabel::b:p::p}, space :p:27:p, par l {seq l {comp surZoneLabel:::p::p, space :::p, comp surZoneList:::p:100:p}, seq l {comp reservistesLabel:::p::p, space :::p, comp reservistesComboBox:::p::p, space u:::p, comp addReservisteButton:::p:35:p, space :p:28:p, comp redeployerLabel:::p::p, space :::p, comp troupesComboBox:::p::p, space u:::p, comp redeployerButton:::p::p}}, space :p:23:p}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "creditsSurZoneLabel"
+				name: "infoLabel"
 				"text": "Crédits sur cette zone : "
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -46,6 +46,13 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "redeployerButton"
 				"text": "REDÉPLOYER"
+			} )
+			add( new FormComponent( "javax.swing.JList" ) {
+				name: "surZoneList"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "surZoneLabel"
+				"text": "Sur cette zone :"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )

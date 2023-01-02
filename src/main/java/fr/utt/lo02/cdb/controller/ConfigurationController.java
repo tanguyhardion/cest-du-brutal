@@ -7,6 +7,8 @@ import fr.utt.lo02.cdb.view.*;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contrôle les actions de la configuration des troupes.
@@ -48,7 +50,7 @@ public class ConfigurationController {
             }
 
             // Nombre de points du joueur sélectionné
-            this.configuration.getPointsLabel().setText(String.valueOf(joueur.getPoints()));
+            this.configuration.getPointsLabel().setText(String.valueOf(joueur.getPoints() + " "));
         });
 
         // Ajout des joueurs
@@ -56,9 +58,13 @@ public class ConfigurationController {
         this.configuration.getJoueurComboBox().addItem(joueur2);
 
         // Ajout des stratégies
-        this.configuration.getStrategieComboBox().addItem(new StrategieAleatoire());
-        this.configuration.getStrategieComboBox().addItem(new StrategieDefensive());
-        this.configuration.getStrategieComboBox().addItem(new StrategieOffensive());
+        List<StrategieEtudiant> strategies = new ArrayList<>();
+        strategies.add(new StrategieAleatoire());
+        strategies.add(new StrategieDefensive());
+        strategies.add(new StrategieOffensive());
+        for (StrategieEtudiant strat : strategies) {
+            this.configuration.getStrategieComboBox().addItem(strat);
+        }
 
         this.configuration.getTroupesComboBox().addActionListener(e -> {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
@@ -70,8 +76,8 @@ public class ConfigurationController {
                 this.configuration.getResistanceSpinner().setValue(etudiant.getResistance());
                 this.configuration.getConstitutionSpinner().setValue(etudiant.getConstitution());
                 this.configuration.getInitiativeSpinner().setValue(etudiant.getInitiative());
-                this.configuration.getStrategieComboBox().setSelectedItem(etudiant.getStrategie() != null ?
-                        etudiant.getStrategie() : new StrategieAleatoire());
+                this.configuration.getStrategieComboBox().setSelectedIndex(etudiant.getStrategie() != null ?
+                        strategies.indexOf(etudiant.getStrategie()) : 0);
                 this.configuration.getReservisteToggle().setSelected(etudiant.isReserviste());
 
                 if (etudiant instanceof MaitreGobi) {
@@ -112,6 +118,8 @@ public class ConfigurationController {
                 if (joueur.getPoints() > 0) {
                     Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
                     etudiant.setDexterite(value);
+                } else {
+                    this.configuration.getDexteriteSpinner().setValue(this.previousDexteriteSpinnerValue);
                 }
 
                 this.updatePoints(e, joueur, this.previousDexteriteSpinnerValue);
@@ -127,6 +135,8 @@ public class ConfigurationController {
                 if (joueur.getPoints() > 0) {
                     Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
                     etudiant.setForce(value);
+                } else {
+                    this.configuration.getForceSpinner().setValue(this.previousForceSpinnerValue);
                 }
 
                 this.updatePoints(e, joueur, this.previousForceSpinnerValue);
@@ -142,6 +152,8 @@ public class ConfigurationController {
                 if (joueur.getPoints() > 0) {
                     Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
                     etudiant.setResistance(value);
+                } else {
+                    this.configuration.getResistanceSpinner().setValue(this.previousResistanceSpinnerValue);
                 }
 
                 this.updatePoints(e, joueur, this.previousResistanceSpinnerValue);
@@ -157,6 +169,8 @@ public class ConfigurationController {
                 if (joueur.getPoints() > 0) {
                     Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
                     etudiant.setConstitution(value);
+                } else {
+                    this.configuration.getConstitutionSpinner().setValue(this.previousConstitutionSpinnerValue);
                 }
 
                 this.updatePoints(e, joueur, this.previousConstitutionSpinnerValue);
@@ -172,10 +186,19 @@ public class ConfigurationController {
                 if (joueur.getPoints() > 0) {
                     Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
                     etudiant.setInitiative(value);
+                } else {
+                    this.configuration.getInitiativeSpinner().setValue(this.previousInitiativeSpinnerValue);
                 }
 
                 this.updatePoints(e, joueur, this.previousInitiativeSpinnerValue);
                 this.previousInitiativeSpinnerValue = value;
+            }
+        });
+
+        this.configuration.getStrategieComboBox().addActionListener(e -> {
+            if (!codeChange) {
+                Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
+                etudiant.setStrategie((StrategieEtudiant) this.configuration.getStrategieComboBox().getSelectedItem());
             }
         });
 
@@ -207,7 +230,7 @@ public class ConfigurationController {
 
         this.configuration.getAleatoireButton().addActionListener(e -> {
             Joueur joueur = (Joueur) this.configuration.getJoueurComboBox().getSelectedItem();
-            joueur.parametrerTroupesAleatoirement();
+            joueur.parametrerTroupesAleatoirement(strategies);
         });
 
         this.configuration.getSuivantButton().addActionListener(e -> {
@@ -233,8 +256,6 @@ public class ConfigurationController {
 
     private boolean changementPositif(ChangeEvent e, int previousValue) {
         JSpinner spinner = (JSpinner) e.getSource();
-        System.out.println("actuel : " + spinner.getValue());
-        System.out.println("previous : " + previousValue);
         return (int) spinner.getValue() > previousValue;
     }
 

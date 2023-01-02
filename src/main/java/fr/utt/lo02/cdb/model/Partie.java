@@ -126,24 +126,8 @@ public class Partie {
             // On réinitialise le latch qui notifie la partie
             Zone.resetPartieLatch();
 
-            // Zones où on peut affecter des réservistes et redéployer des troupes
-            List<Zone> zonesNonControlees = new ArrayList<>(this.zones);
-            zonesNonControlees.removeIf(zone -> zone.estControlee());
-
-            // Actions pendant la trêve du joueur 1
-            this.joueur1.affecterReservistes(zonesNonControlees, this.zones);
-            this.joueur1.redeployerTroupes(zonesNonControlees, this.zones);
-
-            // Actions pendant la trêve du joueur 2
-            this.joueur2.affecterReservistes(zonesNonControlees, this.zones);
-            this.joueur2.redeployerTroupes(zonesNonControlees, this.zones);
-
             // Fin de la trêve
             Zone.finirTreve();
-            // On notifie les zones que la trêve est terminée
-            Zone.getZoneLatch().countDown();
-            // On réinitialise le latch qui notifie les zones
-            Zone.resetZoneLatch();
         }
 
         // On récupère le gagnant

@@ -25,6 +25,7 @@ public class Zone extends Observable implements Runnable {
     private static CountDownLatch zoneLatch = new CountDownLatch(1);
     private static volatile boolean treveDeclaree;
     private final NomZone nom;
+    private Joueur controleur;
     private boolean controlee;
     private List<Etudiant> troupesEquipe1;
     private List<Etudiant> troupesEquipe2;
@@ -32,8 +33,7 @@ public class Zone extends Observable implements Runnable {
     /**
      * Constructeur de la classe Zone.
      * <p>
-     * Initialise les attributs de cette zone, notamment son nom avec la valeur
-     * passée en paramètre.
+     * Initialise les attributs de cette zone, notamment son nom avec la valeur passée en paramètre.
      *
      * @param nom le nom de la zone, de type NomZone
      */
@@ -75,7 +75,12 @@ public class Zone extends Observable implements Runnable {
      * Termine la trêve et notifie les threads en attente.
      */
     public static void finirTreve() {
+        // On marque la trêve comme terminée
         treveDeclaree = false;
+        // On notifie les zones que la trêve est terminée
+        zoneLatch.countDown();
+        // On réinitialise le latch qui notifie les zones
+        resetZoneLatch();
     }
 
     /**
@@ -120,20 +125,26 @@ public class Zone extends Observable implements Runnable {
         // On déclare la trêve et on note la zone comme contrôlée
         treveDeclaree = true;
         this.controlee = true;
-        if (this.getTroupesEquipe1().isEmpty()) {
-            Partie.getInstance().getJoueur2().addZoneControlee(this);
-        } else if (this.getTroupesEquipe2().isEmpty()) {
-            Partie.getInstance().getJoueur1().addZoneControlee(this);
+        // On récupère les joueurs
+        Joueur joueur1 = Partie.getInstance().getJoueur1();
+        Joueur joueur2 = Partie.getInstance().getJoueur2();
+        if (this.getTroupesEquipe2().isEmpty()) {
+            // Le joueur 1 contrôle la zone
+            joueur1.addZoneControlee(this);
+            this.controleur = joueur1;
+        } else if (this.getTroupesEquipe1().isEmpty()) {
+            // Le joueur 2 contrôle la zone
+            joueur2.addZoneControlee(this);
+            this.controleur = joueur2;
         }
-        // On notifie la Partie qu'un thread est terminé
-        // partieLatch.countDown();
+        // On notifie la vue qu'un thread est terminé
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(this);
     }
 
     /**
-     * Ajoute un étudiant d'un joueur aux combattants du joueur correspondant
-     * sur cette zone et notifie les observateurs.
+     * Ajoute un étudiant d'un joueur aux combattants du joueur correspondant sur cette zone et notifie les
+     * observateurs.
      *
      * @param etudiant l'étudiant à ajouter
      */
@@ -152,8 +163,7 @@ public class Zone extends Observable implements Runnable {
     }
 
     /**
-     * Retire un étudiant d'un joueur des combattants du joueur correspondant
-     * sur cette zone.
+     * Retire un étudiant d'un joueur des combattants du joueur correspondant sur cette zone.
      *
      * @param etudiant l'étudiant à retirer
      */
@@ -169,8 +179,8 @@ public class Zone extends Observable implements Runnable {
     }
 
     /**
-     * Retourne la liste de tous les étudiants présents sur cette zone triés par
-     * leur initiative, de la plus grande à la plus petite.
+     * Retourne la liste de tous les étudiants présents sur cette zone triés par leur initiative, de la plus grande à la
+     * plus petite.
      *
      * @return la liste des étudiants triés par initiative
      */
@@ -183,8 +193,7 @@ public class Zone extends Observable implements Runnable {
     }
 
     /**
-     * Retourne l'étudiant de l'équipe correspondante ayant le moins de crédits
-     * sur cette zone.
+     * Retourne l'étudiant de l'équipe correspondante ayant le moins de crédits sur cette zone.
      *
      * @param equipe l'équipe dont on veut l'étudiant ayant le moins de crédits
      * @return l'étudiant ayant le moins de crédits
@@ -241,8 +250,7 @@ public class Zone extends Observable implements Runnable {
     }
 
     /**
-     * Enlève les étudiants éliminés sur cette zone de la liste des combattants
-     * de chaque équipe.
+     * Enlève les étudiants éliminés sur cette zone de la liste des combattants de chaque équipe.
      */
     private void clearCombattantsElimines() {
         this.troupesEquipe1.removeIf(Etudiant::isElimine);
@@ -250,8 +258,8 @@ public class Zone extends Observable implements Runnable {
     }
 
     /**
-     * Vérifie qu'il existe assez de combattants qui possèdent une stratégie
-     * offensive ou aléatoire sur cette zone, afin que le combat ne soit pas bloqué.
+     * Vérifie qu'il existe assez de combattants qui possèdent une stratégie offensive ou aléatoire sur cette zone, afin
+     * que le combat ne soit pas bloqué.
      */
     private void verifierStrategies() {
         List<Etudiant> tempEquipe1 = new ArrayList<>(this.troupesEquipe1);
@@ -271,11 +279,16 @@ public class Zone extends Observable implements Runnable {
         }
 
         // Même principe pour l'équipe 2
+        if (!this.troupesEquipe2.isEmpty() && (tempEquipe2.size() == Math.floor(this.troupesEquipe2.size() - 1)
+                || tempEquipe2.size() == this.troupesEquipe2.size())) {
+            Random r = new Random();
+            Etudiant etudiantRandom = this.troupesEquipe2.get(r.nextInt(this.troupesEquipe2.size()));
+            etudiantRandom.setStrategie(new StrategieOffensive());
+        }
     }
 
     /**
-     * @return {@code true} si cette zone est contrôlée par un des joueurs,
-     * {@code false} sinon
+     * @return {@code true} si cette zone est contrôlée par un des joueurs, {@code false} sinon
      */
     public boolean estControlee() {
         return controlee;
@@ -286,6 +299,13 @@ public class Zone extends Observable implements Runnable {
      */
     public NomZone getNom() {
         return this.nom;
+    }
+
+    /**
+     * @return le joueur qui contrôle cette zone
+     */
+    public Joueur getControleur() {
+        return this.controleur;
     }
 
     /**
@@ -303,11 +323,10 @@ public class Zone extends Observable implements Runnable {
     }
 
     /**
-     * Retourne la liste des étudiants présents sur cette zone
-     * pour le joueur passé en paramètre.
+     * Retourne la liste des étudiants présents sur cette zone pour le joueur passé en paramètre.
      * <p>
-     * Cette méthode a pour but de simplifier la récupération des troupes lorsqu'on
-     * connaît le joueur dont on veut les troupes.
+     * Cette méthode a pour but de simplifier la récupération des troupes lorsqu'on connaît le joueur dont on veut les
+     * troupes.
      *
      * @param joueur le joueur dont on veut les troupes
      * @return la liste des étudiants présents sur cette zone pour le joueur

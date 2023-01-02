@@ -70,6 +70,7 @@ public class RepartitionController {
                             SystemDialog.Type.ERROR);
                 } else {
                     Etudiant etudiant = (Etudiant) this.repartition.getTroupesComboBox().getSelectedItem();
+                    etudiant.setZone(zone);
                     zone.addCombattant(etudiant);
                     joueur.removeEtudiant(etudiant);
                 }
@@ -81,7 +82,7 @@ public class RepartitionController {
         this.repartition.getAleatoireButton().addActionListener(e -> {
             Joueur joueur = (Joueur) this.repartition.getJoueursComboBox().getSelectedItem();
             if (!joueur.getTroupes().isEmpty()) {
-                joueur.repartirTroupesAleatoirement(Partie.getInstance().getZones());
+                joueur.repartirTroupesAleatoirement();
             } else {
                 SystemDialog.showDialog("Vous avez déployé toutes vos troupes !", SystemDialog.Type.ERROR);
             }
