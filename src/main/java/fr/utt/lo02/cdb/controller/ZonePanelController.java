@@ -29,26 +29,7 @@ public class ZonePanelController {
     private void joueurChanged(ActionEvent e) {
         Joueur joueur = (Joueur) this.zonePanel.getJoueursComboBox().getSelectedItem();
 
-        this.zonePanel.getReservistesComboBox().removeAllItems();
-        // Affichage des réservistes
-        for (Etudiant reserviste : joueur.getReservistes()) {
-            this.zonePanel.getReservistesComboBox().addItem(reserviste);
-        }
-
-        this.zonePanel.getTroupesComboBox().removeAllItems();
-        // Zones sur lesquelles il y a des troupes à redéployer
-        List<Zone> zonesRedeploiement = new ArrayList<>(joueur.getZonesControlees());
-        // Zones contrôlées par le joueur qui ont au moins 2 combattants
-        zonesRedeploiement.removeIf(z -> z.getTroupes(joueur).size() < 2);
-        // Affichage des troupes prêtes au redéploiement
-        for (Zone zoneC : zonesRedeploiement) {
-            for (Etudiant etudiant : zoneC.getTroupes(joueur)) {
-                this.zonePanel.getTroupesComboBox().addItem(etudiant);
-            }
-        }
-
-        // Affichage des troupes sur la zone
-        this.zonePanel.getSurZoneList().setListData(zone.getTroupes(joueur).toArray());
+        this.zonePanel.updateJoueur();
     }
 
     private void reservisteAdded(ActionEvent e) {

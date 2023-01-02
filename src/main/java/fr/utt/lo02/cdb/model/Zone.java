@@ -91,7 +91,7 @@ public class Zone extends Observable implements Runnable {
         try {
             barrier.await();
             this.lancerCombat();
-        } catch (InterruptedException | BrokenBarrierException e) {
+        } catch (InterruptedException | BrokenBarrierException ignored) {
         }
     }
 
@@ -119,6 +119,9 @@ public class Zone extends Observable implements Runnable {
             if (treveDeclaree) {
                 // Si la trêve a été déclarée, on attend la fin de la trêve avant de reprendre
                 zoneLatch.await();
+                // Et on notifie les observateurs
+                this.setChanged();
+                this.notifyObservers();
             }
         }
         // On sort du while, donc la zone est forcément contrôlée par un joueur

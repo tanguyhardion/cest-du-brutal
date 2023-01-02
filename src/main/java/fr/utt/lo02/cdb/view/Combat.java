@@ -32,8 +32,8 @@ public class Combat extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Joueur) {
             Joueur joueur = (Joueur) o;
-            if (joueur.getZonesControlees().size() > 3) {
-                SystemDialog.showDialog("le " + joueur.toString() + " a gagné !", SystemDialog.Type.INFO,
+            if (joueur.getZonesControlees().size() >= 3) {
+                SystemDialog.showDialog("Le " + joueur.toString() + " a gagné !", SystemDialog.Type.INFO,
                         false);
                 this.relancerCombatButton.setEnabled(false);
             }

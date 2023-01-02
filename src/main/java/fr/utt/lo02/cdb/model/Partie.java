@@ -29,7 +29,6 @@ public class Partie {
     private final Joueur joueur1;
     private final Joueur joueur2;
     private List<Zone> zones;
-    private Scanner scanner;
 
     /**
      * Constructeur privé de la classe Partie.
@@ -40,7 +39,6 @@ public class Partie {
         this.joueur1 = new Joueur(Equipe.UNE);
         this.joueur2 = new Joueur(Equipe.DEUX);
         this.zones = new ArrayList<>();
-        this.scanner = new Scanner(System.in);
 
         // On récupère tous les noms de zones
         Set<NomZone> zones = EnumSet.allOf(NomZone.class);
@@ -107,36 +105,8 @@ public class Partie {
             executor.execute(zone);
         }
 
-        // Tant que personne n'a gagné
-        while (this.joueur1.getZonesControlees().size() < zonesAControler
-                && this.joueur2.getZonesControlees().size() < zonesAControler) {
-
-            // On attend qu'une zone soit contrôlée
-            Zone.getPartieLatch().await();
-
-            // On attend un peu pour que les zones aient le temps de se mettre en pause
-            Thread.sleep(10);
-
-            // On vérifie si la partie est terminée
-            if (this.joueur1.getZonesControlees().size() >= zonesAControler
-                    || this.joueur2.getZonesControlees().size() >= zonesAControler) {
-                break;
-            }
-
-            // On réinitialise le latch qui notifie la partie
-            Zone.resetPartieLatch();
-
-            // Fin de la trêve
-            Zone.finirTreve();
-        }
-
-        // On récupère le gagnant
-        Filiere filiereJoueurGagnant = this.joueur1.getZonesControlees().size() >= zonesAControler
-                ? this.joueur1.getFiliere()
-                : this.joueur2.getFiliere();
 
         executor.shutdownNow();
-        this.scanner.close();
     }
 
     /**

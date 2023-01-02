@@ -8,6 +8,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import java.awt.Component;
@@ -38,8 +39,11 @@ public class ZonePanel extends JPanel implements Observer {
     private JList surZoneList;
     private JLabel surZoneLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+    private Zone zone;
 
     public ZonePanel(Zone zone, Joueur joueur1, Joueur joueur2) {
+        this.zone = zone;
+
         initComponents();
 
         joueur1.deleteObservers();
@@ -63,10 +67,13 @@ public class ZonePanel extends JPanel implements Observer {
                 if (((Zone) arg).estControlee()) {
                     // Si oui, on désactive ce panel
                     this.disableZone();
-                    // Et on met les informations de la zone contrôlée
+                    // On met les informations de la zone contrôlée
                     this.infoLabel.setFont(creditsLabel.getFont().deriveFont(Font.BOLD));
-                    this.infoLabel.setText("Contrôlée par " + zone.getControleur());
+                    this.infoLabel.setText("Contrôlée par " + zone.getControleur() + " ");
                     this.creditsLabel.setText("");
+                    // Et on affiche un dialog
+                    SystemDialog.showDialog("La zone " + zone.getNom() + " est maintenant contrôlée par le "
+                            + zone.getControleur() + " !", SystemDialog.Type.INFO);
                 }
             } else {
                 // Sinon, la zone n'est pas encore contrôlée, alors on met à jour les crédits
@@ -74,27 +81,38 @@ public class ZonePanel extends JPanel implements Observer {
             }
             // Dans tous les cas, on met à jour les troupes sur la zone
             this.surZoneList.setListData(zone.getTroupes((Joueur) this.joueursComboBox.getSelectedItem()).toArray());
-        } else if (o instanceof Joueur) {
-            // Si c'est un joueur qui a changé
-            Joueur joueur = (Joueur) o;
-            // On met à jour ses réservistes
-            for (Etudiant reserviste : joueur.getReservistes()) {
-                this.reservistesComboBox.addItem(reserviste);
-            }
-            // Et ses troupes à redéployer
-            List<Zone> zonesRedeploiement = new ArrayList<>(joueur.getZonesControlees());
-            // Zones contrôlées par le joueur qui ont au moins 2 combattants
-            zonesRedeploiement.removeIf(z -> z.getTroupes(joueur).size() < 2);
-            // Mise à jour des troupes prêtes au redéploiement
-            for (Zone zoneC : zonesRedeploiement) {
-                for (Etudiant etudiant : zoneC.getTroupes(joueur)) {
-                    this.troupesComboBox.addItem(etudiant);
-                }
-            }
         }
+        // Finalement, on update le joueur sélectionné
+        this.updateJoueur();
     }
 
-    public void disableZone() {
+    public void updateJoueur() {
+        // On récupère le joueur sélectionné
+        Joueur joueur = (Joueur) this.joueursComboBox.getSelectedItem();
+
+        // On met à jour ses réservistes
+        this.reservistesComboBox.removeAllItems();
+        for (Etudiant reserviste : joueur.getReservistes()) {
+            this.reservistesComboBox.addItem(reserviste);
+        }
+
+        // Ses troupes à redéployer
+        this.troupesComboBox.removeAllItems();
+        List<Zone> zonesRedeploiement = new ArrayList<>(joueur.getZonesControlees());
+        // Zones contrôlées par le joueur qui ont au moins 2 combattants
+        zonesRedeploiement.removeIf(z -> z.getTroupes(joueur).size() < 2);
+        // Mise à jour des troupes prêtes au redéploiement
+        for (Zone zoneC : zonesRedeploiement) {
+            for (Etudiant etudiant : zoneC.getTroupes(joueur)) {
+                this.troupesComboBox.addItem(etudiant);
+            }
+        }
+
+        // Et ses troupes sur la zone
+        this.surZoneList.setListData(this.zone.getTroupes(joueur).toArray());
+    }
+
+    private void disableZone() {
         for (Component component : this.getComponents()) {
             if (component != this.infoLabel) {
                 component.setEnabled(false);

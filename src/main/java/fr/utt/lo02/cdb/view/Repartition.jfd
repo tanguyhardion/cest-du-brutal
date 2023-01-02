@@ -37,7 +37,6 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "addButton"
 				"text": "AJOUTER"
-				"border": new mdlaf.shadows.RoundedCornerBorder
 				"focusPainted": false
 				"borderPainted": false
 			} )

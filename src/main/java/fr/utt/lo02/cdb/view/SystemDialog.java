@@ -7,7 +7,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.io.InputStream;
 
 /**
@@ -21,7 +20,7 @@ public class SystemDialog extends JDialog {
         // Définition du titre du dialog
         this.setTitle(type.getTitre());
         // Définition de l'icône du dialog
-        try (InputStream is = getClass().getResourceAsStream(type.getIconePath())) {
+        try (InputStream is = this.getClass().getResourceAsStream(type.getIconePath())) {
             this.setIconImage(ImageIO.read(is));
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,7 +31,7 @@ public class SystemDialog extends JDialog {
         // Création d'un label pour le message
         JLabel label = new JLabel(message);
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        label.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Ajout du label au dialog
         this.add(label, BorderLayout.CENTER);
@@ -42,8 +41,7 @@ public class SystemDialog extends JDialog {
             // Création d'un bouton pour fermer la fenêtre
             JButton okButton = new JButton("OK");
             okButton.addActionListener(e -> dispose());
-            okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            okButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            okButton.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
             okButton.setFocusPainted(false);
             this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -53,8 +51,9 @@ public class SystemDialog extends JDialog {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
 
-        // Paramétrage de la fenêtre (taille, position, affichage)
+        // Paramétrage de la fenêtre (position, affichage)
         this.pack();
+        this.setModal(true);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }

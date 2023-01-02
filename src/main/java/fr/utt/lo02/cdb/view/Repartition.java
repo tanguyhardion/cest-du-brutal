@@ -14,7 +14,6 @@ import javax.swing.LayoutStyle;
 import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
-import mdlaf.shadows.*;
 
 /**
  * @author Tanguy HARDION
@@ -103,7 +102,6 @@ public class Repartition extends JPanel implements Observer {
 
         //---- addButton ----
         addButton.setText("AJOUTER");
-        addButton.setBorder(new RoundedCornerBorder());
         addButton.setFocusPainted(false);
         addButton.setBorderPainted(false);
 
