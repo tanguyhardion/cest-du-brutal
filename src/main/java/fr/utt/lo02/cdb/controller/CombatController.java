@@ -44,7 +44,10 @@ public class CombatController {
     }
 
     private void combatRelance(ActionEvent e) {
+        // Fin de la trêve
         Zone.finirTreve();
+        // Désactivation du bouton
+        this.combat.getRelancerCombatButton().setEnabled(false);
     }
 
 }
