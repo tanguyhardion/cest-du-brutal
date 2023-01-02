@@ -25,8 +25,8 @@ public class ConfigurationController {
     private int previousConstitutionSpinnerValue;
     private int previousInitiativeSpinnerValue;
     private boolean codeChange;
-    private Joueur joueur1;
-    private Joueur joueur2;
+    private final Joueur joueur1;
+    private final Joueur joueur2;
 
 
     public ConfigurationController(Configuration configuration, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
@@ -51,7 +51,7 @@ public class ConfigurationController {
             }
 
             // Nombre de points du joueur sélectionné
-            this.configuration.getPointsLabel().setText(String.valueOf(joueur.getPoints() + " "));
+            this.configuration.getPointsLabel().setText(joueur.getPoints() + " ");
         });
 
         // Ajout des joueurs
@@ -66,7 +66,7 @@ public class ConfigurationController {
         for (StrategieEtudiant strat : strategies) {
             this.configuration.getStrategieComboBox().addItem(strat);
         }
-        this.strategies = strategies;
+        ConfigurationController.strategies = strategies;
 
         this.configuration.getTroupesComboBox().addActionListener(e -> {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();

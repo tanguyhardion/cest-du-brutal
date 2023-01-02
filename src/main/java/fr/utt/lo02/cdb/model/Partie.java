@@ -129,19 +129,4 @@ public class Partie {
         return this.zones;
     }
 
-    /**
-     * @return la zone BDE
-     */
-    public Zone getBDE() {
-        return this.zones.stream().filter(zone -> zone.getNom() == NomZone.BDE).findFirst().orElse(null);
-    }
-
-    /**
-     * @param nomZone le nom de la zone demandée
-     * @return la zone correspondant au nom donné
-     */
-    public Zone getBibliotheque(NomZone nomZone) {
-        return this.zones.stream().filter(zone -> zone.getNom() == nomZone).findFirst().orElse(null);
-    }
-
 }

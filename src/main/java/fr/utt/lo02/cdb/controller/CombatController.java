@@ -41,6 +41,9 @@ public class CombatController {
         for (Zone zone : zones) {
             executor.execute(zone);
         }
+
+        // On affiche un message de début de combat dans un autre thread, pour ne pas bloquer l'interface
+        new Thread(() -> SystemDialog.showDialog("Les combats font rage !", SystemDialog.Type.INFO)).start();
     }
 
     private void combatRelance(ActionEvent e) {

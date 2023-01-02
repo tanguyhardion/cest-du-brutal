@@ -24,7 +24,7 @@ public class Zone extends Observable implements Runnable {
     private static CountDownLatch partieLatch = new CountDownLatch(1);
     private static CountDownLatch zoneLatch = new CountDownLatch(1);
     private static volatile boolean treveDeclaree;
-    private final NomZone nom;
+    private final NomZone nomZone;
     private Joueur controleur;
     private boolean controlee;
     private List<Etudiant> troupesEquipe1;
@@ -38,7 +38,7 @@ public class Zone extends Observable implements Runnable {
      * @param nom le nom de la zone, de type NomZone
      */
     public Zone(NomZone nom) {
-        this.nom = nom;
+        this.nomZone = nom;
         this.troupesEquipe1 = new ArrayList<Etudiant>();
         this.troupesEquipe2 = new ArrayList<Etudiant>();
     }
@@ -301,8 +301,8 @@ public class Zone extends Observable implements Runnable {
     /**
      * @return le nom de cette zone
      */
-    public NomZone getNom() {
-        return this.nom;
+    public NomZone getNomZone() {
+        return this.nomZone;
     }
 
     /**
@@ -349,7 +349,7 @@ public class Zone extends Observable implements Runnable {
 
     @Override
     public String toString() {
-        return this.nom.toString();
+        return this.nomZone.toString();
     }
 
 }

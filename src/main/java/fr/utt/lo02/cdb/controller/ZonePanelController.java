@@ -4,8 +4,6 @@ import fr.utt.lo02.cdb.model.*;
 import fr.utt.lo02.cdb.view.*;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ZonePanelController {
 
@@ -38,7 +36,11 @@ public class ZonePanelController {
     private void combattantChanged(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
         if (etudiant != null) {
-            this.zonePanel.getStrategieComboBox().setSelectedItem(etudiant.getStrategie());
+            for (StrategieEtudiant strategie : ConfigurationController.getStrategies()) {
+                if (strategie.toString().equals(etudiant.getStrategie().toString())) {
+                    this.zonePanel.getStrategieComboBox().setSelectedItem(strategie);
+                }
+            }
         } else {
             this.zonePanel.getStrategieComboBox().setSelectedItem(null);
         }
