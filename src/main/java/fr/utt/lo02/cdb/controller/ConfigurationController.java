@@ -4,6 +4,7 @@ package fr.utt.lo02.cdb.controller;
 import fr.utt.lo02.cdb.model.*;
 import fr.utt.lo02.cdb.view.*;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
@@ -65,6 +66,13 @@ public class ConfigurationController {
         for (StrategieEtudiant strat : strategies) {
             this.configuration.getStrategieComboBox().addItem(strat);
         }
+
+        // Désactivation des champs de texte des spinners
+        ((JSpinner.DefaultEditor) this.configuration.getDexteriteSpinner().getEditor()).getTextField().setEditable(false);
+        ((JSpinner.DefaultEditor) this.configuration.getForceSpinner().getEditor()).getTextField().setEditable(false);
+        ((JSpinner.DefaultEditor) this.configuration.getResistanceSpinner().getEditor()).getTextField().setEditable(false);
+        ((JSpinner.DefaultEditor) this.configuration.getConstitutionSpinner().getEditor()).getTextField().setEditable(false);
+        ((JSpinner.DefaultEditor) this.configuration.getInitiativeSpinner().getEditor()).getTextField().setEditable(false);
 
         this.configuration.getTroupesComboBox().addActionListener(e -> {
             Etudiant etudiant = (Etudiant) this.configuration.getTroupesComboBox().getSelectedItem();
