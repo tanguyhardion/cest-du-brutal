@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Représente un joueur du jeu, possédant des troupes.
@@ -60,33 +61,6 @@ public class Joueur extends Observable {
     }
 
     /**
-     * Répartit aléatoirement les combattants restants du joueur sur les zones du jeu.
-     */
-    public void repartirTroupesAleatoirement() {
-        List<Zone> zones = Partie.getInstance().getZones();
-        // Tant qu'il reste des combattants à déployer
-        while (this.getTroupes().size() > 0) {
-            final Random r = new Random();
-            for (Zone zone : zones) {
-                // Si le joueur n'a plus de combattants à déployer, on sort du for
-                if (this.getTroupes().isEmpty()) {
-                    break;
-                }
-                // Sinon, on choisit un combattant au hasard parmi ceux restants
-                int index = r.nextInt(this.troupes.size());
-                // On récupère le combattant
-                Etudiant etudiant = this.getTroupes().get(index);
-                // On définit la zone sur laquelle est l'étudiant
-                etudiant.setZone(zone);
-                // On ajoute le combattant choisi à la zone en cours
-                zone.addCombattant(etudiant);
-                // On enlève le combattant des troupes du joueur
-                this.removeEtudiant(etudiant);
-            }
-        }
-    }
-
-    /**
      * Paramètre aléatoirement les troupes de ce joueur, en leur attribuant une valeur aléatoire pour chacune de leur
      * caractéristiques.
      * <p>
@@ -115,13 +89,11 @@ public class Joueur extends Observable {
 
         // Pour les réservistes restant à choisir, on les choisit aléatoirement
         int reservistes = 5;
-        if (this.reservistes.size() < reservistes) {
-            for (int i = 0; i < reservistes; i++) {
-                Etudiant etudiant = this.troupes.get(random.nextInt(this.troupes.size()));
-                etudiant.setReserviste(true);
-                this.addReserviste(etudiant);
-                this.removeEtudiant(etudiant);
-            }
+        while (this.reservistes.size() < reservistes) {
+            Etudiant etudiant = this.troupes.get(random.nextInt(this.troupes.size()));
+            etudiant.setReserviste(true);
+            this.addReserviste(etudiant);
+            this.removeEtudiant(etudiant);
         }
 
         // On met les points de ce joueur à 0
@@ -130,6 +102,34 @@ public class Joueur extends Observable {
         // On notifie les observateurs que les troupes ont été paramétrées
         this.setChanged();
         this.notifyObservers(new Etudiant(null, 0));
+    }
+
+    /**
+     * Répartit aléatoirement les combattants restants du joueur sur les zones du jeu.
+     */
+    public void repartirTroupesAleatoirement() {
+        List<Zone> zones = Partie.getInstance().getZones();
+        List<Zone> zonesDeploiement =  zones.stream().filter(z -> z.getTroupes(this).isEmpty()).toList();
+        // Tant qu'il reste des combattants à déployer
+        while (this.getTroupes().size() > 0) {
+            final Random r = new Random();
+            zonesDeploiement.forEach(zone -> {
+                // Si le joueur n'a plus de combattants à déployer, la méthode s'arrête
+                if (this.getTroupes().isEmpty()) {
+                    return;
+                }
+                // Sinon, on choisit un combattant au hasard parmi ceux restants
+                int index = r.nextInt(this.troupes.size());
+                // On récupère le combattant
+                Etudiant etudiant = this.getTroupes().get(index);
+                // On définit la zone sur laquelle est l'étudiant
+                etudiant.setZone(zone);
+                // On ajoute le combattant choisi à la zone en cours
+                zone.addCombattant(etudiant);
+                // On enlève le combattant des troupes du joueur
+                this.removeEtudiant(etudiant);
+            });
+        }
     }
 
     private void trierTroupes() {
