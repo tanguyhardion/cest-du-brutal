@@ -101,7 +101,7 @@ public class Zone extends Observable implements Runnable {
      * @throws InterruptedException si le thread est interrompu
      */
     private synchronized void lancerCombat() throws InterruptedException {
-        while (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
+        while (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty()) {
             for (Etudiant etudiant : this.getTroupesParInitiative()) {
                 if (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
                     // On fait agir l'étudiant (attaquer ou soigner)
@@ -117,11 +117,11 @@ public class Zone extends Observable implements Runnable {
             // On attend un peu, au cas où un thread aurait déclaré la trêve
             Thread.sleep(new Random().nextLong(10, 50));
             if (treveDeclaree) {
-                // Si la trêve a été déclarée, on attend la fin de la trêve avant de reprendre
-                zoneLatch.await();
-                // Et on notifie les observateurs
+                // Si la trêve est déclarée, on notifie les observateurs
                 this.setChanged();
                 this.notifyObservers();
+                // Et on attend la fin de la trêve avant de reprendre
+                zoneLatch.await();
             }
         }
         // On sort du while, donc la zone est forcément contrôlée par un joueur

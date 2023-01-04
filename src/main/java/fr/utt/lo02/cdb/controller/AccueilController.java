@@ -1,14 +1,13 @@
 package fr.utt.lo02.cdb.controller;
 
 import fr.utt.lo02.cdb.model.*;
-import fr.utt.lo02.cdb.model.enums.Filiere;
+import fr.utt.lo02.cdb.model.enums.*;
 import fr.utt.lo02.cdb.model.themes.*;
 import fr.utt.lo02.cdb.view.*;
-
 import mdlaf.MaterialLookAndFeel;
 import mdlaf.themes.MaterialTheme;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import java.util.EnumSet;
 import java.util.Set;
 
