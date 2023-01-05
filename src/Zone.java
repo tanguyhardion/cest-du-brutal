@@ -58,7 +58,7 @@ public class Zone implements Runnable {
 	 * @throws InterruptedException si le thread est interrompu
 	 */
 	private synchronized void lancerCombat() throws InterruptedException {
-		while (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
+		while (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty()) {
 			for (Etudiant etudiant : this.getTroupesParInitiative()) {
 				if (!this.getTroupesEquipe1().isEmpty() && !this.getTroupesEquipe2().isEmpty() && !treveDeclaree) {
 					// On fait agir l'étudiant (attaquer ou soigner)
