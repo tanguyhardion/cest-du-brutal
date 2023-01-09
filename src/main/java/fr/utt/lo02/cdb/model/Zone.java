@@ -146,8 +146,7 @@ public class Zone extends Observable implements Runnable {
     }
 
     /**
-     * Ajoute un étudiant d'un joueur aux combattants du joueur correspondant sur cette zone et notifie les
-     * observateurs.
+     * Ajoute un étudiant d'un joueur aux combattants du joueur correspondant sur cette zone.
      *
      * @param etudiant l'étudiant à ajouter
      */
@@ -160,10 +159,6 @@ public class Zone extends Observable implements Runnable {
         } else if (etudiant.getEquipe() == Equipe.DEUX) {
             this.troupesEquipe2.add(etudiant);
         }
-
-        // On notifie les observateurs
-        // this.setChanged();
-        // this.notifyObservers();
     }
 
     /**
