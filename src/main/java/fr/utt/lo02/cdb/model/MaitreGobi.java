@@ -7,7 +7,7 @@ import fr.utt.lo02.cdb.model.enums.Equipe;
  * initiales sont augmentées (+10 en constitution, +2 pour le reste).
  *
  * @author Tanguy HARDION
- * @version 1.0
+ * @version 1.2
  */
 public class MaitreGobi extends Etudiant {
 

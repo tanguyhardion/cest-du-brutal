@@ -5,16 +5,16 @@ import fr.utt.lo02.cdb.model.enums.Equipe;
 import java.util.Random;
 
 /**
- * Represente l'action à réaliser d'un étudiant dont la stratégie est défensive.
+ * Représente l'action à réaliser d'un étudiant dont la stratégie est défensive.
  * 
  * @author Tanguy HARDION
- * @version 1.0
+ * @version 1.2
  */
 public class StrategieDefensive implements StrategieEtudiant {
 
 	/**
 	 * Soigne un autre étudiant (en lui ajoutant des crédits) en fonction de la
-	 * dexterité du soignant et de la constitution du soigné.
+	 * dextérité du soignant et de la constitution du soigné.
 	 * 
 	 * @param origine l'étudiant qui soigne
 	 * @param cible   l'étudiant qui est soigné

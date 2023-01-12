@@ -7,6 +7,7 @@ import mdlaf.themes.MaterialTheme;
  * Thème StackOverflow.
  *
  * @author Tanguy HARDION
+ * @version 1.0
  */
 public class StackOverflow extends DarkStackOverflowTheme implements MaterialTheme {
 

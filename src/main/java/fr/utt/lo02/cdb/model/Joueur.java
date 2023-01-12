@@ -7,13 +7,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Représente un joueur du jeu, possédant des troupes.
  *
- * @author Tristan JAUSSAUD
  * @author Tanguy HARDION
+ * @author Tristan JAUSSAUD
+ * @version 2.0
  */
 public class Joueur extends Observable {
 

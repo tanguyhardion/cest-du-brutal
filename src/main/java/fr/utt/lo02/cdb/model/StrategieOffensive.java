@@ -6,7 +6,7 @@ import fr.utt.lo02.cdb.model.enums.Equipe;
  * Représente l'action réalisée par un étudiant dont la stratégie est offensive.
  * 
  * @author Tristan JAUSSAUD
- * @version 1.0
+ * @version 1.3
  */
 public class StrategieOffensive implements StrategieEtudiant {
 

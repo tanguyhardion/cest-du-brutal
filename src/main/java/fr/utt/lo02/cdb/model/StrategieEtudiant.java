@@ -2,7 +2,7 @@ package fr.utt.lo02.cdb.model;
 
 /**
  * Interface StrategieEtudiant, représentant une stratégie qui peut être
- * offensive ou défensive.
+ * offensive, défensive ou aléatoire.
  * 
  */
 public interface StrategieEtudiant {

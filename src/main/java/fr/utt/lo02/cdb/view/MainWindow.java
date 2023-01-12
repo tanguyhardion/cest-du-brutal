@@ -7,7 +7,7 @@ import javax.swing.GroupLayout;
 import java.io.InputStream;
 
 /**
- * @author Tanguy HARDION
+ * @author Tristan JAUSSAUD
  */
 public class MainWindow extends JFrame {
 

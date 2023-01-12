@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Contrôle les actions de la répartition des troupes.
  *
- * @author Tanguy HARDION
+ * @author Tristan JAUSSAUD
  */
 public class RepartitionController {
 

@@ -60,13 +60,21 @@ public class AccueilController {
             if (this.isReady()) {
                 mainWindow.switchPanel(new Configuration(mainWindow, joueur1, joueur2));
             } else {
-                SystemDialog.showDialog("Les joueurs ne peuvent pas avoir la même filière !", SystemDialog.Type.ERROR);
+                SystemDialog.showDialog("Les joueurs ne peuvent pas avoir la même filière !",
+                        SystemDialog.Type.ERROR);
             }
         });
     }
 
+    /**
+     * Vérifie si les joueurs sont prêts en évaluant
+     * s'ils ont bien une filière différente.
+     *
+     * @return true si les joueurs sont prêts, false sinon
+     */
     public boolean isReady() {
-        return this.accueil.getFilieres1ComboBox().getSelectedIndex() != this.accueil.getFilieres2ComboBox().getSelectedIndex();
+        return this.accueil.getFilieres1ComboBox().getSelectedIndex() != this.accueil.getFilieres2ComboBox()
+                .getSelectedIndex();
     }
 
 }

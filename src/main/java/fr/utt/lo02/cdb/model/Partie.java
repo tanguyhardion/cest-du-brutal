@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
  *
  * @author Tristan JAUSSAUD
  * @author Tanguy HARDION
- * @version 1.0
+ * @version 2.0
  */
 public class Partie {
 

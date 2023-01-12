@@ -16,7 +16,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * @author Tanguy HARDION
+ * @author Tristan JAUSSAUD
  */
 public class Repartition extends JPanel implements Observer {
 

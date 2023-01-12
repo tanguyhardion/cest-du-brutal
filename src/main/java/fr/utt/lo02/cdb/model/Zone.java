@@ -16,7 +16,7 @@ import java.util.concurrent.CyclicBarrier;
  *
  * @author Tanguy HARDION
  * @author Tristan JAUSSAUD
- * @version 1.0
+ * @version 2.1
  */
 public class Zone extends Observable implements Runnable {
 

@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 /**
  * Contrôle les actions du combat.
  *
- * @author Tanguy HARDION
+ * @author Tristan JAUSSAUD
  */
 public class CombatController {
 

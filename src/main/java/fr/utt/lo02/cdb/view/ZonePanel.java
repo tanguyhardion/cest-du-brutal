@@ -22,6 +22,7 @@ import java.util.Observer;
  * Panel d'une zone.
  *
  * @author Tanguy HARDION
+ * @author Tristan JAUSSAUD
  */
 public class ZonePanel extends JPanel implements Observer {
 

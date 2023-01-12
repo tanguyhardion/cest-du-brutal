@@ -6,7 +6,7 @@ import fr.utt.lo02.cdb.model.enums.*;
  * Représente un étudiant qui sera deployé sur une zone de combat.
  *
  * @author Tanguy HARDION
- * @version 1.0
+ * @version 1.2
  */
 public class Etudiant {
 

@@ -7,6 +7,7 @@ import mdlaf.themes.MaterialTheme;
  * Thème Oceanic.
  *
  * @author Tanguy HARDION
+ * @version 1.0
  */
 public class Oceanic extends MaterialOceanicTheme implements MaterialTheme {
 

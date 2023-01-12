@@ -4,7 +4,6 @@ package fr.utt.lo02.cdb.controller;
 import fr.utt.lo02.cdb.model.*;
 import fr.utt.lo02.cdb.view.*;
 
-import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
