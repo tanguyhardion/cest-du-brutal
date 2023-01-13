@@ -9,10 +9,29 @@ package fr.utt.lo02.cdb.model.enums;
  * @version 2.0
  */
 public enum NomZone {
+    /**
+     * Le BDE.
+     */
     BDE("BDE"),
+
+    /**
+     * La bibliothèque.
+     */
     BIBLIOTHEQUE("Bibliothèque"),
+
+    /**
+     * La halle sportive.
+     */
     HALLESPORTIVE("Halle Sportive"),
+
+    /**
+     * Les halles industrielles.
+     */
     HALLESINDUSTRIELLES("Halles Industrielles"),
+
+    /**
+     * Le quartier administratif.
+     */
     QUARTIERADMINISTRATIF("Quartier Administratif");
 
     private String nom;
