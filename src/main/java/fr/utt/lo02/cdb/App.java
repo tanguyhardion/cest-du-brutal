@@ -8,7 +8,7 @@ import fr.utt.lo02.cdb.model.Partie;
 public class App {
 
     /**
-     * Méthode d'entrée, qui commence la partie.
+     * Méthode d'entrée, qui commence la partie en lançant l'interface graphique.
      *
      * @param args les arguments de la ligne de commande
      */

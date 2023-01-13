@@ -16,6 +16,12 @@ import java.io.InputStream;
  */
 public class SystemDialog extends JDialog {
 
+    /**
+     * Crée et affiche une nouvelle boîte de dialogue système customisée.
+     *
+     * @param message le message à afficher
+     * @param type    le type de boîte de dialogue (erreur, information)
+     */
     private SystemDialog(String message, Type type) {
         // Définition du titre du dialog
         this.setTitle(type.getTitre());
@@ -53,26 +59,61 @@ public class SystemDialog extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Appelle le constructeur de la classe avec le message et le type de boîte de dialogue.
+     *
+     * @param message le message à afficher
+     * @param type    le type de boîte de dialogue (erreur, information)
+     */
     public static void showDialog(String message, Type type) {
         new SystemDialog(message, type);
     }
 
+    /**
+     * Énumération des types de boîtes de dialogue.
+     */
     public enum Type {
+        /**
+         * Boîte de dialogue d'erreur.
+         */
         ERROR("Erreur", "/images/error.png"),
+
+        /**
+         * Boîte de dialogue d'information.
+         */
         INFO("Information", "/images/info.png");
 
+        /**
+         * Le titre de la boîte de dialogue.
+         */
         private final String titre;
+
+        /**
+         * Le chemin de l'icône de la boîte de dialogue.
+         */
         private final String iconePath;
 
+        /**
+         * Crée un nouveau type de boîte de dialogue.
+         *
+         * @param title le titre de la boîte de dialogue
+         * @param iconePath le chemin de l'icône de la boîte de dialogue
+         */
         Type(String title, String iconePath) {
             this.titre = title;
             this.iconePath = iconePath;
         }
 
+        /**
+         * @return le titre de la boîte de dialogue
+         */
         private String getTitre() {
             return this.titre;
         }
 
+        /**
+         * @return le chemin de l'icône de la boîte de dialogue
+         */
         private String getIconePath() {
             return this.iconePath;
         }

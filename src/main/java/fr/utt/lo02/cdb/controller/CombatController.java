@@ -30,7 +30,7 @@ public class CombatController {
 
         this.combat.getZonesPane().addChangeListener(e -> {
             ZonePanel zonePanel = (ZonePanel) this.combat.getZonesPane().getSelectedComponent();
-            zonePanel.updateJoueur();
+            zonePanel.updatePanel();
         });
         this.combat.getRelancerCombatButton().addActionListener(this::combatRelance);
 

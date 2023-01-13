@@ -19,7 +19,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Panel d'une zone.
+ * Panel d'une zone d'influence à contrôler.
  *
  * @author Tanguy HARDION
  * @author Tristan JAUSSAUD
@@ -38,11 +38,15 @@ public class ZonePanel extends JPanel implements Observer {
     private JComboBox troupesComboBox;
     private JButton redeployerButton;
     private JLabel surZoneLabel;
-    private JComboBox strategieComboBox;
+    private JComboBox strategiesComboBox;
     private JLabel strategieLabel;
     private JScrollPane troupesScrollPane;
     private JList surZoneList;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+
+    /**
+     * Zone d'influence correspondant à ce panel.
+     */
     private Zone zone;
 
     public ZonePanel(Zone zone, Joueur joueur1, Joueur joueur2) {
@@ -60,6 +64,12 @@ public class ZonePanel extends JPanel implements Observer {
         new ZonePanelController(this, zone, joueur1, joueur2);
     }
 
+    /**
+     * Met à jour l'affichage de la fenêtre en fonction des changements effectués par la zone de ce panel.
+     *
+     * @param o   l'objet observable
+     * @param arg un argument passé à la méthode notifyObservers()
+     */
     @Override
     public void update(Observable o, Object arg) {
         // Si c'est une zone qui a changé
@@ -70,7 +80,7 @@ public class ZonePanel extends JPanel implements Observer {
                 // On vérifie que la zone de ce panel est bien contrôlée par un joueur
                 if (((Zone) arg).estControlee()) {
                     // Si oui, on désactive ce panel
-                    this.disableZone();
+                    this.disablePanel();
                     // On met les informations de la zone contrôlée
                     this.infoLabel.setFont(creditsLabel.getFont().deriveFont(Font.BOLD));
                     this.infoLabel.setText("Contrôlée par le " + zone.getControleur() + " ");
@@ -87,10 +97,13 @@ public class ZonePanel extends JPanel implements Observer {
             this.surZoneList.setListData(zone.getTroupes((Joueur) this.joueursComboBox.getSelectedItem()).toArray());
         }
         // Finalement, on update le joueur sélectionné
-        this.updateJoueur();
+        this.updatePanel();
     }
 
-    public void updateJoueur() {
+    /**
+     * Met à jour ce panel en rafraîchissant ses différents composants en fonction du joueur sélectionné.
+     */
+    public void updatePanel() {
         // On récupère le joueur sélectionné
         Joueur joueur = (Joueur) this.joueursComboBox.getSelectedItem();
 
@@ -114,20 +127,28 @@ public class ZonePanel extends JPanel implements Observer {
         // Stratégie du combattant sélectionné
         Etudiant etudiant = (Etudiant) this.getTroupesComboBox().getSelectedItem();
         if (etudiant != null) {
-            this.strategieComboBox.setSelectedItem(etudiant.getStrategie());
+            this.strategiesComboBox.setSelectedItem(etudiant.getStrategie());
         }
 
         // Et ses troupes sur la zone
         this.surZoneList.setListData(this.zone.getTroupes(joueur).toArray());
     }
 
-    public void disableZone() {
+    /**
+     * Désactive tous les composants de ce panel.
+     */
+    public void disablePanel() {
         for (Component component : this.getComponents()) {
             if (component == this.infoLabel) continue;
             component.setEnabled(false);
         }
     }
 
+    /**
+     * Initialise les composants de la fenêtre.
+     * <p>
+     * Méthode générée par JFormDesigner. Ne pas modifier.
+     */
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         infoLabel = new JLabel();
@@ -141,7 +162,7 @@ public class ZonePanel extends JPanel implements Observer {
         troupesComboBox = new JComboBox();
         redeployerButton = new JButton();
         surZoneLabel = new JLabel();
-        strategieComboBox = new JComboBox();
+        strategiesComboBox = new JComboBox();
         strategieLabel = new JLabel();
         troupesScrollPane = new JScrollPane();
         surZoneList = new JList();
@@ -185,130 +206,128 @@ public class ZonePanel extends JPanel implements Observer {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup()
-                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(31, 31, 31)
-                                                .addGroup(layout.createParallelGroup()
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup()
-                                                                        .addComponent(troupesComboBox,
-                                                                                GroupLayout.PREFERRED_SIZE,
-                                                                                GroupLayout.DEFAULT_SIZE,
-                                                                                GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(redeployerLabel)
-                                                                        .addComponent(redeployerButton))
-                                                                .addGap(58, 58, 58)
-                                                                .addGroup(layout.createParallelGroup()
-                                                                        .addComponent(strategieLabel)
-                                                                        .addComponent(strategieComboBox,
-                                                                                GroupLayout.PREFERRED_SIZE,
-                                                                                GroupLayout.DEFAULT_SIZE,
-                                                                                GroupLayout.PREFERRED_SIZE))
-                                                                .addContainerGap(GroupLayout.DEFAULT_SIZE,
-                                                                        Short.MAX_VALUE))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup()
-                                                                        .addComponent(reservistesLabel)
-                                                                        .addComponent(reservistesComboBox,
-                                                                                GroupLayout.PREFERRED_SIZE,
-                                                                                GroupLayout.DEFAULT_SIZE,
-                                                                                GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(addReservisteButton))
-                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
-                                                                .addGroup(layout.createParallelGroup()
-                                                                        .addComponent(troupesScrollPane,
-                                                                                GroupLayout.PREFERRED_SIZE, 270,
-                                                                                GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(surZoneLabel))
-                                                                .addGap(140, 140, 140))))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(joueurLabel)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE,
-                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 393,
-                                                        Short.MAX_VALUE)
-                                                .addComponent(infoLabel)
-                                                .addGap(0, 0, 0)
-                                                .addComponent(creditsLabel)
-                                                .addGap(64, 64, 64))))
+            layout.createParallelGroup()
+                .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(31, 31, 31)
+                            .addGroup(layout.createParallelGroup()
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(redeployerLabel)
+                                        .addComponent(redeployerButton))
+                                    .addGap(58, 58, 58)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(strategieLabel)
+                                        .addComponent(strategiesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(reservistesLabel)
+                                        .addComponent(reservistesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addReservisteButton))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(troupesScrollPane, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(surZoneLabel))
+                                    .addGap(140, 140, 140))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(joueurLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 393, Short.MAX_VALUE)
+                            .addComponent(infoLabel)
+                            .addGap(0, 0, 0)
+                            .addComponent(creditsLabel)
+                            .addGap(64, 64, 64))))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup()
+            layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(13, 13, 13)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(joueurLabel)
+                        .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(infoLabel)
+                        .addComponent(creditsLabel))
+                    .addGap(27, 27, 27)
+                    .addGroup(layout.createParallelGroup()
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(joueurLabel)
-                                        .addComponent(joueursComboBox, GroupLayout.PREFERRED_SIZE,
-                                                GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(infoLabel)
-                                        .addComponent(creditsLabel))
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup()
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(reservistesLabel)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(reservistesComboBox, GroupLayout.PREFERRED_SIZE,
-                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(addReservisteButton, GroupLayout.PREFERRED_SIZE, 35,
-                                                        GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(surZoneLabel)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(troupesScrollPane, GroupLayout.PREFERRED_SIZE, 100,
-                                                        GroupLayout.PREFERRED_SIZE)))
-                                .addGap(17, 17, 17)
-                                .addGroup(layout.createParallelGroup()
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(redeployerLabel)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE,
-                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(strategieLabel)
-                                                .addGap(6, 6, 6)
-                                                .addComponent(strategieComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(redeployerButton)
-                                .addContainerGap())
+                            .addComponent(reservistesLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(reservistesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(addReservisteButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(surZoneLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(troupesScrollPane, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+                    .addGap(17, 17, 17)
+                    .addGroup(layout.createParallelGroup()
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(redeployerLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(troupesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(strategieLabel)
+                            .addGap(6, 6, 6)
+                            .addComponent(strategiesComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(redeployerButton)
+                    .addContainerGap())
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
+    /**
+     * @return le label des crédits de cette zone
+     */
     public JLabel getCreditsLabel() {
         return this.creditsLabel;
     }
 
+    /**
+     * @return la ComboBox des joueurs
+     */
     public JComboBox getJoueursComboBox() {
         return this.joueursComboBox;
     }
 
+    /**
+     * @return la ComboBox des réservistes
+     */
     public JComboBox getReservistesComboBox() {
         return this.reservistesComboBox;
     }
 
+    /**
+     * @return la ComboBox des troupes
+     */
     public JComboBox getTroupesComboBox() {
         return this.troupesComboBox;
     }
 
+    /**
+     * @return le bouton d'ajout de réservistes
+     */
     public JButton getAddReservisteButton() {
         return this.addReservisteButton;
     }
 
+    /**
+     * @return le bouton de redéploiement de troupes
+     */
     public JButton getRedeployerButton() {
         return this.redeployerButton;
     }
 
-    public JComboBox getStrategieComboBox() {
-        return this.strategieComboBox;
-    }
-
-    public JList getSurZoneList() {
-        return this.surZoneList;
+    /**
+     * @return la ComboBox des stratégies
+     */
+    public JComboBox getStrategiesComboBox() {
+        return this.strategiesComboBox;
     }
 
 }

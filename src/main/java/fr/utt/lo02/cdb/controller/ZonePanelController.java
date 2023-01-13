@@ -19,7 +19,7 @@ public class ZonePanelController {
 
         zonePanel.getJoueursComboBox().addActionListener(this::joueurChanged);
         zonePanel.getTroupesComboBox().addActionListener(this::combattantChanged);
-        zonePanel.getStrategieComboBox().addActionListener(this::strategieChanged);
+        zonePanel.getStrategiesComboBox().addActionListener(this::strategieChanged);
         zonePanel.getAddReservisteButton().addActionListener(this::reservisteAdded);
         zonePanel.getRedeployerButton().addActionListener(this::combattantRedeploye);
 
@@ -34,12 +34,12 @@ public class ZonePanelController {
         this.strategies.add(new StrategieDefensive());
         this.strategies.add(new StrategieOffensive());
         for (StrategieEtudiant strat : strategies) {
-            zonePanel.getStrategieComboBox().addItem(strat);
+            zonePanel.getStrategiesComboBox().addItem(strat);
         }
     }
 
     private void joueurChanged(ActionEvent e) {
-        this.zonePanel.updateJoueur();
+        this.zonePanel.updatePanel();
     }
 
     private void combattantChanged(ActionEvent e) {
@@ -47,18 +47,18 @@ public class ZonePanelController {
         if (etudiant != null) {
             for (StrategieEtudiant strategie : this.strategies) {
                 if (strategie.toString().equals(etudiant.getStrategie().toString())) {
-                    this.zonePanel.getStrategieComboBox().setSelectedItem(strategie);
+                    this.zonePanel.getStrategiesComboBox().setSelectedItem(strategie);
                 }
             }
         } else {
-            this.zonePanel.getStrategieComboBox().setSelectedItem(null);
+            this.zonePanel.getStrategiesComboBox().setSelectedItem(null);
         }
     }
 
     private void strategieChanged(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
         if (etudiant != null) {
-            StrategieEtudiant strategie = (StrategieEtudiant) this.zonePanel.getStrategieComboBox().getSelectedItem();
+            StrategieEtudiant strategie = (StrategieEtudiant) this.zonePanel.getStrategiesComboBox().getSelectedItem();
             etudiant.setStrategie(strategie);
         }
     }
@@ -69,14 +69,14 @@ public class ZonePanelController {
         reserviste.setReserviste(false);
         joueur.removeReserviste(reserviste);
         this.zone.addCombattant(reserviste);
-        this.zonePanel.updateJoueur();
+        this.zonePanel.updatePanel();
     }
 
     private void combattantRedeploye(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
         etudiant.getZone().removeCombattant(etudiant);
         this.zone.addCombattant(etudiant);
-        this.zonePanel.updateJoueur();
+        this.zonePanel.updatePanel();
     }
 
 }

@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :::p, par t {seq t {space :p:31:p, par l {seq l {par l {comp troupesComboBox::l:p::p, comp redeployerLabel::l:p::p, comp redeployerButton::l:p::p}, space :p:58:p, par l {comp strategieLabel:::p::p, comp strategieComboBox:::p::p}, space :::x}, seq l {par l {comp reservistesLabel::l:p::p, comp reservistesComboBox::l:p::p, comp addReservisteButton::l:p::p}, space ::193:x, par l {comp troupesScrollPane:::p:270:p, comp surZoneLabel:::p::p}, space :p:140:p}}}, seq t {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space ::393:x, comp infoLabel:::p::p, space :0:0:p, comp creditsLabel:::p::p, space :p:64:p}}}}"
-			"$verticalGroup": "par l {seq l {space :p:13:p, par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p, comp infoLabel::b:p::p, comp creditsLabel::b:p::p}, space :p:27:p, par l {seq {comp reservistesLabel:::p::p, space :::p, comp reservistesComboBox:::p::p, space u:::p, comp addReservisteButton:::p:35:p}, seq {comp surZoneLabel:::p::p, space :::p, comp troupesScrollPane:::p:100:p}}, space :p:17:p, par l {seq {comp redeployerLabel:::p::p, space :::p, comp troupesComboBox:::p::p}, seq l {comp strategieLabel:::p::p, space :6:6:p, comp strategieComboBox:::p::p}}, space u:::p, comp redeployerButton:::p::p, space :::p}}"
+			"$horizontalGroup": "par l {seq t {space :::p, par t {seq t {space :p:31:p, par l {seq l {par l {comp troupesComboBox::l:p::p, comp redeployerLabel::l:p::p, comp redeployerButton::l:p::p}, space :p:58:p, par l {comp strategieLabel:::p::p, comp strategiesComboBox:::p::p}, space :::x}, seq l {par l {comp reservistesLabel::l:p::p, comp reservistesComboBox::l:p::p, comp addReservisteButton::l:p::p}, space ::193:x, par l {comp troupesScrollPane:::p:270:p, comp surZoneLabel:::p::p}, space :p:140:p}}}, seq t {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space ::393:x, comp infoLabel:::p::p, space :0:0:p, comp creditsLabel:::p::p, space :p:64:p}}}}"
+			"$verticalGroup": "par l {seq l {space :p:13:p, par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p, comp infoLabel::b:p::p, comp creditsLabel::b:p::p}, space :p:27:p, par l {seq {comp reservistesLabel:::p::p, space :::p, comp reservistesComboBox:::p::p, space u:::p, comp addReservisteButton:::p:35:p}, seq {comp surZoneLabel:::p::p, space :::p, comp troupesScrollPane:::p:100:p}}, space :p:17:p, par l {seq {comp redeployerLabel:::p::p, space :::p, comp troupesComboBox:::p::p}, seq l {comp strategieLabel:::p::p, space :6:6:p, comp strategiesComboBox:::p::p}}, space u:::p, comp redeployerButton:::p::p, space :::p}}"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -52,7 +52,7 @@ new FormModel {
 				"text": "Sur cette zone : "
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
-				name: "strategieComboBox"
+				name: "strategiesComboBox"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "strategieLabel"
@@ -70,4 +70,3 @@ new FormModel {
 		} )
 	}
 }
-
