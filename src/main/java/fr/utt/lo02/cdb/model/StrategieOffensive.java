@@ -27,11 +27,21 @@ public class StrategieOffensive implements StrategieEtudiant {
 		}
 	}
 
+	/**
+	 * Permet à un étudiant d'agir offensivement.
+	 *
+	 * @param origine         l'étudiant qui agit
+	 * @param cibleEquipeUne  l'étudiant de l'équipe une ayant le moins de crédits
+	 * @param cibleEquipeDeux l'étudiant de l'équipe deux ayant le moins de crédits
+	 */
 	@Override
 	public void agir(Etudiant origine, Etudiant cibleEquipeUne, Etudiant cibleEquipeDeux) {
 		this.attaquer(origine, origine.getEquipe() == Equipe.UNE ? cibleEquipeDeux : cibleEquipeUne);
 	}
 
+	/**
+	 * @return la représentation textuelle de la stratégie offensive
+	 */
 	@Override
 	public String toString() {
 		return "Offensive";

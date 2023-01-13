@@ -24,9 +24,24 @@ import java.util.concurrent.Executors;
  */
 public class Partie {
 
+    /**
+     * L'instance unique de la classe Partie.
+     */
     private static Partie instance;
+
+    /**
+     * Le premier joueur.
+     */
     private final Joueur joueur1;
+
+    /**
+     * Le deuxième joueur.
+     */
     private final Joueur joueur2;
+
+    /**
+     * La liste des zones du jeu.
+     */
     private List<Zone> zones;
 
     /**

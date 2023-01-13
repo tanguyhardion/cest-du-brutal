@@ -19,6 +19,9 @@ public class StrategieAleatoire implements StrategieEtudiant {
         }
     }
 
+    /**
+     * @return la représentation textuelle de la stratégie aléatoire
+     */
     @Override
     public String toString() {
         return "Aléatoire";

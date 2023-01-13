@@ -3,24 +3,71 @@ package fr.utt.lo02.cdb.model;
 import fr.utt.lo02.cdb.model.enums.*;
 
 /**
- * Représente un étudiant qui sera deployé sur une zone de combat.
+ * Représente un étudiant qui sera déployé sur une zone de combat.
  *
  * @author Tanguy HARDION
  * @version 1.2
  */
 public class Etudiant {
 
+    /**
+     * L'équipe de l'étudiant.
+     */
     private final Equipe equipe;
+
+    /**
+     * Les crédits de l'étudiant.
+     */
     private int credits;
+
+    /**
+     * La dexérité de l'étudiant.
+     */
     private int dexterite;
+
+    /**
+     * La force de l'étudiant.
+     */
     private int force;
+
+    /**
+     * La résistance de l'étudiant.
+     */
     private int resistance;
+
+    /**
+     * La constitution de l'étudiant.
+     */
     private int constitution;
+
+    /**
+     * L'initiative de l'étudiant.
+     */
     private int initiative;
+
+    /**
+     * L'id de l'étudiant.
+     */
     private int id;
+
+    /**
+     * Détermine si l'étudiant est éliminé.
+     */
     private boolean elimine;
+
+    /**
+     * Détermine si l'étudiant est un réserviste
+     */
     private boolean reserviste;
+
+    /**
+     * La stratégie de l'étudiant.
+     */
     private StrategieEtudiant strategie;
+
+    /**
+     * La zone sur laquelle se situe l'étudiant.
+     */
     private Zone zone;
 
     /**

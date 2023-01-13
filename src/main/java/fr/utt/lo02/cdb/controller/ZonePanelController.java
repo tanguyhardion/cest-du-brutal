@@ -7,12 +7,34 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contrôle les actions du combat sur la zone du panel correspondant.
+ */
 public class ZonePanelController {
 
+    /**
+     * La vue du panel de la zone.
+     */
     private final ZonePanel zonePanel;
+
+    /**
+     * La zone du panel.
+     */
     private final Zone zone;
+
+    /**
+     * Les stratégies de combat.
+     */
     private List<StrategieEtudiant> strategies;
 
+    /**
+     * Contrôleur du panel de la zone.
+     *
+     * @param zonePanel la vue du panel de la zone
+     * @param zone      la zone du panel
+     * @param joueur1   le premier joueur
+     * @param joueur2   le deuxième joueur
+     */
     public ZonePanelController(ZonePanel zonePanel, Zone zone, Joueur joueur1, Joueur joueur2) {
         this.zonePanel = zonePanel;
         this.zone = zone;
@@ -38,10 +60,20 @@ public class ZonePanelController {
         }
     }
 
+    /**
+     * Gère l'événement de changement de joueur.
+     *
+     * @param e l'événement
+     */
     private void joueurChanged(ActionEvent e) {
         this.zonePanel.updatePanel();
     }
 
+    /**
+     * Gère l'événement de changement de combattant.
+     *
+     * @param e l'événement
+     */
     private void combattantChanged(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
         if (etudiant != null) {
@@ -55,6 +87,11 @@ public class ZonePanelController {
         }
     }
 
+    /**
+     * Gère l'événement de changement de stratégie d'un combattant.
+     *
+     * @param e l'événement
+     */
     private void strategieChanged(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
         if (etudiant != null) {
@@ -63,6 +100,11 @@ public class ZonePanelController {
         }
     }
 
+    /**
+     * Gère l'événement d'ajout d'un réserviste.
+     *
+     * @param e l'événement
+     */
     private void reservisteAdded(ActionEvent e) {
         Joueur joueur = (Joueur) this.zonePanel.getJoueursComboBox().getSelectedItem();
         Etudiant reserviste = (Etudiant) this.zonePanel.getReservistesComboBox().getSelectedItem();
@@ -72,6 +114,11 @@ public class ZonePanelController {
         this.zonePanel.updatePanel();
     }
 
+    /**
+     * Gère l'événement de redéploiement d'un combattant.
+     *
+     * @param e l'événement
+     */
     private void combattantRedeploye(ActionEvent e) {
         Etudiant etudiant = (Etudiant) this.zonePanel.getTroupesComboBox().getSelectedItem();
         etudiant.getZone().removeCombattant(etudiant);

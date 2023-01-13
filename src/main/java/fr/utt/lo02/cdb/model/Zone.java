@@ -20,14 +20,49 @@ import java.util.concurrent.CyclicBarrier;
  */
 public class Zone extends Observable implements Runnable {
 
+    /**
+     * Barrière cyclique statique pour synchroniser le début des combats.
+     */
     private static final CyclicBarrier barrier = new CyclicBarrier(NomZone.values().length);
+
+    /**
+     * CountDownLatch statique pour notifier la partie qu'une zone a fini son combat.
+     */
     private static CountDownLatch partieLatch = new CountDownLatch(1);
+
+    /**
+     * CountDownLatch statique pour que la partie notifie les zones que la trêve est finie.
+     */
     private static CountDownLatch zoneLatch = new CountDownLatch(1);
+
+    /**
+     * Détermine si la trêve est en cours. Volatile pour s'assurer que les threads voient la bonne valeur.
+     */
     private static volatile boolean treveDeclaree;
+
+    /**
+     * Le nom de la zone.
+     */
     private final NomZone nomZone;
+
+    /**
+     * Le joueur qui contrôle la zone.
+     */
     private Joueur controleur;
+
+    /**
+     * Détermine si la zone est contrôlée par un joueur.
+     */
     private boolean controlee;
+
+    /**
+     * La liste des troupes de l'équipe 1.
+     */
     private List<Etudiant> troupesEquipe1;
+
+    /**
+     * La liste des troupes de l'équipe 2.
+     */
     private List<Etudiant> troupesEquipe2;
 
     /**

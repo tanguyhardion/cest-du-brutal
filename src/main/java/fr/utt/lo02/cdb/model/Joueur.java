@@ -17,11 +17,34 @@ import java.util.Random;
  */
 public class Joueur extends Observable {
 
+    /**
+     * Les points du joueur. Initialement de 400.
+     */
     private int points;
+
+    /**
+     * L'équipe du joueur.
+     */
     private Equipe equipe;
+
+    /**
+     * La filière du joueur.
+     */
     private Filiere filiere;
+
+    /**
+     * La liste des troupes du joueur.
+     */
     private List<Etudiant> troupes;
+
+    /**
+     * La liste des réservistes du joueur.
+     */
     private List<Etudiant> reservistes;
+
+    /**
+     * La liste des zones contrôlées du joueur.
+     */
     private List<Zone> zonesControlees;
 
     /**
@@ -109,7 +132,7 @@ public class Joueur extends Observable {
      */
     public void repartirTroupesAleatoirement() {
         List<Zone> zones = Partie.getInstance().getZones();
-        List<Zone> zonesDeploiement =  zones.stream().filter(z -> z.getTroupes(this).isEmpty()).toList();
+        List<Zone> zonesDeploiement = zones.stream().filter(z -> z.getTroupes(this).isEmpty()).toList();
         // Tant qu'il reste des combattants à déployer
         while (this.getTroupes().size() > 0) {
             final Random r = new Random();
