@@ -12,8 +12,19 @@ import java.util.List;
  */
 public class RepartitionController {
 
+    /**
+     * La vue de la répartition des troupes.
+     */
     private final Repartition repartition;
+
+    /**
+     * Le premier joueur.
+     */
     private Joueur joueur1;
+
+    /**
+     * Le deuxième joueur.
+     */
     private Joueur joueur2;
 
     public RepartitionController(Repartition repartition, MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {

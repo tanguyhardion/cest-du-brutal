@@ -29,6 +29,13 @@ public class Accueil extends JPanel {
     private JLabel label2;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
+    /**
+     * Constructeur de la classe Accueil. Initialise les composants et le contrôleur.
+     *
+     * @param mainWindow la fenêtre principale
+     * @param joueur1    le premier joueur
+     * @param joueur2    le deuxième joueur
+     */
     public Accueil(MainWindow mainWindow, Joueur joueur1, Joueur joueur2) {
         initComponents();
         new AccueilController(this, mainWindow, joueur1, joueur2);
@@ -143,18 +150,30 @@ public class Accueil extends JPanel {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
+    /**
+     * @return la ComboBox des thèmes
+     */
     public JComboBox getThemeComboBox() {
         return this.themeComboBox;
     }
 
+    /**
+     * @return la ComboBox des filières pour le joueur 1
+     */
     public JComboBox<Filiere> getFilieres1ComboBox() {
         return filieres1ComboBox;
     }
 
+    /**
+     * @return la ComboBox des filières pour le joueur 2
+     */
     public JComboBox<Filiere> getFilieres2ComboBox() {
         return filieres2ComboBox;
     }
 
+    /**
+     * @return le bouton pour passer à l'étape suivante
+     */
     public JButton getSuivantButton() {
         return suivantButton;
     }
