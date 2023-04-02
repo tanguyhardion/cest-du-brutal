@@ -9,4 +9,4 @@ Pour lancer le jeu, exécuter le fichier **CestDuBrutal.jar**.
 ## Dépendances
 Pour fonctionner, le jeu nécessite une version récente de [Java](https://www.java.com/fr/).
 
-De plus, les thèmes de l'application ont été développés avec la librairie [Material UI Swing](https://github.com/atarw/material-ui-swing),  mais elle est déjà incluse dans **CestDuBrutal.jar**.
+De plus, les thèmes de l'application ont été développés avec la librairie [Material UI Swing](https://github.com/vincenzopalazzo/material-ui-swing),  mais elle est déjà incluse dans **CestDuBrutal.jar**.
