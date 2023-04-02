@@ -11,6 +11,9 @@
 .idea/
 target/
 
+# Doc files
+doc/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
