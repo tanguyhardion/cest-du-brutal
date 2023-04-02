@@ -1,11 +1,12 @@
 # CestDuBrutal
-Ce jeu se joue à deux joueurs. Le but de chaque joueur est de paramétrer ses troupes puis de les répartir sur les 5 zones de combat, où elles combattront les troupes adverses. La partie se termine une fois qu'un joueur contrôle trois zones.
 
-Pour jouer, il suffit de lancer le jeu dans un invite de commande et de suivre les instructions.
+## Description
+Ce jeu se joue à deux joueurs. Le but de chaque joueur est de paramétrer ses troupes puis de les répartir sur les cinq zones de combat, où elles combattront les troupes adverses.
+La partie se termine une fois qu'un joueur contrôle trois zones.
 
-### IMPORTANT :
-Pour une meilleure expérience utilisateur, certaines instructions et informations sont mises en couleurs dans le terminal.
-\
-Par conséquent, il est **vivement conseillé** de jouer à ce jeu dans un terminal **Windows 11**, **Linux**, **MacOS** ou dans le terminal d'un **IDE** tel que Eclipse, IntelliJ, NetBeans ou encore Visual Studio Code.
-\
-*Les couleurs ne seront pas affichées si le terminal n'est pas compatible*. Le terminal Windows 10, notamment, ne l'est pas.
+Pour lancer le jeu, exécuter le fichier **CestDuBrutal.jar**.
+
+## Dépendances
+Pour fonctionner, le jeu nécessite une version récente de [Java](https://www.java.com/fr/).
+
+De plus, les thèmes de l'application ont été développés avec la librairie [Material UI Swing](https://github.com/vincenzopalazzo/material-ui-swing),  mais elle est déjà incluse dans **CestDuBrutal.jar**.

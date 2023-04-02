@@ -1,0 +1,23 @@
+JFDML JFormDesigner: "8.0.1.0.199" Java: "17.0.3" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp zonesPane::l::760:x, seq t {space ::537:x, comp relancerCombatButton:::p::p, space :p:46:p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp zonesPane:::p:365:p, space ::61:x, comp relancerCombatButton:::p:40:p, space :p:28:p}}"
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "zonesPane"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "relancerCombatButton"
+				"text": "RELANCER LE COMBAT"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 760, 500 )
+		} )
+	}
+}

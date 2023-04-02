@@ -1,5 +1,10 @@
+package model.enums;
+
 /**
  * Énumération des différentes filières parmi lesquelles un joueur peut choisir.
+ *
+ * @author Tristan JAUSSAUD
+ * @version 1.1
  */
 public enum Filiere {
     ISI,
@@ -8,6 +13,5 @@ public enum Filiere {
     GI,
     GM,
     MTE,
-    MM,
-    NONE
+    MM;
 }

@@ -1,0 +1,68 @@
+JFDML JFormDesigner: "8.0.1.0.199" Java: "17.0.3" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :234:234:p, comp titreLabel:::p::p, space ::260:x}, seq t {space :p:17:p, par l {seq {comp joueurLabel:::p::p, space u:::p, comp joueursComboBox:::p::p, space :::x, comp aleatoireButton:::p::p}, seq {par l {comp zoneLabel::l:p::p, comp zonesComboBox::l:p::p, comp surZoneLabel::l:p::p}, space :p:168:p, par l {comp troupesLabel::l:p::p, comp troupesComboBox::l:p::p, comp addButton:::p:110:p}, space :0:0:x}, seq {comp troupesScrollPane:::p:270:p, space ::293:x, comp suivantButton:::p:150:p}}, space :p:30:p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp titreLabel:::p::p, space :p:44:p, par b {comp joueurLabel::b:p::p, comp joueursComboBox::b:p::p, comp aleatoireButton::b:p::p}, space :p:76:p, par t {seq t {comp zoneLabel:::p::p, space :::p, comp zonesComboBox:::p::p}, seq t {comp troupesLabel:::p::p, space :::p, comp troupesComboBox:::p::p}}, par l {seq {space s:::p, comp addButton:::p:35:p}, seq l {space :p:33:p, comp surZoneLabel:::p::p}}, space :::x, par l {seq t {comp troupesScrollPane:::p:100:p, space :p:73:p}, seq t {comp suivantButton:::p:40:p, space :p:47:p}}}}"
+		} ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "titreLabel"
+				"text": "Répartition des troupes"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 1, 12, false )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "zoneLabel"
+				"text": "Zone :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "zonesComboBox"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "joueurLabel"
+				"text": "Joueur :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "joueursComboBox"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "troupesLabel"
+				"text": "Vos troupes :"
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "troupesComboBox"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "addButton"
+				"text": "AJOUTER"
+				"focusPainted": false
+				"borderPainted": false
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "suivantButton"
+				"text": "SUIVANT"
+				"focusPainted": false
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "aleatoireButton"
+				"text": "ALÉATOIRE"
+				"focusPainted": false
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "surZoneLabel"
+				"text": "Sur cette zone :"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "troupesScrollPane"
+				add( new FormComponent( "javax.swing.JList" ) {
+					name: "surZoneList"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 760, 500 )
+		} )
+	}
+}
